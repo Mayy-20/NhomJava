@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Cộng đồng Giáo viên</title>
+    <link rel="stylesheet" href="Community.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <nav class="nav-menu">
+                <a href="teacher-dashboard.html">Trang chủ</a>
+                <a href="teacher-courses.html">Khóa học</a>
+                <a href="teacher-students.html">Học viên</a>
+                <a href="teacher-analytics.html">Thống kê</a>
+                <a href="teacher-community.html" class="active">Cộng đồng</a>
+            </nav>
+            <div class="user-profile">
+                <div class="user-badge">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Giáo viên
+                </div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name" onclick="window.location.href='teacher-profile.html'">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="community-hero">
+        <div class="container">
+            <h1>Cộng đồng Giáo viên Hannah</h1>
+            <p>Kết nối với đồng nghiệp, chia sẻ kinh nghiệm giảng dạy và phát triển chuyên môn</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="container">
+            <!-- Teacher Tools -->
+            <div class="teacher-tools">
+                <h2 style="margin-bottom: 1.5rem; color: #2d3748;">Công cụ dành cho Giáo viên</h2>
+                <div class="tools-grid">
+                    <a href="teacher-create-course.html" class="tool-card">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Tạo khóa học</h3>
+                        <p>Tạo khóa học mới với công cụ dễ sử dụng</p>
+                    </a>
+                    <a href="teacher-students.html" class="tool-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Quản lý học viên</h3>
+                        <p>Theo dõi tiến độ và hỗ trợ học viên</p>
+                    </a>
+                    <a href="teacher-analytics.html" class="tool-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Thống kê</h3>
+                        <p>Xem báo cáo hiệu suất giảng dạy</p>
+                    </a>
+                    <a href="#" class="tool-card">
+                        <i class="fas fa-comments"></i>
+                        <h3>Diễn đàn giáo viên</h3>
+                        <p>Thảo luận với đồng nghiệp</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <!-- Main Feed -->
+                <div class="main-feed">
+                    <!-- Post Creation -->
+                    <div class="post-creation">
+                        <h3 style="margin-bottom: 1rem; color: #2d3748;">Chia sẻ với cộng đồng</h3>
+                        <form class="post-form" onsubmit="return createPost(event);">
+                            <textarea class="post-input" placeholder="Chia sẻ kinh nghiệm giảng dạy, phương pháp học tập hiệu quả..."></textarea>
+                            <div class="post-actions">
+                                <div class="post-options">
+                                    <button type="button" class="post-option" title="Thêm hình ảnh">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                    <button type="button" class="post-option" title="Thêm tài liệu">
+                                        <i class="fas fa-file-alt"></i>
+                                    </button>
+                                    <button type="button" class="post-option" title="Thêm video">
+                                        <i class="fas fa-video"></i>
+                                    </button>
+                                    <button type="button" class="post-option" title="Thêm tag">
+                                        <i class="fas fa-hashtag"></i>
+                                    </button>
+                                </div>
+                                <button type="submit" class="btn-post">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Đăng bài
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Posts Feed -->
+                    <div class="posts-feed">
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-avatar">GV</div>
+                                <div class="post-user-info">
+                                    <div class="post-username">Trần Thị Lan</div>
+                                    <div class="post-time">3 giờ trước</div>
+                                </div>
+                                <div class="post-badge">Giáo viên</div>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-title">Phương pháp dạy Python cho người mới bắt đầu</div>
+                                <div class="post-text">
+                                    Sau 5 năm giảng dạy Python, tôi muốn chia sẻ một số phương pháp hiệu quả:
+                                    <br>1. Bắt đầu với các ví dụ thực tế
+                                    <br>2. Khuyến khích học viên code theo
+                                    <br>3. Sử dụng visual aids và diagrams
+                                    <br>4. Tạo môi trường học tập thoải mái
+                                    <br>Các bạn có kinh nghiệm gì khác không?
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">#Python</span>
+                                    <span class="post-tag">#Teaching</span>
+                                    <span class="post-tag">#Beginner</span>
+                                    <span class="post-tag">#Methods</span>
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                <div class="post-stats">
+                                    <div class="post-stat">
+                                        <i class="fas fa-heart"></i>
+                                        <span>24</span>
+                                    </div>
+                                    <div class="post-stat">
+                                        <i class="fas fa-comment"></i>
+                                        <span>18</span>
+                                    </div>
+                                    <div class="post-stat">
+                                        <i class="fas fa-share"></i>
+                                        <span>7</span>
+                                    </div>
+                                </div>
+                                <div class="post-actions-footer">
+                                    <button class="post-action" onclick="toggleLike(this)">
+                                        <i class="fas fa-heart"></i>
+                                        Thích
+                                    </button>
+                                    <button class="post-action">
+                                        <i class="fas fa-comment"></i>
+                                        Bình luận
+                                    </button>
+                                    <button class="post-action">
+                                        <i class="fas fa-share"></i>
+                                        Chia sẻ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-item">
+                            <div class="post-header">
+                                <div class="post-avatar">GV</div>
+                                <div class="post-user-info">
+                                    <div class="post-username">Nguyễn Văn Minh</div>
+                                    <div class="post-time">1 ngày trước</div>
+                                </div>
+                                <div class="post-badge">Giáo viên</div>
+                            </div>
+                            <div class="post-content">
+                                <div class="post-title">Công cụ tạo quiz online miễn phí</div>
+                                <div class="post-text">
+                                    Mình vừa tìm được một công cụ tuyệt vời để tạo quiz online cho học viên. Giao diện đẹp, dễ sử dụng và có thể xuất kết quả. Ai quan tâm thì inbox mình nhé!
+                                </div>
+                                <div class="post-tags">
+                                    <span class="post-tag">#Quiz</span>
+                                    <span class="post-tag">#Tools</span>
+                                    <span class="post-tag">#Online</span>
+                                    <span class="post-tag">#Assessment</span>
+                                </div>
+                            </div>
+                            <div class="post-footer">
+                                <div class="post-stats">
+                                    <div class="post-stat">
+                                        <i class="fas fa-heart"></i>
+                                        <span>31</span>
+                                    </div>
+                                    <div class="post-stat">
+                                        <i class="fas fa-comment"></i>
+                                        <span>22</span>
+                                    </div>
+                                    <div class="post-stat">
+                                        <i class="fas fa-share"></i>
+                                        <span>12</span>
+                                    </div>
+                                </div>
+                                <div class="post-actions-footer">
+                                    <button class="post-action liked" onclick="toggleLike(this)">
+                                        <i class="fas fa-heart"></i>
+                                        Đã thích
+                                    </button>
+                                    <button class="post-action">
+                                        <i class="fas fa-comment"></i>
+                                        Bình luận
+                                    </button>
+                                    <button class="post-action">
+                                        <i class="fas fa-share"></i>
+                                        Chia sẻ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Teacher Resources -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Tài nguyên giảng dạy</h3>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <a href="#" style="color: #4a5568; text-decoration: none; padding: 0.5rem; background: #f8fafc; border-radius: 8px; transition: all 0.3s;">
+                                <i class="fas fa-book"></i> Thư viện bài giảng
+                            </a>
+                            <a href="#" style="color: #4a5568; text-decoration: none; padding: 0.5rem; background: #f8fafc; border-radius: 8px; transition: all 0.3s;">
+                                <i class="fas fa-video"></i> Video hướng dẫn
+                            </a>
+                            <a href="#" style="color: #4a5568; text-decoration: none; padding: 0.5rem; background: #f8fafc; border-radius: 8px; transition: all 0.3s;">
+                                <i class="fas fa-file-alt"></i> Template bài tập
+                            </a>
+                            <a href="#" style="color: #4a5568; text-decoration: none; padding: 0.5rem; background: #f8fafc; border-radius: 8px; transition: all 0.3s;">
+                                <i class="fas fa-chart-line"></i> Công cụ đánh giá
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Active Teachers -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Giáo viên hoạt động</h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <div style="width: 35px; height: 35px; background: linear-gradient(45deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.9rem;">A</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.9rem; color: #2d3748;">Trần Thị Lan</div>
+                                    <div style="font-size: 0.8rem; color: #10b981;">Đang online</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <div style="width: 35px; height: 35px; background: linear-gradient(45deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.9rem;">B</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.9rem; color: #2d3748;">Nguyễn Văn Minh</div>
+                                    <div style="font-size: 0.8rem; color: #10b981;">Đang online</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <div style="width: 35px; height: 35px; background: linear-gradient(45deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 0.9rem;">C</div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.9rem; color: #2d3748;">Lê Thị Hoa</div>
+                                    <div style="font-size: 0.8rem; color: #10b981;">Đang online</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Teaching Stats -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">Thống kê giảng dạy</h3>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #718096;">Tổng giáo viên</span>
+                                <strong style="color: #2d3748;">1,247</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #718096;">Bài đăng hôm nay</span>
+                                <strong style="color: #2d3748;">23</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #718096;">Đang online</span>
+                                <strong style="color: #10b981;">156</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: #718096;">Khóa học mới</span>
+                                <strong style="color: #2d3748;">12</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function createPost(event) {
+            event.preventDefault();
+            const textarea = event.target.querySelector('.post-input');
+            if (textarea.value.trim()) {
+                alert('Bài đăng đã được tạo thành công!');
+                textarea.value = '';
+            } else {
+                alert('Vui lòng nhập nội dung bài đăng!');
+            }
+            return false;
+        }
+
+        function toggleLike(button) {
+            if (button.classList.contains('liked')) {
+                button.classList.remove('liked');
+                button.innerHTML = '<i class="fas fa-heart"></i> Thích';
+            } else {
+                button.classList.add('liked');
+                button.innerHTML = '<i class="fas fa-heart"></i> Đã thích';
+            }
+        }
+
+        // Add hover effects to posts
+        document.querySelectorAll('.post-item').forEach(post => {
+            post.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            post.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Add hover effects to tool cards
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add hover effects to sidebar links
+        document.querySelectorAll('.sidebar-card a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.background = '#edf2f7';
+                this.style.color = '#10b981';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.background = '#f8fafc';
+                this.style.color = '#4a5568';
+            });
+        });
+    </script>
+</body>
+</html>

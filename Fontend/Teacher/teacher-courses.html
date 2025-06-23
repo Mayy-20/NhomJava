@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Quản lý Khóa học</title>
+    <link rel="stylesheet" href="Teacher-couse.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+   
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <nav class="nav-menu">
+                <a href="teacher-dashboard.html">Trang chủ</a>
+                <a href="teacher-courses.html" class="active">Khóa học</a>
+                <a href="teacher-students.html">Học viên</a>
+                <a href="teacher-analytics.html">Thống kê</a>
+                <a href="teacher-community.html">Cộng đồng</a>
+            </nav>
+            <div class="user-profile">
+                <div class="user-badge">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Giáo viên
+                </div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Quản lý Khóa học</h1>
+                <p style="color: #718096; margin-top: 0.5rem;">Tạo và quản lý các khóa học của bạn</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn btn-secondary" onclick="importCourse()">
+                    <i class="fas fa-upload"></i>
+                    Import khóa học
+                </button>
+                <button class="btn btn-primary" onclick="openCreateCourseModal()">
+                    <i class="fas fa-plus"></i>
+                    Tạo khóa học mới
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">Tổng khóa học</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="stat-number">6</div>
+                <div class="stat-label">Đã xuất bản</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-edit"></i>
+                </div>
+                <div class="stat-number">2</div>
+                <div class="stat-label">Đang soạn thảo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">1,247</div>
+                <div class="stat-label">Tổng học viên</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number">4.8</div>
+                <div class="stat-label">Đánh giá TB</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-number">25.5M</div>
+                <div class="stat-label">Doanh thu</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Tìm kiếm</label>
+                    <input type="text" class="filter-input" placeholder="Tên khóa học..." id="searchInput">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Trạng thái</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="published">Đã xuất bản</option>
+                        <option value="draft">Nháp</option>
+                        <option value="pending">Chờ duyệt</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Danh mục</label>
+                    <select class="filter-input" id="categoryFilter">
+                        <option value="">Tất cả danh mục</option>
+                        <option value="programming">Lập trình</option>
+                        <option value="design">Thiết kế</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Sắp xếp</label>
+                    <select class="filter-input" id="sortFilter">
+                        <option value="newest">Mới nhất</option>
+                        <option value="oldest">Cũ nhất</option>
+                        <option value="popular">Phổ biến nhất</option>
+                        <option value="rating">Đánh giá cao</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">&nbsp;</label>
+                    <button class="btn btn-primary" onclick="applyFilters()">
+                        <i class="fas fa-search"></i>
+                        Lọc
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-image">
+                    <div class="course-status-badge status-published">Đã xuất bản</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Python căn bản</h3>
+                    <p class="course-desc">Học các khái niệm lập trình cơ bản với Python - ngôn ngữ dễ học nhất cho người mới bắt đầu</p>
+                    <div class="course-stats">
+                        <div class="course-stat">
+                            <i class="fas fa-users"></i>
+                            <span>456 học viên</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-star"></i>
+                            <span>4.8 (89)</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-book"></i>
+                            <span>25 bài học</span>
+                        </div>
+                    </div>
+                    <div class="course-actions">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-icon" onclick="viewCourse(1)" title="Xem khóa học">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-primary btn-icon" onclick="editCourse(1)" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="duplicateCourse(1)" title="Nhân bản">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="manageCourse(1)">Quản lý</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <div class="course-status-badge status-published">Đã xuất bản</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Python nâng cao</h3>
+                    <p class="course-desc">Nâng cao kỹ năng Python với các chủ đề nâng cao như OOP, decorators, và async programming</p>
+                    <div class="course-stats">
+                        <div class="course-stat">
+                            <i class="fas fa-users"></i>
+                            <span>234 học viên</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-star"></i>
+                            <span>4.9 (67)</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-book"></i>
+                            <span>35 bài học</span>
+                        </div>
+                    </div>
+                    <div class="course-actions">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-icon" onclick="viewCourse(2)" title="Xem khóa học">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-primary btn-icon" onclick="editCourse(2)" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="duplicateCourse(2)" title="Nhân bản">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="manageCourse(2)">Quản lý</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <div class="course-status-badge status-draft">Nháp</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">Data Science với Python</h3>
+                    <p class="course-desc">Khám phá thế giới khoa học dữ liệu với Python, pandas, numpy và machine learning cơ bản</p>
+                    <div class="course-stats">
+                        <div class="course-stat">
+                            <i class="fas fa-users"></i>
+                            <span>0 học viên</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-star"></i>
+                            <span>Chưa có</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-book"></i>
+                            <span>12 bài học</span>
+                        </div>
+                    </div>
+                    <div class="course-actions">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-icon" onclick="previewCourse(3)" title="Xem trước">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-primary btn-icon" onclick="editCourse(3)" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="deleteCourse(3)" title="Xóa">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="publishCourse(3)">Xuất bản</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-card">
+                <div class="course-image">
+                    <div class="course-status-badge status-pending">Chờ duyệt</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">JavaScript ES6+</h3>
+                    <p class="course-desc">Học JavaScript hiện đại với ES6+ features, async/await, modules và best practices</p>
+                    <div class="course-stats">
+                        <div class="course-stat">
+                            <i class="fas fa-users"></i>
+                            <span>0 học viên</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-star"></i>
+                            <span>Chưa có</span>
+                        </div>
+                        <div class="course-stat">
+                            <i class="fas fa-book"></i>
+                            <span>28 bài học</span>
+                        </div>
+                    </div>
+                    <div class="course-actions">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-secondary btn-icon" onclick="viewCourse(4)" title="Xem khóa học">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-primary btn-icon" onclick="editCourse(4)" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-secondary btn-icon" onclick="duplicateCourse(4)" title="Nhân bản">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" disabled>Chờ duyệt</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Course Modal -->
+    <div class="modal" id="courseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Tạo khóa học mới</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="courseForm">
+                <div class="form-group">
+                    <label class="form-label">Tên khóa học *</label>
+                    <input type="text" class="form-input" id="courseName" required placeholder="Nhập tên khóa học...">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mô tả ngắn *</label>
+                    <textarea class="form-input" id="courseDescription" rows="3" required placeholder="Mô tả ngắn gọn về khóa học..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Danh mục *</label>
+                    <select class="form-select" id="courseCategory" required>
+                        <option value="">Chọn danh mục</option>
+                        <option value="programming">Lập trình</option>
+                        <option value="web-development">Phát triển Web</option>
+                        <option value="data-science">Khoa học dữ liệu</option>
+                        <option value="mobile-development">Phát triển Mobile</option>
+                        <option value="design">Thiết kế</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Cấp độ *</label>
+                    <select class="form-select" id="courseLevel" required>
+                        <option value="">Chọn cấp độ</option>
+                        <option value="beginner">Người mới bắt đầu</option>
+                        <option value="intermediate">Trung cấp</option>
+                        <option value="advanced">Nâng cao</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Giá khóa học (VNĐ)</label>
+                    <input type="number" class="form-input" id="coursePrice" placeholder="0" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Thời lượng ước tính (giờ)</label>
+                    <input type="number" class="form-input" id="courseDuration" placeholder="0" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-select" id="courseStatus">
+                        <option value="draft">Nháp</option>
+                        <option value="pending">Gửi duyệt</option>
+                        <option value="published">Xuất bản</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Tags (phân cách bằng dấu phẩy)</label>
+                    <input type="text" class="form-input" id="courseTags" placeholder="python, programming, beginner">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu khóa học</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openCreateCourseModal() {
+            document.getElementById('modalTitle').textContent = 'Tạo khóa học mới';
+            document.getElementById('courseForm').reset();
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function editCourse(courseId) {
+            document.getElementById('modalTitle').textContent = 'Chỉnh sửa khóa học';
+            // Load course data here
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').classList.remove('active');
+        }
+
+        // Course actions
+        function viewCourse(courseId) {
+            window.open(`course-detail.html?id=${courseId}`, '_blank');
+        }
+
+        function manageCourse(courseId) {
+            window.location.href = `teacher-course-manage.html?id=${courseId}`;
+        }
+
+        function duplicateCourse(courseId) {
+            if (confirm('Bạn có muốn nhân bản khóa học này?')) {
+                alert('Đã nhân bản khóa học ID: ' + courseId);
+            }
+        }
+
+        function deleteCourse(courseId) {
+            if (confirm('Bạn có chắc muốn xóa khóa học này? Hành động này không thể hoàn tác.')) {
+                alert('Đã xóa khóa học ID: ' + courseId);
+            }
+        }
+
+        function publishCourse(courseId) {
+            if (confirm('Bạn có muốn xuất bản khóa học này?')) {
+                alert('Đã gửi khóa học để duyệt ID: ' + courseId);
+            }
+        }
+
+        function previewCourse(courseId) {
+            window.open(`course-preview.html?id=${courseId}`, '_blank');
+        }
+
+        function importCourse() {
+            alert('Chức năng import khóa học');
+        }
+
+        // Filter functions
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value;
+            const status = document.getElementById('statusFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+            const sort = document.getElementById('sortFilter').value;
+            
+            console.log('Applying filters:', { search, status, category, sort });
+            // Apply filters logic here
+        }
+
+        // Form submission
+        document.getElementById('courseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('courseName').value,
+                description: document.getElementById('courseDescription').value,
+                category: document.getElementById('courseCategory').value,
+                level: document.getElementById('courseLevel').value,
+                price: document.getElementById('coursePrice').value,
+                duration: document.getElementById('courseDuration').value,
+                status: document.getElementById('courseStatus').value,
+                tags: document.getElementById('courseTags').value
+            };
+            
+            console.log('Saving course:', formData);
+            alert('Đã lưu khóa học thành công!');
+            closeModal();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('courseModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            // Implement real-time search here
+        });
+
+        // Course card hover effects
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
