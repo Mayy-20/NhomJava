@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hannah - Bài học</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/learning.css}" />
+  </head>
+  <body>
+<!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a th:href="@{/index}"  class="logo">Hannah</a>
+            <div class="course-nav">
+                <a th:href="@{/course-detail}"  class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Quay lại
+                </a>
+                <div class="course-title">Python căn bản</div>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">U</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Danh sách bài học</h3>
+            <ul class="lesson-list">
+                <li class="lesson-item completed">
+                    <div class="lesson-title">Bài 1: Giới thiệu Python</div>
+                    <div class="lesson-duration">30 phút</div>
+                    <div class="lesson-status completed">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </li>
+                <li class="lesson-item active">
+                    <div class="lesson-title">Bài 2: Biến và kiểu dữ liệu</div>
+                    <div class="lesson-duration">45 phút</div>
+                    <div class="lesson-status current">2</div>
+                </li>
+                <li class="lesson-item">
+                    <div class="lesson-title">Bài 3: Cấu trúc điều khiển</div>
+                    <div class="lesson-duration">1 giờ</div>
+                    <div class="lesson-status">3</div>
+                </li>
+                <li class="lesson-item">
+                    <div class="lesson-title">Bài 4: Hàm và Module</div>
+                    <div class="lesson-duration">1 giờ</div>
+                    <div class="lesson-status">4</div>
+                </li>
+                <li class="lesson-item">
+                    <div class="lesson-title">Bài 5: Cấu trúc dữ liệu</div>
+                    <div class="lesson-duration">1.5 giờ</div>
+                    <div class="lesson-status">5</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Video Container -->
+            <div class="video-container">
+                <div class="video-placeholder" onclick="playVideo()">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <div class="video-controls">
+                    <button class="control-btn" onclick="togglePlay()">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="progress-bar" onclick="seekVideo(event)">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="time-display">05:30 / 22:15</div>
+                    <button class="control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lesson Content -->
+            <div class="lesson-content">
+                <div class="lesson-header">
+                    <h1>Bài 2: Biến và kiểu dữ liệu</h1>
+                    <div class="lesson-meta">
+                        <span><i class="fas fa-clock"></i> 45 phút</span>
+                        <span><i class="fas fa-user"></i> Nguyễn Văn A</span>
+                        <span><i class="fas fa-calendar"></i> Cập nhật 01/2025</span>
+                    </div>
+                </div>
+
+                <div class="lesson-description">
+                    <h3>Mô tả bài học</h3>
+                    <p>Trong bài học này, bạn sẽ học về các khái niệm cơ bản về biến và kiểu dữ liệu trong Python. Chúng ta sẽ tìm hiểu cách khai báo biến, các kiểu dữ liệu cơ bản như số nguyên, số thực, chuỗi và boolean, cũng như cách chuyển đổi giữa các kiểu dữ liệu khác nhau.</p>
+                </div>
+
+                <div style="background: white; padding: 1.5rem; border-radius: 15px; border: 1px solid #e2e8f0;">
+                    <h3 style="margin-bottom: 1rem; color: #2d3748;">Nội dung chính</h3>
+                    <ul style="color: #4a5568; line-height: 1.8; padding-left: 1.5rem;">
+                        <li>Khái niệm về biến trong Python</li>
+                        <li>Quy tắc đặt tên biến</li>
+                        <li>Các kiểu dữ liệu cơ bản: int, float, str, bool</li>
+                        <li>Cách kiểm tra kiểu dữ liệu với type()</li>
+                        <li>Chuyển đổi kiểu dữ liệu (Type casting)</li>
+                        <li>Thực hành với các ví dụ cụ thể</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="lesson-navigation">
+                <a href="#" class="nav-btn nav-btn-secondary">
+                    <i class="fas fa-chevron-left"></i>
+                    Bài trước
+                </a>
+                <a href="#" class="nav-btn nav-btn-primary">
+                    Bài tiếp theo
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <div class="panel-tabs">
+                <button class="tab-btn active" onclick="switchTab('documents')">Tài liệu</button>
+                <button class="tab-btn" onclick="switchTab('comments')">Hỏi đáp</button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Documents Tab -->
+                <div id="documents" class="tab-panel active">
+                    <ul class="document-list">
+                        <li class="document-item" onclick="downloadDocument('slide')">
+                            <div class="document-title">Slide bài giảng</div>
+                            <div class="document-type">
+                                <i class="fas fa-file-powerpoint"></i>
+                                PowerPoint • 2.5MB
+                            </div>
+                        </li>
+                        <li class="document-item" onclick="downloadDocument('code')">
+                            <div class="document-title">Code ví dụ</div>
+                            <div class="document-type">
+                                <i class="fas fa-file-code"></i>
+                                Python • 15KB
+                            </div>
+                        </li>
+                        <li class="document-item" onclick="downloadDocument('exercise')">
+                            <div class="document-title">Bài tập thực hành</div>
+                            <div class="document-type">
+                                <i class="fas fa-file-alt"></i>
+                                PDF • 1.2MB
+                            </div>
+                        </li>
+                        <li class="document-item" onclick="downloadDocument('solution')">
+                            <div class="document-title">Đáp án bài tập</div>
+                            <div class="document-type">
+                                <i class="fas fa-file-code"></i>
+                                Python • 8KB
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Comments Tab -->
+                <div id="comments" class="tab-panel">
+                    <div class="comment-form">
+                        <textarea placeholder="Đặt câu hỏi về bài học..."></textarea>
+                        <button onclick="postComment()">
+                            <i class="fas fa-paper-plane"></i>
+                            Gửi
+                        </button>
+                    </div>
+
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-avatar">A</div>
+                            <div class="comment-info">
+                                <h4>Nguyễn Văn A</h4>
+                                <span>10 phút trước</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Cho em hỏi về phần type casting ạ. Khi nào thì nên sử dụng int() và khi nào dùng float()?
+                        </div>
+                    </div>
+
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-avatar">GV</div>
+                            <div class="comment-info">
+                                <h4>Giáo viên</h4>
+                                <span>5 phút trước</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Câu hỏi hay! Bạn dùng int() khi muốn chuyển về số nguyên (bỏ phần thập phân), dùng float() khi cần giữ lại phần thập phân. Ví dụ: int(3.7) = 3, float("3.7") = 3.7
+                        </div>
+                    </div>
+
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-avatar">B</div>
+                            <div class="comment-info">
+                                <h4>Trần Thị B</h4>
+                                <span>1 giờ trước</span>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Video rất dễ hiểu! Em đã làm được bài tập rồi ạ. Cảm ơn thầy!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    <!-- Chatbox -->
+    <div th:replace="fragments/chatbox :: chatbox"></div>
+    <script th:src="@{/js/chatbox.js}"></script>
+    <script th:src="@{/js/pages.js}"></script>
+  </body>
+</html>

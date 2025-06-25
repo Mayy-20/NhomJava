@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hannah - Học lập trình dễ dàng</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+
+  <!-- Header Fragment -->
+  <div th:replace="fragments/header :: header"></div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Học lập trình cùng Hannah</h1>
+      <p>
+        Khám phá thế giới công nghệ phần mềm với các khóa học tương tác, thực
+        hành và cộng đồng hỗ trợ tận tình
+      </p>
+      <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+      </div>
+      <a href="courses.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem">
+        Bắt đầu học ngay
+      </a>
+    </div>
+  </section>
+
+  <!-- Course Categories -->
+  <section class="categories">
+    <div class="container">
+      <h2 class="section-title">Khóa học nổi bật</h2>
+      <div class="course-grid">
+
+        <div class="course-card" onclick="window.location.href='course-detail.html'">
+          <div class="course-image"></div>
+          <div class="course-content">
+            <span class="course-type">KHÓA HỌC</span>
+            <h3 class="course-title">Python căn bản</h3>
+            <p class="course-desc">
+              Học các khái niệm lập trình cơ bản như biến, vòng lặp và hàm với
+              Python - ngôn ngữ dễ học nhất
+            </p>
+          </div>
+          <div class="level-indicator">Beginner</div>
+        </div>
+
+        <div class="course-card" onclick="window.location.href='course-detail.html'">
+          <div class="course-image"></div>
+          <div class="course-content">
+            <span class="course-type">KHÓA HỌC</span>
+            <h3 class="course-title">HTML & CSS</h3>
+            <p class="course-desc">
+              Tạo trang web đầu tiên với HTML - khối xây dựng cơ bản của web
+              và CSS để tạo kiểu
+            </p>
+          </div>
+          <div class="level-indicator">Beginner</div>
+        </div>
+
+        <div class="course-card" onclick="window.location.href='course-detail.html'">
+          <div class="course-image"></div>
+          <div class="course-content">
+            <span class="course-type">KHÓA HỌC</span>
+            <h3 class="course-title">JavaScript nâng cao</h3>
+            <p class="course-desc">
+              Làm chủ JavaScript với các khái niệm nâng cao như async/await,
+              closures và DOM manipulation
+            </p>
+          </div>
+          <div class="level-indicator">Advanced</div>
+        </div>
+
+      </div> <!-- end .course-grid -->
+    </div> <!-- end .container -->
+  </section>
+
+  <!-- Info Sections -->
+  <div class="info-container">
+    <section class="info-section">
+      <h2 class="section-title">Tài liệu</h2>
+      <p>Khám phá kho tài liệu miễn phí với các hướng dẫn chi tiết về lập trình, từ cơ bản đến nâng cao, giúp bạn học tập hiệu quả hơn.</p>
+      <ul>
+        <li>Hướng dẫn Python cơ bản</li>
+        <li>Cẩm nang HTML & CSS</li>
+        <li>Tài liệu JavaScript nâng cao</li>
+      </ul>
+      <a href="#">Xem thêm tài liệu</a>
+    </section>
+
+    <section class="info-section">
+      <h2 class="section-title">Cộng đồng</h2>
+      <p>Tham gia cộng đồng Hannah để kết nối với hàng ngàn lập trình viên, chia sẻ kiến thức, và cùng nhau giải quyết các bài tập lập trình thú vị.</p>
+      <a href="#">Tham gia ngay</a>
+    </section>
+
+    <section class="info-section">
+      <h2 class="section-title">Giới thiệu về chúng tôi</h2>
+      <p>Hannah là nền tảng học lập trình trực tuyến hàng đầu Việt Nam, cam kết mang đến trải nghiệm học tập chất lượng với các khóa học thực tiễn và đội ngũ hỗ trợ tận tâm.</p>
+      <a href="#">Tìm hiểu thêm</a>
+    </section>
+  </div>
+
+  <!-- Stats -->
+  <main>
+    <div class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number">15,000+</div>
+            <div class="stat-label">Học viên</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">150+</div>
+            <div class="stat-label">Khóa học</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Giảng viên</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Hài lòng</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <!-- Chatbox -->
+  <div th:replace="fragments/chatbox :: chatbox"></div>
+  <script th:src="@{/js/chatbox.js}"></script>
+  <script th:src="@{/js/pages.js}"></script>
+</body>
+</html>

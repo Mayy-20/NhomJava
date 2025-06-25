@@ -1,0 +1,63 @@
+<!-- fragments/chatbox.html -->
+<div th:fragment="chatbox">
+  <div class="chatbox">
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+        <div class="chat-avatar">H</div>
+        <div class="chat-info">
+          <h4>Hannah AI</h4>
+          <p>Trợ lý học tập thông minh</p>
+        </div>
+        <div class="chat-status"></div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+          <div class="message-avatar">H</div>
+          <div class="message-content">
+            Xin chào! Tôi là Hannah AI - trợ lý học tập của bạn. Tôi có thể giúp bạn:
+            <br />• Tư vấn khóa học phù hợp
+            <br />• Giải đáp thắc mắc về lập trình
+            <br />• Hướng dẫn lộ trình học tập
+            <br /><br />Bạn cần hỗ trợ gì hôm nay? 😊
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-replies">
+        <div class="quick-reply" onclick="sendQuickReply('Tôi muốn học lập trình')">
+          🎯 Học lập trình
+        </div>
+        <div class="quick-reply" onclick="sendQuickReply('Khóa học nào phù hợp?')">
+          📚 Tư vấn khóa học
+        </div>
+        <div class="quick-reply" onclick="sendQuickReply('Lộ trình học như thế nào?')">
+          🗺️ Lộ trình học
+        </div>
+      </div>
+
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="message-avatar" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white;">H</div>
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Nhập câu hỏi của bạn..." maxlength="500" />
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="chat-toggle" id="chatToggle" onclick="toggleChat()">
+      <span id="chatIcon">💬</span>
+    </button>
+  </div>
+</div>

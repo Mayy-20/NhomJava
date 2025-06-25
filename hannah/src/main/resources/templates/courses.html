@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hannah - Khóa học</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body>
+    <div th:replace="fragments/header :: header"></div>
+
+    <section class="courses-hero">
+      <div class="container">
+        <h1>Khóa học của chúng tôi</h1>
+        <p>
+          Khám phá các khóa học lập trình chất lượng cao được thiết kế để giúp
+          bạn thành công trong sự nghiệp công nghệ
+        </p>
+      </div>
+    </section>
+
+    <section class="course-categories">
+      <div class="container">
+        <div class="category-tabs">
+          <button class="tab-btn active">Tất cả</button>
+          <button class="tab-btn">Phát triển Web</button>
+          <button class="tab-btn">Khoa học dữ liệu</button>
+          <button class="tab-btn">Mobile App</button>
+          <button class="tab-btn">AI & Machine Learning</button>
+        </div>
+
+        <div class="course-grid">
+          <div
+            class="course-card"
+            onclick="window.location.href='course-detail.html'"
+          >
+            <div class="course-image">
+              <img th:src="@{/images/python-course.jpg}" alt="Python căn bản" />
+              <div class="course-level">Cơ bản</div>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">Python căn bản</h3>
+              <p class="course-desc">
+                Học các khái niệm lập trình cơ bản như biến, vòng lặp và hàm với
+                Python - ngôn ngữ dễ học nhất
+              </p>
+              <div class="course-meta">
+                <span><i class="fas fa-clock"></i> 10 giờ</span>
+                <span class="course-rating">
+                  <i class="fas fa-star"></i>
+                  4.8
+                </span>
+              </div>
+              <div class="course-actions">
+               <a th:href="@{/course-detail}" class="btn-course btn-course-primary">Học ngay</a>
+                <a href="#" class="btn-course btn-course-secondary"
+                  >Xem trước</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="course-card"
+          onclick="window.location.href='@{/course-detail}'"
+          >
+            <div class="course-image">
+              <img th:src="@{/images/html-css-course.jpg}" alt="HTML & CSS" />
+              <div class="course-level">Cơ bản</div>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">HTML & CSS</h3>
+              <p class="course-desc">
+                Tạo trang web đầu tiên với HTML - khối xây dựng cơ bản của web
+                và CSS để tạo kiểu cho website trở nên sinh động hơn
+              </p>
+              <div class="course-meta">
+                <span><i class="fas fa-clock"></i> 8 giờ</span>
+                <span class="course-rating">
+                  <i class="fas fa-star"></i>
+                  4.7
+                </span>
+              </div>
+              <div class="course-actions">
+                <a
+                  href="course-detail.html"
+                  class="btn-course btn-course-primary"
+                  >Học ngay</a
+                >
+                <a href="#" class="btn-course btn-course-secondary"
+                  >Xem trước</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="course-card"
+            onclick="window.location.href='course-detail.html'"
+          >
+            <div class="course-image">
+              <img
+                th:src="@{/images/javascript-course.jpg}"
+                alt="JavaScript nâng cao"
+              />
+              <div class="course-level">Nâng cao</div>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">JavaScript nâng cao</h3>
+              <p class="course-desc">
+                Làm chủ JavaScript với các khái niệm nâng cao như async/await,
+                closures và DOM manipulation
+              </p>
+              <div class="course-meta">
+                <span><i class="fas fa-clock"></i> 15 giờ</span>
+                <span class="course-rating">
+                  <i class="fas fa-star"></i>
+                  4.9
+                </span>
+              </div>
+              <div class="course-actions">
+                <a
+                  href="course-detail.html"
+                  class="btn-course btn-course-primary"
+                  >Học ngay</a
+                >
+                <a href="#" class="btn-course btn-course-secondary"
+                  >Xem trước</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="course-card"
+            onclick="window.location.href='course-detail.html'"
+          >
+            <div class="course-image">
+              <img
+                th:src="@{/images/reactjs-course.jpg}"
+                alt="React.js Framework"
+              />
+              <div class="course-level">Nâng cao</div>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">React.js Framework</h3>
+              <p class="course-desc">
+                Xây dựng ứng dụng web hiện đại với React.js - thư viện
+                JavaScript phổ biến nhất
+              </p>
+              <div class="course-meta">
+                <span><i class="fas fa-clock"></i> 20 giờ</span>
+                <span class="course-rating">
+                  <i class="fas fa-star"></i>
+                  4.8
+                </span>
+              </div>
+              <div class="course-actions">
+                <a
+                  href="course-detail.html"
+                  class="btn-course btn-course-primary"
+                  >Học ngay</a
+                >
+                <a href="#" class="btn-course btn-course-secondary"
+                  >Xem trước</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="course-card"
+            onclick="window.location.href='course-detail.html'"
+          >
+            <div class="course-image">
+              <img th:src="@{/images/sql-course.jpg}" alt="SQL Database" />
+              <div class="course-level">Trung cấp</div>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">SQL Database</h3>
+              <p class="course-desc">
+                Học cách quản lý cơ sở dữ liệu, viết truy vấn và tối ưu hóa hiệu
+                suất với SQL
+              </p>
+              <div class="course-meta">
+                <span><i class="fas fa-clock"></i> 12 giờ</span>
+                <span class="course-rating">
+                  <i class="fas fa-star"></i>
+                  4.6
+                </span>
+              </div>
+              <div class="course-actions">
+                <a
+                  href="course-detail.html"
+                  class="btn-course btn-course-primary"
+                  >Học ngay</a
+                >
+                <a href="#" class="btn-course btn-course-secondary"
+                  >Xem trước</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="course-card"
+            onclick="window.location.href='course-detail.html'"
+          >
+            <div class="course-image">
+              <img
+                th:src="@{/images/machinelearning-course.jpg}"
+                alt="Machine Learning"
+              />
+              <div class="course-level">Nâng cao</div>
+            </div>
+            <div class="course-content">
+              <h3 class="course-title">Machine Learning</h3>
+              <p class="course-desc">
+                Khám phá thế giới AI với các thuật toán Machine Learning và ứng
+                dụng thực tế
+              </p>
+              <div class="course-meta">
+                <span><i class="fas fa-clock"></i> 25 giờ</span>
+                <span class="course-rating">
+                  <i class="fas fa-star"></i>
+                  4.9
+                </span>
+              </div>
+              <div class="course-actions">
+                <a
+                  href="course-detail.html"
+                  class="btn-course btn-course-primary"
+                  >Học ngay</a
+                >
+                <a href="#" class="btn-course btn-course-secondary"
+                  >Xem trước</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div th:replace="fragments/footer :: footer"></div>
+    <!-- Chatbox -->
+  <div th:replace="fragments/chatbox :: chatbox"></div>
+  <script th:src="@{/js/chatbox.js}"></script>
+  <script th:src="@{/js/pages.js}"></script>
+  </body>
+</html>

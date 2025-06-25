@@ -1,0 +1,19 @@
+<!-- src/main/resources/templates/fragments/header.html -->
+<div th:fragment="header">
+  <header class="header">
+    <div class="nav-container">
+      <a th:href="@{/}" class="logo">Hannah</a>
+      <nav class="nav-menu">
+        <a th:href="@{/courses}">Khóa học</a>
+        <a th:href="@{/documents}">Tài liệu</a>
+        <a th:href="@{/community}">Cộng đồng</a>
+        <a th:href="@{/support}">Trợ giúp</a>
+        <a th:href="@{/about}">Về chúng tôi</a>
+      </nav>
+      <div class="auth-buttons">
+        <a th:href="@{/login}" class="btn btn-secondary">Đăng nhập</a>
+        <a th:href="@{/register}" class="btn btn-primary">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+</div>

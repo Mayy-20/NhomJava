@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hannah - Đăng nhập</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="nav-container">
+        <a th:href="@{/}" class="logo">Hannah</a>
+        <nav class="nav-menu">
+          <a th:href="@{/courses}">Khóa học</a>
+          <a th:href="@{/documents}">Tài liệu</a>
+          <a th:href="@{/community}">Cộng đồng</a>
+          <a th:href="@{/support}">Trợ giúp</a>
+          <a th:href="@{/about}">Về chúng tôi</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Login Container -->
+    <div class="login-container">
+      <!-- Header -->
+      <div class="login-header">
+        <h1 class="login-title">Chào mừng trở lại!</h1>
+        <p class="login-subtitle">
+          Đăng nhập để tiếp tục hành trình học tập của bạn
+        </p>
+      </div>
+      <!-- Login Form -->
+      <div id="loginForm" class="form active">
+        <form onsubmit="return handleLogin(event);">
+          <div class="form-group">
+            <label class="form-label"> Tên đăng nhập</label>
+            <div style="position: relative">
+              <input
+                type="text"
+                class="form-input"
+                placeholder="Nhập tên đăng nhập"
+                required
+              />
+              <i class="fas fa-user form-icon"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Mật khẩu</label>
+            <div style="position: relative">
+              <input
+                type="password"
+                class="form-input"
+                id="loginPassword"
+                placeholder="Nhập mật khẩu"
+                required
+              />
+              <i class="fas fa-lock form-icon"></i>
+              <button
+                type="button"
+                class="password-toggle"
+                onclick="togglePassword('loginPassword')"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-sign-in-alt"></i>
+            Đăng nhập
+          </button>
+        </form>
+        <div class="form-links">
+          <a th:href="@{/register}" class="form-link">Đăng ký tài khoản mới</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let selectedUserType = "user";
+
+      function selectUserType(type) {
+        selectedUserType = type;
+        document.querySelectorAll(".user-type-card").forEach((card) => {
+          card.classList.remove("active");
+        });
+        event.target.closest(".user-type-card").classList.add("active");
+      }
+
+      function togglePassword(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = input.parentElement.querySelector(".password-toggle i");
+
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+        }
+      }
+
+      function handleLogin(event) {
+        event.preventDefault();
+        switch (selectedUserType) {
+          case "user":
+            window.location.href = "/user-dashboard.html";
+            break;
+          case "teacher":
+            window.location.href = "teacher-dashboard.html";
+            break;
+          case "admin":
+            window.location.href = "admin-dashboard.html";
+            break;
+        }
+
+        return false;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!-- src/main/resources/templates/fragments/footer.html -->
+<div th:fragment="footer">
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3>Hannah</h3>
+          <p>
+            Nền tảng học lập trình trực tuyến hàng đầu Việt Nam, giúp bạn phát
+            triển kỹ năng công nghệ một cách hiệu quả và thú vị.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Khóa học</h3>
+          <ul>
+            <li><a th:href="@{/courses/python}">Python</a></li>
+            <li><a th:href="@{/courses/javascript}">JavaScript</a></li>
+            <li><a th:href="@{/courses/html-css}">HTML/CSS</a></li>
+            <li><a th:href="@{/courses/react}">React.js</a></li>
+            <li><a th:href="@{/courses/sql}">SQL</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Hỗ trợ</h3>
+          <ul>
+            <li><a th:href="@{/support}">Trung tâm trợ giúp</a></li>
+            <li><a th:href="@{/contact}">Liên hệ</a></li>
+            <li><a th:href="@{/faq}">FAQ</a></li>
+            <li><a th:href="@{/community}">Cộng đồng</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Về chúng tôi</h3>
+          <ul>
+            <li><a th:href="@{/about}">Giới thiệu</a></li>
+            <li><a th:href="@{/careers}">Tuyển dụng</a></li>
+            <li><a th:href="@{/press}">Báo chí</a></li>
+            <li><a th:href="@{/terms}">Điều khoản</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Hannah. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </footer>
+</div>

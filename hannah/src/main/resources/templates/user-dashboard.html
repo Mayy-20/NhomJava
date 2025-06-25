@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hannah - Trang chủ</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" th:href="@{/css/community.css}" />
+    <link rel="stylesheet" th:href="@{/css/document.css}" />
+    <link rel="stylesheet" th:href="@{/css/learning.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/user-profile.css}" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="nav-container">
+        <a th:href="@{/}" class="logo">Hannah</a>
+        <nav class="nav-menu">
+          <a th:href="@{/courses}">Khóa học</a>
+          <a th:href="@{/documents}">Tài liệu</a>
+          <a th:href="@{/community}">Cộng đồng</a>
+          <a th:href="@{/support}">Trợ giúp</a>
+          <a th:href="@{/about}">Về chúng tôi</a>
+        </nav>
+        <div class="user-dropdown" onclick="toggleDropdown()">
+          <div class="user-avatar">U</div>
+          <div class="user-name">
+            Nguyễn Văn A <i class="fas fa-caret-down"></i>
+          </div>
+          <div class="dropdown-menu" id="userDropdown">
+            <a th:href="@{/user-profile}"
+              ><i class="fas fa-user-cog"></i> Quản lý tài khoản</a
+            >
+            <a th:href="@{/index}" onclick="logout()"
+              ><i class="fas fa-sign-out-alt"></i> Đăng xuất</a
+            >
+          </div>
+           <div class="user-profile">
+                <div class="user-avatar">U</div>
+                <div class="user-name" onclick="window.location.href='user-profile.html'" style="cursor: pointer;">Nguyễn Văn A</div>
+            </div>
+        </div>
+      </div>
+    </header>
+      <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>Chào mừng trở lại, Nguyễn Văn A! 👋</h1>
+            <p>Hãy tiếp tục hành trình học tập của bạn. Bạn đang làm rất tốt!</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="stat-number">3</div>
+                <div class="stat-label">Khóa học đang học</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number">45</div>
+                <div class="stat-label">Giờ học tích lũy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">Bài học hoàn thành</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <div class="stat-number">5</div>
+                <div class="stat-label">Thành tích đạt được</div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Main Panel -->
+            <div class="main-panel">
+                <!-- My Courses -->
+                <div class="card">
+                    <h2 class="card-title">Khóa học của tôi</h2>
+                    <div class="course-list">
+                        <div class="course-item" onclick="window.location.href='learning.html'">
+                            <div class="course-image"></div>
+                            <div class="course-info">
+                                <div class="course-title">Python căn bản</div>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                    <span class="progress-text">75%</span>
+                                </div>
+                                <div class="course-meta">Giảng viên: Nguyễn Văn A • 4/5 bài học</div>
+                            </div>
+                            <div class="course-actions">
+                                <a th:href="@{/learning}" class="btn btn-primary">Tiếp tục học</a>
+                                <a th:href="@{/course-detail}" class="btn btn-secondary">Chi tiết</a>
+                            </div>
+                        </div>
+
+                        <div class="course-item" onclick="window.location.href='learning.html'">
+                            <div class="course-image"></div>
+                            <div class="course-info">
+                                <div class="course-title">JavaScript nâng cao</div>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 45%"></div>
+                                    </div>
+                                    <span class="progress-text">45%</span>
+                                </div>
+                                <div class="course-meta">Giảng viên: Lê Văn C • 9/20 bài học</div>
+                            </div>
+                            <div class="course-actions">
+                              <a th:href="@{/learning}" class="btn btn-primary">Tiếp tục học</a>
+                                <a th:href="@{/course-detail}" class="btn btn-secondary">Chi tiết</a>
+                            </div>
+                        </div>
+
+                        <div class="course-item" onclick="window.location.href='learning.html'">
+                            <div class="course-image"></div>
+                            <div class="course-info">
+                                <div class="course-title">HTML & CSS</div>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 90%"></div>
+                                    </div>
+                                    <span class="progress-text">90%</span>
+                                </div>
+                                <div class="course-meta">Giảng viên: Trần Thị B • 18/20 bài học</div>
+                            </div>
+                            <div class="course-actions">
+                               <a th:href="@{/learning}" class="btn btn-primary">Tiếp tục học</a>
+                                <a th:href="@{/course-detail}" class="btn btn-secondary">Chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <h2 class="card-titles">Hoạt động gần đây</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Hoàn thành bài học</div>
+                                <div class="activity-desc">Bài 4: Hàm và Module - Python căn bản</div>
+                                <div class="activity-time">2 giờ trước</div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Đạt thành tích mới</div>
+                                <div class="activity-desc">Hoàn thành 75% khóa học Python</div>
+                                <div class="activity-time">1 ngày trước</div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Đặt câu hỏi</div>
+                                <div class="activity-desc">Hỏi về vòng lặp trong JavaScript</div>
+                                <div class="activity-time">2 ngày trước</div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Đăng ký khóa học</div>
+                                <div class="activity-desc">React.js Framework</div>
+                                <div class="activity-time">3 ngày trước</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+ <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <!-- Chatbox -->
+    <div th:replace="fragments/chatbox :: chatbox"></div>
+    <script th:src="@{/js/chatbox.js}"></script>
+    <script th:src="@{/js/pages.js}"></script>
+  </body>
+</html>

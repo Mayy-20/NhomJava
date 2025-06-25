@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hannah - Đăng ký</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="nav-container">
+        <a th:href="@{/}" class="logo">Hannah</a>
+        <nav class="nav-menu">
+          <a th:href="@{/courses}">Khóa học</a>
+          <a th:href="@{/documents}">Tài liệu</a>
+          <a th:href="@{/community}">Cộng đồng</a>
+          <a th:href="@{/support}">Trợ giúp</a>
+          <a th:href="@{/about}">Về chúng tôi</a>
+        </nav>
+      </div>
+    </header>
+      <!-- Main Register Container -->
+    <div class="register-container">
+        <!-- Header -->
+        <div class="register-header">
+            <h1 class="register-title">Tạo tài khoản mới!</h1>
+            <p class="register-subtitle">Tạo tài khoản mới để bắt đầu học tập</p>
+        </div>
+
+        <!-- Register Form -->
+        <form onsubmit="return handleRegister(event);">
+            <div class="form-group">
+                <label class="form-label">Họ và tên</label>
+                <div style="position: relative;">
+                    <input type="text" class="form-input" placeholder="Nhập họ và tên đầy đủ" required>
+                    <i class="fa-solid fa-pencil form-icon"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Tên đăng nhập</label>
+                <div style="position: relative;">
+                    <input type="text" class="form-input" placeholder="Tên đăng nhập" required>
+                    <i class="fas fa-user form-icon"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <div style="position: relative;">
+                    <input type="email" class="form-input" placeholder="Nhập địa chỉ email" required>
+                    <i class="fas fa-envelope form-icon"></i>
+                </div>
+            </div>
+            <form onsubmit="return handleRegister(event);">
+            
+            <div class="form-group">
+                <label class="form-label">Mật khẩu</label>
+                <div style="position: relative;">
+                    <input type="password" class="form-input" id="registerPassword" placeholder="Tạo mật khẩu mạnh" required>
+                    <i class="fas fa-lock form-icon"></i>
+                    <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" class="checkbox" id="agreeTerms" required>
+                <label for="agreeTerms" class="checkbox-label">
+                    Tôi đồng ý với <a href="#" class="form-link">Điều khoản sử dụng</a> và <a href="#" class="form-link">Chính sách bảo mật</a>
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i>
+                Tạo tài khoản
+            </button>
+        </form>
+
+        <div class="form-links">
+            <span>Đã có tài khoản? </span>
+           <a th:href="@{/login}"  class="form-link">Đăng nhập ngay</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.parentElement.querySelector('.password-toggle i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Mật khẩu xác nhận không khớp!');
+                return false;
+            }
+            
+            alert('Đăng ký thành công! Chuyển hướng đến trang đăng nhập...');
+            window.location.href = 'login.html';
+            
+            return false;
+        }
+    </script>
+</body>
+</html>
