@@ -1,0 +1,8 @@
+package ut.edu.hannah.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import ut.edu.hannah.model.KhoaHoc;
+
+public interface KhoaHocRepository extends JpaRepository<KhoaHoc, Integer> {
+}
