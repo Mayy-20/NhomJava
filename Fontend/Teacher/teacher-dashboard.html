@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Dashboard Giáo viên</title>
+    <link rel="stylesheet" href="Trangchu.css" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <nav class="nav-menu">
+                <a href="teacher-dashboard.html" class="active">Trang chủ</a>
+                <a href="teacher-courses.html">Khóa học</a>
+                <a href="teacher-students.html">Học viên</a>
+                <a href="teacher-analytics.html">Thống kê</a>
+                <a href="teacher-community.html">Cộng đồng</a>
+            </nav>
+            <div class="user-profile">
+                <div class="user-badge">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Giáo viên
+                </div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name" onclick="window.location.href='teacher-profile.html'" style="cursor: pointer;">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>Chào mừng, Giáo viên Nguyễn Văn A! 👨‍🏫</h1>
+            <p>Quản lý khóa học và theo dõi tiến độ học viên của bạn</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <a href="teacher-create-course.html" class="quick-action">
+                <i class="fas fa-plus"></i>
+                <span>Tạo khóa học</span>
+            </a>
+            <a href="teacher-add-lesson.html" class="quick-action">
+                <i class="fas fa-video"></i>
+                <span>Thêm bài học</span>
+            </a>
+            <a href="teacher-notifications.html" class="quick-action">
+                <i class="fas fa-bell"></i>
+                <span>Gửi thông báo</span>
+            </a>
+            <a href="teacher-analytics.html" class="quick-action">
+                <i class="fas fa-chart-bar"></i>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">1,247</div>
+                <div class="stat-label">Tổng học viên</div>
+                <div class="stat-change">+12% tháng này</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">Khóa học đang dạy</div>
+                <div class="stat-change">+2 khóa học mới</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number">4.8</div>
+                <div class="stat-label">Đánh giá trung bình</div>
+                <div class="stat-change">+0.2 điểm</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="stat-number">25.5M</div>
+                <div class="stat-label">Doanh thu tháng</div>
+                <div class="stat-change">+18% so với tháng trước</div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Main Panel -->
+            <div class="main-panel">
+                <!-- Course Management -->
+                <div class="card">
+                    <h2 class="card-title">Quản lý khóa học</h2>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-image"></div>
+                            <div class="course-info">
+                                <div class="course-title">Python căn bản</div>
+                                <div class="course-stats">
+                                    <span><i class="fas fa-users"></i> 456 học viên</span>
+                                    <span><i class="fas fa-star"></i> 4.8</span>
+                                    <span><i class="fas fa-book"></i> 25 bài học</span>
+                                </div>
+                                <div class="course-status status-active">Hoạt động</div>
+                            </div>
+                            <div class="course-actions">
+                                <a href="#" class="btn btn-icon btn-secondary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-icon btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" class="btn btn-primary">Quản lý</a>
+                            </div>
+                        </div>
+
+                        <div class="course-item">
+                            <div class="course-image"></div>
+                            <div class="course-info">
+                                <div class="course-title">Python nâng cao</div>
+                                <div class="course-stats">
+                                    <span><i class="fas fa-users"></i> 234 học viên</span>
+                                    <span><i class="fas fa-star"></i> 4.9</span>
+                                    <span><i class="fas fa-book"></i> 35 bài học</span>
+                                </div>
+                                <div class="course-status status-active">Hoạt động</div>
+                            </div>
+                            <div class="course-actions">
+                                <a href="#" class="btn btn-icon btn-secondary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-icon btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" class="btn btn-primary">Quản lý</a>
+                            </div>
+                        </div>
+
+                        <div class="course-item">
+                            <div class="course-image"></div>
+                            <div class="course-info">
+                                <div class="course-title">Data Science với Python</div>
+                                <div class="course-stats">
+                                    <span><i class="fas fa-users"></i> 189 học viên</span>
+                                    <span><i class="fas fa-star"></i> 4.7</span>
+                                    <span><i class="fas fa-book"></i> 42 bài học</span>
+                                </div>
+                                <div class="course-status status-draft">Nháp</div>
+                            </div>
+                            <div class="course-actions">
+                                <a href="#" class="btn btn-icon btn-secondary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" class="btn btn-icon btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" class="btn btn-primary">Quản lý</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Management -->
+                <div class="card">
+                    <h2 class="card-title">Học viên gần đây</h2>
+                    <div class="student-list">
+                        <div class="student-item">
+                            <div class="student-avatar">A</div>
+                            <div class="student-info">
+                                <div class="student-name">Trần Thị B</div>
+                                <div class="student-course">Python căn bản</div>
+                                <div class="student-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 85%"></div>
+                                    </div>
+                                    <span class="progress-text">85%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="student-item">
+                            <div class="student-avatar">B</div>
+                            <div class="student-info">
+                                <div class="student-name">Lê Văn C</div>
+                                <div class="student-course">Python nâng cao</div>
+                                <div class="student-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 67%"></div>
+                                    </div>
+                                    <span class="progress-text">67%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="student-item">
+                            <div class="student-avatar">C</div>
+                            <div class="student-info">
+                                <div class="student-name">Phạm Thị D</div>
+                                <div class="student-course">Data Science</div>
+                                <div class="student-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 92%"></div>
+                                    </div>
+                                    <span class="progress-text">92%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Panel -->
+            <div class="sidebar-panel">
+                <!-- Profile Card -->
+                <div class="card profile-card">
+                    <div class="profile-avatar">GV</div>
+                    <div class="profile-name">Nguyễn Văn A</div>
+                    <div class="profile-title">Giảng viên Python</div>
+                    <div class="profile-badge">8 năm kinh nghiệm</div>
+                    <div class="profile-actions">
+                        <a href="teacher-profile.html" class="btn btn-primary">Hồ sơ giảng viên</a>
+                        <a href="#" class="btn btn-secondary">Cài đặt</a>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <h3 class="card-title">Hoạt động gần đây</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Học viên mới</div>
+                                <div class="activity-desc">Nguyễn Văn E đăng ký Python căn bản</div>
+                                <div class="activity-time">5 phút trước</div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Bài tập mới</div>
+                                <div class="activity-desc">Trần Thị B nộp bài tập Vòng lặp</div>
+                                <div class="activity-time">15 phút trước</div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Câu hỏi mới</div>
+                                <div class="activity-desc">Lê Văn C hỏi về Python nâng cao</div>
+                                <div class="activity-time">1 giờ trước</div>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="activity-content">
+                                <div class="activity-title">Đánh giá 5 sao</div>
+                                <div class="activity-desc">Phạm Thị D đánh giá Data Science</div>
+                                <div class="activity-time">2 giờ trước</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="card">
+                    <h3 class="card-title">Thống kê nhanh</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #718096;">Câu hỏi chưa trả lời</span>
+                            <span style="background: #fee2e2; color: #dc2626; padding: 0.2rem 0.6rem; border-radius: 10px; font-weight: 600; font-size: 0.8rem;">5</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #718096;">Bài tập chờ chấm</span>
+                            <span style="background: #fef3c7; color: #d97706; padding: 0.2rem 0.6rem; border-radius: 10px; font-weight: 600; font-size: 0.8rem;">12</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #718096;">Đánh giá mới</span>
+                            <span style="background: #d1fae5; color: #065f46; padding: 0.2rem 0.6rem; border-radius: 10px; font-weight: 600; font-size: 0.8rem;">3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate progress bars on load
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                }, index * 200);
+            });
+        });
+
+        // Add click animations to cards
+        document.querySelectorAll('.course-item, .student-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (!e.target.closest('.btn')) {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-2px)';
+                    }, 150);
+                }
+            });
+        });
+
+        // Quick action animations
+        document.querySelectorAll('.quick-action').forEach(action => {
+            action.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            action.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

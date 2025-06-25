@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Quản lý Học viên</title>
+    <link rel="stylesheet" href="Teacher-Student.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+ 
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <nav class="nav-menu">
+                <a href="teacher-dashboard.html">Trang chủ</a>
+                <a href="teacher-courses.html">Khóa học</a>
+                <a href="teacher-students.html" class="active">Học viên</a>
+                <a href="teacher-analytics.html">Thống kê</a>
+                <a href="teacher-community.html">Cộng đồng</a>
+            </nav>
+            <div class="user-profile">
+                <div class="user-badge">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Giáo viên
+                </div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Quản lý Học viên</h1>
+                <p style="color: #718096; margin-top: 0.5rem;">Theo dõi tiến độ và hỗ trợ học viên của bạn</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn btn-secondary" onclick="exportStudents()">
+                    <i class="fas fa-download"></i>
+                    Xuất danh sách
+                </button>
+                <button class="btn btn-primary" onclick="sendMessage()">
+                    <i class="fas fa-envelope"></i>
+                    Gửi thông báo
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">1,247</div>
+                <div class="stat-label">Tổng học viên</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="stat-number">892</div>
+                <div class="stat-label">Đang học</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="stat-number">355</div>
+                <div class="stat-label">Đã hoàn thành</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number">78%</div>
+                <div class="stat-label">Tỷ lệ hoàn thành</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number">4.8</div>
+                <div class="stat-label">Đánh giá TB</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="stat-number">156</div>
+                <div class="stat-label">Câu hỏi mới</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Tìm kiếm</label>
+                    <input type="text" class="filter-input" placeholder="Tên, email học viên..." id="searchInput">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Khóa học</label>
+                    <select class="filter-input" id="courseFilter">
+                        <option value="">Tất cả khóa học</option>
+                        <option value="python-basic">Python căn bản</option>
+                        <option value="python-advanced">Python nâng cao</option>
+                        <option value="data-science">Data Science</option>
+                        <option value="javascript">JavaScript ES6+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Tiến độ</label>
+                    <select class="filter-input" id="progressFilter">
+                        <option value="">Tất cả tiến độ</option>
+                        <option value="0-25">0% - 25%</option>
+                        <option value="26-50">26% - 50%</option>
+                        <option value="51-75">51% - 75%</option>
+                        <option value="76-100">76% - 100%</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Hoạt động</label>
+                    <select class="filter-input" id="activityFilter">
+                        <option value="">Tất cả</option>
+                        <option value="active">Hoạt động</option>
+                        <option value="inactive">Không hoạt động</option>
+                        <option value="completed">Đã hoàn thành</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">&nbsp;</label>
+                    <button class="btn btn-primary" onclick="applyFilters()">
+                        <i class="fas fa-search"></i>
+                        Lọc
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Grid -->
+        <div class="students-grid">
+            <div class="student-card">
+                <div class="student-header">
+                    <div class="student-avatar">A</div>
+                    <div class="student-info">
+                        <div class="student-name">Trần Thị B</div>
+                        <div class="student-email">tranthib@email.com</div>
+                        <div class="student-joined">Tham gia: 15/01/2024</div>
+                    </div>
+                </div>
+                
+                <div class="student-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label-small">Khóa học</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">85%</div>
+                        <div class="stat-label-small">Tiến độ TB</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">2h</div>
+                        <div class="stat-label-small">Hoạt động cuối</div>
+                    </div>
+                </div>
+
+                <div class="student-courses">
+                    <div class="courses-title">Khóa học đang tham gia:</div>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Python căn bản</span>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%"></div>
+                                </div>
+                                <span class="progress-text">85%</span>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">Data Science</span>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="progress-text">45%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="student-actions">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary btn-icon" onclick="viewStudent(1)" title="Xem chi tiết">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-primary btn-icon" onclick="messageStudent(1)" title="Nhắn tin">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-secondary btn-icon" onclick="viewProgress(1)" title="Xem tiến độ">
+                            <i class="fas fa-chart-line"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="supportStudent(1)">Hỗ trợ</button>
+                </div>
+            </div>
+
+            <div class="student-card">
+                <div class="student-header">
+                    <div class="student-avatar">B</div>
+                    <div class="student-info">
+                        <div class="student-name">Lê Văn C</div>
+                        <div class="student-email">levanc@email.com</div>
+                        <div class="student-joined">Tham gia: 20/12/2023</div>
+                    </div>
+                </div>
+                
+                <div class="student-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label-small">Khóa học</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">67%</div>
+                        <div class="stat-label-small">Tiến độ TB</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1d</div>
+                        <div class="stat-label-small">Hoạt động cuối</div>
+                    </div>
+                </div>
+
+                <div class="student-courses">
+                    <div class="courses-title">Khóa học đang tham gia:</div>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Python nâng cao</span>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 67%"></div>
+                                </div>
+                                <span class="progress-text">67%</span>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <span class="course-name">JavaScript ES6+</span>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 30%"></div>
+                                </div>
+                                <span class="progress-text">30%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="student-actions">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary btn-icon" onclick="viewStudent(2)" title="Xem chi tiết">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-primary btn-icon" onclick="messageStudent(2)" title="Nhắn tin">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-secondary btn-icon" onclick="viewProgress(2)" title="Xem tiến độ">
+                            <i class="fas fa-chart-line"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="supportStudent(2)">Hỗ trợ</button>
+                </div>
+            </div>
+
+            <div class="student-card">
+                <div class="student-header">
+                    <div class="student-avatar">C</div>
+                    <div class="student-info">
+                        <div class="student-name">Phạm Thị D</div>
+                        <div class="student-email">phamthid@email.com</div>
+                        <div class="student-joined">Tham gia: 05/02/2024</div>
+                    </div>
+                </div>
+                
+                <div class="student-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label-small">Khóa học</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">92%</div>
+                        <div class="stat-label-small">Tiến độ TB</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">30m</div>
+                        <div class="stat-label-small">Hoạt động cuối</div>
+                    </div>
+                </div>
+
+                <div class="student-courses">
+                    <div class="courses-title">Khóa học đang tham gia:</div>
+                    <div class="course-list">
+                        <div class="course-item">
+                            <span class="course-name">Data Science</span>
+                            <div class="course-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 92%"></div>
+                                </div>
+                                <span class="progress-text">92%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="student-actions">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary btn-icon" onclick="viewStudent(3)" title="Xem chi tiết">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-primary btn-icon" onclick="messageStudent(3)" title="Nhắn tin">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button class="btn btn-secondary btn-icon" onclick="viewProgress(3)" title="Xem tiến độ">
+                            <i class="fas fa-chart-line"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="supportStudent(3)">Hỗ trợ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Student actions
+        function viewStudent(studentId) {
+            window.location.href = `teacher-student-detail.html?id=${studentId}`;
+        }
+
+        function messageStudent(studentId) {
+            alert('Gửi tin nhắn cho học viên ID: ' + studentId);
+        }
+
+        function viewProgress(studentId) {
+            window.location.href = `teacher-student-progress.html?id=${studentId}`;
+        }
+
+        function supportStudent(studentId) {
+            alert('Hỗ trợ học viên ID: ' + studentId);
+        }
+
+        function exportStudents() {
+            alert('Xuất danh sách học viên');
+        }
+
+        function sendMessage() {
+            alert('Gửi thông báo cho tất cả học viên');
+        }
+
+        // Filter functions
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value;
+            const course = document.getElementById('courseFilter').value;
+            const progress = document.getElementById('progressFilter').value;
+            const activity = document.getElementById('activityFilter').value;
+            
+            console.log('Applying filters:', { search, course, progress, activity });
+            // Apply filters logic here
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            // Implement real-time search here
+        });
+
+        // Animate progress bars on load
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach((bar, index) => {
+                setTimeout(() => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                }, index * 200);
+            });
+        });
+
+        // Student card hover effects
+        document.querySelectorAll('.student-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

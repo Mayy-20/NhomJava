@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Hồ sơ Giáo viên</title>
+    <link rel="stylesheet" href="Profile.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <nav class="nav-menu">
+                <a href="teacher-dashboard.html">Trang chủ</a>
+                <a href="teacher-courses.html">Khóa học</a>
+                <a href="teacher-students.html">Học viên</a>
+                <a href="teacher-analytics.html">Thống kê</a>
+                <a href="teacher-profile.html" class="active">Hồ sơ</a>
+            </nav>
+            <div class="user-profile">
+                <div class="user-badge">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Giáo viên
+                </div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Hồ sơ Giáo viên</h1>
+                <p style="color: #718096; margin-top: 0.5rem;">Quản lý thông tin cá nhân và chuyên môn</p>
+            </div>
+            <div class="page-actions">
+                <button class="btn btn-secondary" onclick="previewProfile()">
+                    <i class="fas fa-eye"></i>
+                    Xem trước
+                </button>
+                <button class="btn btn-primary" onclick="saveProfile()">
+                    <i class="fas fa-save"></i>
+                    Lưu thay đổi
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Profile Card -->
+                <div class="card profile-card">
+                    <div class="profile-avatar-large" onclick="changeAvatar()">
+                        GV
+                        <div class="avatar-upload">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="profile-name">Nguyễn Văn A</div>
+                    <div class="profile-title">Giáo viên Lập trình</div>
+                    
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Khóa học</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1,234</div>
+                            <div class="stat-label">Học viên</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4.8</div>
+                            <div class="stat-label">Đánh giá</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">Năm kinh nghiệm</div>
+                        </div>
+                    </div>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link social-facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link social-twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link social-linkedin"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link social-github"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link social-youtube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="card">
+                    <h3 class="card-title">Kỹ năng chuyên môn</h3>
+                    <div class="skills-grid">
+                        <div class="skill-tag">JavaScript</div>
+                        <div class="skill-tag">Python</div>
+                        <div class="skill-tag">React</div>
+                        <div class="skill-tag">Node.js</div>
+                        <div class="skill-tag">HTML/CSS</div>
+                        <div class="skill-tag">MongoDB</div>
+                        <div class="skill-tag">Git</div>
+                        <div class="skill-tag">Docker</div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="card">
+                    <h3 class="card-title">Thành tích</h3>
+                    <div class="achievements-list">
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">Giáo viên xuất sắc 2024</div>
+                                <div class="achievement-desc">Đạt giải thưởng giáo viên xuất sắc năm 2024</div>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">Top 10 khóa học phổ biến</div>
+                                <div class="achievement-desc">Có 3 khóa học trong top 10 phổ biến nhất</div>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">1000+ học viên</div>
+                                <div class="achievement-desc">Đạt mốc 1000 học viên đăng ký khóa học</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Panel -->
+            <div class="main-panel">
+                <div class="card">
+                    <!-- Tabs -->
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('personal')">Thông tin cá nhân</button>
+                        <button class="tab-btn" onclick="switchTab('professional')">Thông tin chuyên môn</button>
+                        <button class="tab-btn" onclick="switchTab('settings')">Cài đặt</button>
+                    </div>
+
+                    <!-- Personal Info Tab -->
+                    <div class="tab-content active" id="personal">
+                        <form id="personalForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Họ và tên</label>
+                                    <input type="text" class="form-input" value="Nguyễn Văn A" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-input" value="nguyenvana@hannah.edu.vn" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Số điện thoại</label>
+                                    <input type="tel" class="form-input" value="0123456789">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Ngày sinh</label>
+                                    <input type="date" class="form-input" value="1990-01-15">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Địa chỉ</label>
+                                <input type="text" class="form-input" value="123 Đường ABC, Quận 1, TP.HCM">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Giới thiệu bản thân</label>
+                                <textarea class="form-textarea" placeholder="Viết một đoạn giới thiệu ngắn về bản thân...">Tôi là một lập trình viên với 5 năm kinh nghiệm trong phát triển web. Đam mê chia sẻ kiến thức và giúp đỡ những người mới bắt đầu học lập trình.</textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Website cá nhân</label>
+                                    <input type="url" class="form-input" value="https://nguyenvana.dev">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">LinkedIn</label>
+                                    <input type="url" class="form-input" value="https://linkedin.com/in/nguyenvana">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">GitHub</label>
+                                    <input type="url" class="form-input" value="https://github.com/nguyenvana">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">YouTube</label>
+                                    <input type="url" class="form-input" value="https://youtube.com/@nguyenvana">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Professional Info Tab -->
+                    <div class="tab-content" id="professional">
+                        <form id="professionalForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Chức danh</label>
+                                    <input type="text" class="form-input" value="Senior Full-stack Developer">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Công ty hiện tại</label>
+                                    <input type="text" class="form-input" value="Hannah Education">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Năm kinh nghiệm</label>
+                                    <select class="form-select">
+                                        <option value="1-2">1-2 năm</option>
+                                        <option value="3-5" selected>3-5 năm</option>
+                                        <option value="5-10">5-10 năm</option>
+                                        <option value="10+">Trên 10 năm</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Lĩnh vực chuyên môn</label>
+                                    <select class="form-select">
+                                        <option value="web-development" selected>Phát triển Web</option>
+                                        <option value="mobile-development">Phát triển Mobile</option>
+                                        <option value="data-science">Khoa học dữ liệu</option>
+                                        <option value="ai-ml">AI/Machine Learning</option>
+                                        <option value="devops">DevOps</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Học vấn</label>
+                                <textarea class="form-textarea" placeholder="Mô tả về trình độ học vấn, bằng cấp...">Cử nhân Công nghệ Thông tin - Đại học Bách Khoa TP.HCM (2015-2019)
+Chứng chỉ AWS Solutions Architect (2021)
+Chứng chỉ Google Cloud Professional (2022)</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Kinh nghiệm làm việc</label>
+                                <textarea class="form-textarea" placeholder="Mô tả kinh nghiệm làm việc...">2019-2021: Junior Developer tại ABC Company
+2021-2023: Senior Developer tại XYZ Tech
+2023-hiện tại: Lead Developer tại Hannah Education</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Chứng chỉ & Giải thưởng</label>
+                                <textarea class="form-textarea" placeholder="Liệt kê các chứng chỉ và giải thưởng...">- AWS Certified Solutions Architect (2021)
+- Google Cloud Professional Developer (2022)
+- Giải nhất cuộc thi Hackathon 2023
+- Top 10 Developer of the Year 2023</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Kỹ năng (phân cách bằng dấu phẩy)</label>
+                                <textarea class="form-textarea" placeholder="JavaScript, Python, React...">JavaScript, Python, React, Node.js, MongoDB, PostgreSQL, Docker, Kubernetes, AWS, Git, HTML/CSS, TypeScript</textarea>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="tab-content" id="settings">
+                        <form id="settingsForm">
+                            <h4 style="margin-bottom: 1rem; color: #2d3748;">Cài đặt tài khoản</h4>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Đổi mật khẩu</label>
+                                <input type="password" class="form-input" placeholder="Mật khẩu hiện tại">
+                                <input type="password" class="form-input" placeholder="Mật khẩu mới" style="margin-top: 0.5rem;">
+                                <input type="password" class="form-input" placeholder="Xác nhận mật khẩu mới" style="margin-top: 0.5rem;">
+                            </div>
+
+                            <h4 style="margin: 2rem 0 1rem; color: #2d3748;">Cài đặt thông báo</h4>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" checked> Thông báo email khi có học viên mới
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" checked> Thông báo khi có đánh giá mới
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox"> Thông báo tin tức và cập nhật từ Hannah
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" checked> Thông báo khi có câu hỏi từ học viên
+                                </label>
+                            </div>
+
+                            <h4 style="margin: 2rem 0 1rem; color: #2d3748;">Cài đặt quyền riêng tư</h4>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Hiển thị hồ sơ công khai</label>
+                                <select class="form-select">
+                                    <option value="public" selected>Công khai</option>
+                                    <option value="students">Chỉ học viên</option>
+                                    <option value="private">Riêng tư</option>
+                                </select>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" checked> Hiển thị số lượng học viên
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox" checked> Hiển thị đánh giá và nhận xét
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="checkbox"> Cho phép học viên liên hệ trực tiếp
+                                </label>
+                            </div>
+
+                            <h4 style="margin: 2rem 0 1rem; color: #2d3748;">Cài đặt khác</h4>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Ngôn ngữ giao diện</label>
+                                    <select class="form-select">
+                                        <option value="vi" selected>Tiếng Việt</option>
+                                        <option value="en">English</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Múi giờ</label>
+                                    <select class="form-select">
+                                        <option value="Asia/Ho_Chi_Minh" selected>GMT+7 (Việt Nam)</option>
+                                        <option value="Asia/Bangkok">GMT+7 (Bangkok)</option>
+                                        <option value="Asia/Singapore">GMT+8 (Singapore)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Avatar change
+        function changeAvatar() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Update avatar display
+                        const avatar = document.querySelector('.profile-avatar-large');
+                        avatar.style.backgroundImage = `url(${e.target.result})`;
+                        avatar.style.backgroundSize = 'cover';
+                        avatar.style.backgroundPosition = 'center';
+                        avatar.innerHTML = '<div class="avatar-upload"><i class="fas fa-camera"></i></div>';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        // Save profile
+        function saveProfile() {
+            // Collect form data
+            const personalData = new FormData(document.getElementById('personalForm'));
+            const professionalData = new FormData(document.getElementById('professionalForm'));
+            const settingsData = new FormData(document.getElementById('settingsForm'));
+            
+            // Simulate API call
+            alert('Đang lưu thông tin...');
+            setTimeout(() => {
+                alert('Đã lưu thông tin thành công!');
+            }, 1500);
+        }
+
+        // Preview profile
+        function previewProfile() {
+            window.open('teacher-public-profile.html', '_blank');
+        }
+
+        // Form validation
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveProfile();
+            });
+        });
+
+        // Auto-save functionality (optional)
+        let autoSaveTimeout;
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('input', function() {
+                clearTimeout(autoSaveTimeout);
+                autoSaveTimeout = setTimeout(() => {
+                    console.log('Auto-saving...');
+                    // Implement auto-save logic here
+                }, 2000);
+            });
+        });
+
+        // Skills tag management
+        function updateSkillsFromTextarea() {
+            const skillsText = document.querySelector('textarea[placeholder*="JavaScript, Python"]').value;
+            const skills = skillsText.split(',').map(skill => skill.trim()).filter(skill => skill);
+            
+            const skillsGrid = document.querySelector('.skills-grid');
+            skillsGrid.innerHTML = '';
+            
+            skills.forEach(skill => {
+                const skillTag = document.createElement('div');
+                skillTag.className = 'skill-tag';
+                skillTag.textContent = skill;
+                skillsGrid.appendChild(skillTag);
+            });
+        }
+
+        // Update skills when textarea changes
+        document.querySelector('textarea[placeholder*="JavaScript, Python"]').addEventListener('input', updateSkillsFromTextarea);
+
+        // Initialize
+        updateSkillsFromTextarea();
+    </script>
+</body>
+</html>

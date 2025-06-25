@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Tạo khóa học mới</title>
+    <link rel="stylesheet" href="Creat-couse.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <nav class="nav-menu">
+                <a href="teacher-dashboard.html">Trang chủ</a>
+                <a href="teacher-courses.html" class="active">Khóa học</a>
+                <a href="teacher-students.html">Học viên</a>
+                <a href="teacher-analytics.html">Thống kê</a>
+                <a href="teacher-community.html">Cộng đồng</a>
+            </nav>
+            <div class="user-profile">
+                <div class="user-badge">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Giáo viên
+                </div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Tạo khóa học mới</h1>
+            <p class="page-subtitle">Chia sẻ kiến thức của bạn với cộng đồng học tập</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="steps-container">
+                <div class="step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Thông tin cơ bản</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Nội dung khóa học</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Giá & Xuất bản</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Xem trước & Hoàn thành</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <form id="courseForm">
+                <!-- Step 1: Basic Information -->
+                <div class="form-step active" data-step="1">
+                    <h2 class="step-title">Thông tin cơ bản</h2>
+                    <p class="step-description">Cung cấp thông tin cơ bản về khóa học của bạn</p>
+
+                    <div class="form-group">
+                        <label class="form-label required">Tên khóa học</label>
+                        <input type="text" class="form-input" id="courseName" placeholder="Nhập tên khóa học..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required">Mô tả ngắn</label>
+                        <textarea class="form-textarea" id="courseDescription" placeholder="Mô tả ngắn gọn về khóa học..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label required">Danh mục</label>
+                            <select class="form-select" id="courseCategory" required>
+                                <option value="">Chọn danh mục</option>
+                                <option value="programming">Lập trình</option>
+                                <option value="web-development">Phát triển Web</option>
+                                <option value="mobile-development">Phát triển Mobile</option>
+                                <option value="data-science">Khoa học dữ liệu</option>
+                                <option value="design">Thiết kế</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="business">Kinh doanh</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required">Cấp độ</label>
+                            <select class="form-select" id="courseLevel" required>
+                                <option value="">Chọn cấp độ</option>
+                                <option value="beginner">Người mới bắt đầu</option>
+                                <option value="intermediate">Trung cấp</option>
+                                <option value="advanced">Nâng cao</option>
+                                <option value="expert">Chuyên gia</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ảnh đại diện khóa học</label>
+                        <div class="image-upload" onclick="triggerImageUpload()">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="upload-text">Click để chọn ảnh</div>
+                            <div class="upload-hint">Khuyến nghị: 1280x720px, định dạng JPG/PNG</div>
+                            <input type="file" id="courseImage" accept="image/*" style="display: none;">
+                            <img id="imagePreview" class="image-preview" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tags</label>
+                        <div class="tags-container" onclick="focusTagInput()">
+                            <input type="text" class="tag-input" id="tagInput" placeholder="Nhập tag và nhấn Enter...">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Course Content -->
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title">Nội dung khóa học</h2>
+                    <p class="step-description">Xây dựng chương trình học chi tiết</p>
+
+                    <div class="form-group">
+                        <label class="form-label">Mục tiêu khóa học</label>
+                        <textarea class="form-textarea" id="courseObjectives" placeholder="Học viên sẽ học được gì sau khi hoàn thành khóa học..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Yêu cầu tiên quyết</label>
+                        <textarea class="form-textarea" id="courseRequirements" placeholder="Kiến thức hoặc kỹ năng cần có trước khi học..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Chương trình học</label>
+                        <div id="curriculumBuilder">
+                            <div class="curriculum-section">
+                                <div class="section-header">
+                                    <input type="text" class="form-input section-title" placeholder="Tên chương..." style="border: none; background: transparent; font-weight: 600;">
+                                    <div class="section-actions">
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="addLesson(this)">
+                                            <i class="fas fa-plus"></i> Thêm bài học
+                                        </button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="removeSection(this)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="lesson-list">
+                                    <div class="lesson-item">
+                                        <div class="lesson-info">
+                                            <input type="text" class="form-input lesson-title" placeholder="Tên bài học..." style="border: none; background: transparent; margin-bottom: 0.3rem;">
+                                            <input type="text" class="form-input lesson-duration" placeholder="Thời lượng (VD: 15 phút)" style="border: none; background: transparent; font-size: 0.8rem;">
+                                        </div>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="removeLesson(this)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="addSection()">
+                            <i class="fas fa-plus"></i> Thêm chương mới
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Pricing & Publishing -->
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title">Giá & Xuất bản</h2>
+                    <p class="step-description">Thiết lập giá và tùy chọn xuất bản</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Giá khóa học (VNĐ)</label>
+                            <input type="number" class="form-input" id="coursePrice" placeholder="0" min="0">
+                            <small style="color: #718096;">Để trống hoặc 0 nếu khóa học miễn phí</small>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Thời lượng ước tính (giờ)</label>
+                            <input type="number" class="form-input" id="courseDuration" placeholder="0" min="0" step="0.5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Trạng thái xuất bản</label>
+                        <select class="form-select" id="courseStatus">
+                            <option value="draft">Lưu nháp</option>
+                            <option value="pending">Gửi duyệt</option>
+                            <option value="published">Xuất bản ngay</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ngôn ngữ</label>
+                        <select class="form-select" id="courseLanguage">
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="en">English</option>
+                            <option value="both">Cả hai</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ghi chú cho admin</label>
+                        <textarea class="form-textarea" id="adminNotes" placeholder="Ghi chú hoặc yêu cầu đặc biệt cho admin..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 4: Preview & Complete -->
+                <div class="form-step" data-step="4">
+                    <h2 class="step-title">Xem trước & Hoàn thành</h2>
+                    <p class="step-description">Kiểm tra lại thông tin trước khi tạo khóa học</p>
+
+                    <div id="coursePreview">
+                        <!-- Course preview will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Form Navigation -->
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </button>
+                    <div></div>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                        Tiếp theo <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        let courseTags = [];
+
+        // Step navigation
+        function nextStep() {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateStepDisplay();
+                    if (currentStep === 4) {
+                        generatePreview();
+                    }
+                } else {
+                    submitCourse();
+                }
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        function updateStepDisplay() {
+            // Update step indicators
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepNumber = index + 1;
+                step.classList.remove('active', 'completed');
+                
+                if (stepNumber < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNumber === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update form steps
+            document.querySelectorAll('.form-step').forEach((step, index) => {
+                step.classList.remove('active');
+                if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.style.display = currentStep > 1 ? 'flex' : 'none';
+            
+            if (currentStep === totalSteps) {
+                nextBtn.innerHTML = '<i class="fas fa-check"></i> Tạo khóa học';
+            } else {
+                nextBtn.innerHTML = 'Tiếp theo <i class="fas fa-arrow-right"></i>';
+            }
+        }
+
+        function validateCurrentStep() {
+            const currentStepElement = document.querySelector(`.form-step[data-step="${currentStep}"]`);
+            const requiredFields = currentStepElement.querySelectorAll('[required]');
+            
+            for (let field of requiredFields) {
+                if (!field.value.trim()) {
+                    field.focus();
+                    alert('Vui lòng điền đầy đủ thông tin bắt buộc');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Image upload
+        function triggerImageUpload() {
+            document.getElementById('courseImage').click();
+        }
+
+        document.getElementById('courseImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    
+                    const uploadArea = document.querySelector('.image-upload');
+                    uploadArea.classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Tags functionality
+        function focusTagInput() {
+            document.getElementById('tagInput').focus();
+        }
+
+        document.getElementById('tagInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addTag(this.value.trim());
+                this.value = '';
+            }
+        });
+
+        function addTag(tagText) {
+            if (tagText && !courseTags.includes(tagText)) {
+                courseTags.push(tagText);
+                renderTags();
+            }
+        }
+
+        function removeTag(tagText) {
+            courseTags = courseTags.filter(tag => tag !== tagText);
+            renderTags();
+        }
+
+        function renderTags() {
+            const container = document.querySelector('.tags-container');
+            const input = document.getElementById('tagInput');
+            
+            // Clear existing tags
+            container.querySelectorAll('.tag').forEach(tag => tag.remove());
+            
+            // Add tags
+            courseTags.forEach(tagText => {
+                const tag = document.createElement('div');
+                tag.className = 'tag';
+                tag.innerHTML = `
+                    ${tagText}
+                    <span class="tag-remove" onclick="removeTag('${tagText}')">&times;</span>
+                `;
+                container.insertBefore(tag, input);
+            });
+        }
+
+        // Curriculum builder
+        function addSection() {
+            const builder = document.getElementById('curriculumBuilder');
+            const sectionHTML = `
+                <div class="curriculum-section">
+                    <div class="section-header">
+                        <input type="text" class="form-input section-title" placeholder="Tên chương..." style="border: none; background: transparent; font-weight: 600;">
+                        <div class="section-actions">
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="addLesson(this)">
+                                <i class="fas fa-plus"></i> Thêm bài học
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="removeSection(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="lesson-list">
+                        <div class="lesson-item">
+                            <div class="lesson-info">
+                                <input type="text" class="form-input lesson-title" placeholder="Tên bài học..." style="border: none; background: transparent; margin-bottom: 0.3rem;">
+                                <input type="text" class="form-input lesson-duration" placeholder="Thời lượng (VD: 15 phút)" style="border: none; background: transparent; font-size: 0.8rem;">
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="removeLesson(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            builder.insertAdjacentHTML('beforeend', sectionHTML);
+        }
+
+        function removeSection(btn) {
+            if (confirm('Bạn có chắc muốn xóa chương này?')) {
+                btn.closest('.curriculum-section').remove();
+            }
+        }
+
+        function addLesson(btn) {
+            const lessonList = btn.closest('.curriculum-section').querySelector('.lesson-list');
+            const lessonHTML = `
+                <div class="lesson-item">
+                    <div class="lesson-info">
+                        <input type="text" class="form-input lesson-title" placeholder="Tên bài học..." style="border: none; background: transparent; margin-bottom: 0.3rem;">
+                        <input type="text" class="form-input lesson-duration" placeholder="Thời lượng (VD: 15 phút)" style="border: none; background: transparent; font-size: 0.8rem;">
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="removeLesson(this)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            lessonList.insertAdjacentHTML('beforeend', lessonHTML);
+        }
+
+        function removeLesson(btn) {
+            btn.closest('.lesson-item').remove();
+        }
+
+        // Generate preview
+        function generatePreview() {
+            const preview = document.getElementById('coursePreview');
+            const formData = collectFormData();
+            
+            preview.innerHTML = `
+                <div style="border: 1px solid #e2e8f0; border-radius: 15px; padding: 2rem; background: #f8fafc;">
+                    <h3 style="color: #2d3748; margin-bottom: 1rem;">Thông tin khóa học</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Tên:</strong> ${formData.name || 'Chưa nhập'}</div>
+                        <div><strong>Danh mục:</strong> ${formData.category || 'Chưa chọn'}</div>
+                        <div><strong>Cấp độ:</strong> ${formData.level || 'Chưa chọn'}</div>
+                        <div><strong>Giá:</strong> ${formData.price ? formData.price.toLocaleString() + ' VNĐ' : 'Miễn phí'}</div>
+                    </div>
+                    <div style="margin-bottom: 1rem;"><strong>Mô tả:</strong> ${formData.description || 'Chưa nhập'}</div>
+                    <div style="margin-bottom: 1rem;"><strong>Tags:</strong> ${courseTags.join(', ') || 'Chưa có'}</div>
+                    <div><strong>Trạng thái:</strong> ${getStatusText(formData.status)}</div>
+                </div>
+            `;
+        }
+
+        function collectFormData() {
+            return {
+                name: document.getElementById('courseName').value,
+                description: document.getElementById('courseDescription').value,
+                category: document.getElementById('courseCategory').value,
+                level: document.getElementById('courseLevel').value,
+                price: parseFloat(document.getElementById('coursePrice').value) || 0,
+                duration: parseFloat(document.getElementById('courseDuration').value) || 0,
+                status: document.getElementById('courseStatus').value,
+                language: document.getElementById('courseLanguage').value,
+                objectives: document.getElementById('courseObjectives').value,
+                requirements: document.getElementById('courseRequirements').value,
+                adminNotes: document.getElementById('adminNotes').value
+            };
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'draft': 'Lưu nháp',
+                'pending': 'Gửi duyệt',
+                'published': 'Xuất bản ngay'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Submit course
+        function submitCourse() {
+            const formData = collectFormData();
+            console.log('Creating course:', formData);
+            console.log('Tags:', courseTags);
+            
+            // Simulate API call
+            alert('Đang tạo khóa học...');
+            setTimeout(() => {
+                alert('Khóa học đã được tạo thành công!');
+                window.location.href = 'teacher-courses.html';
+            }, 2000);
+        }
+
+        // Initialize
+        updateStepDisplay();
+    </script>
+</body>
+</html>
