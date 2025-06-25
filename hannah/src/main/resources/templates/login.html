@@ -38,13 +38,20 @@
       </div>
       <!-- Login Form -->
       <div id="loginForm" class="form active">
-        <form onsubmit="return handleLogin(event);">
+        <div
+          th:if="${error}"
+          style="color: red; text-align: center; margin-bottom: 15px"
+        >
+          <p th:text="${error}"></p>
+        </div>
+        <form th:action="@{/login}" th:object="${nguoiDung}" method="post">
           <div class="form-group">
             <label class="form-label"> Tên đăng nhập</label>
             <div style="position: relative">
               <input
                 type="text"
                 class="form-input"
+                th:field="*{tenDangNhap}"
                 placeholder="Nhập tên đăng nhập"
                 required
               />
@@ -58,6 +65,7 @@
               <input
                 type="password"
                 class="form-input"
+                th:field="*{matKhau}"
                 id="loginPassword"
                 placeholder="Nhập mật khẩu"
                 required
@@ -85,47 +93,19 @@
     </div>
 
     <script>
-      let selectedUserType = "user";
-
-      function selectUserType(type) {
-        selectedUserType = type;
-        document.querySelectorAll(".user-type-card").forEach((card) => {
-          card.classList.remove("active");
-        });
-        event.target.closest(".user-type-card").classList.add("active");
-      }
-
-      function togglePassword(inputId) {
-        const input = document.getElementById(inputId);
-        const icon = input.parentElement.querySelector(".password-toggle i");
-
-        if (input.type === "password") {
-          input.type = "text";
-          icon.classList.remove("fa-eye");
-          icon.classList.add("fa-eye-slash");
-        } else {
-          input.type = "password";
-          icon.classList.remove("fa-eye-slash");
-          icon.classList.add("fa-eye");
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.parentElement.querySelector('.password-toggle i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
         }
-      }
-
-      function handleLogin(event) {
-        event.preventDefault();
-        switch (selectedUserType) {
-          case "user":
-            window.location.href = "/user-dashboard.html";
-            break;
-          case "teacher":
-            window.location.href = "teacher-dashboard.html";
-            break;
-          case "admin":
-            window.location.href = "admin-dashboard.html";
-            break;
-        }
-
-        return false;
-      }
     </script>
   </body>
 </html>
