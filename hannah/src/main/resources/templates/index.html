@@ -1,111 +1,107 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hannah - Học lập trình dễ dàng</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hannah - Học lập trình</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body>
+    <div th:replace="fragments/header :: header"></div>
 
-  <!-- Header Fragment -->
-  <div th:replace="fragments/header :: header"></div>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Học lập trình cùng Hannah</h1>
-      <p>
-        Khám phá thế giới công nghệ phần mềm với các khóa học tương tác, thực
-        hành và cộng đồng hỗ trợ tận tình
-      </p>
-      <div class="progress-bar-container">
-        <div class="progress-bar"></div>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Học lập trình cùng Hannah</h1>
+        <p>
+          Khám phá thế giới công nghệ phần mềm với các khóa học tương tác, thực
+          hành và cộng đồng hỗ trợ tận tình
+        </p>
+        <a th:href="@{/courses}" class="btn btn-primary">Bắt đầu học ngay</a>
       </div>
-      <a href="courses.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem">
-        Bắt đầu học ngay
-      </a>
-    </div>
-  </section>
-
-  <!-- Course Categories -->
-  <section class="categories">
-    <div class="container">
-      <h2 class="section-title">Khóa học nổi bật</h2>
-      <div class="course-grid">
-
-        <div class="course-card" onclick="window.location.href='course-detail.html'">
-          <div class="course-image"></div>
-          <div class="course-content">
-            <span class="course-type">KHÓA HỌC</span>
-            <h3 class="course-title">Python căn bản</h3>
-            <p class="course-desc">
-              Học các khái niệm lập trình cơ bản như biến, vòng lặp và hàm với
-              Python - ngôn ngữ dễ học nhất
-            </p>
-          </div>
-          <div class="level-indicator">Beginner</div>
-        </div>
-
-        <div class="course-card" onclick="window.location.href='course-detail.html'">
-          <div class="course-image"></div>
-          <div class="course-content">
-            <span class="course-type">KHÓA HỌC</span>
-            <h3 class="course-title">HTML & CSS</h3>
-            <p class="course-desc">
-              Tạo trang web đầu tiên với HTML - khối xây dựng cơ bản của web
-              và CSS để tạo kiểu
-            </p>
-          </div>
-          <div class="level-indicator">Beginner</div>
-        </div>
-
-        <div class="course-card" onclick="window.location.href='course-detail.html'">
-          <div class="course-image"></div>
-          <div class="course-content">
-            <span class="course-type">KHÓA HỌC</span>
-            <h3 class="course-title">JavaScript nâng cao</h3>
-            <p class="course-desc">
-              Làm chủ JavaScript với các khái niệm nâng cao như async/await,
-              closures và DOM manipulation
-            </p>
-          </div>
-          <div class="level-indicator">Advanced</div>
-        </div>
-
-      </div> <!-- end .course-grid -->
-    </div> <!-- end .container -->
-  </section>
-
-  <!-- Info Sections -->
-  <div class="info-container">
-    <section class="info-section">
-      <h2 class="section-title">Tài liệu</h2>
-      <p>Khám phá kho tài liệu miễn phí với các hướng dẫn chi tiết về lập trình, từ cơ bản đến nâng cao, giúp bạn học tập hiệu quả hơn.</p>
-      <ul>
-        <li>Hướng dẫn Python cơ bản</li>
-        <li>Cẩm nang HTML & CSS</li>
-        <li>Tài liệu JavaScript nâng cao</li>
-      </ul>
-      <a href="#">Xem thêm tài liệu</a>
     </section>
 
     <section class="info-section">
-      <h2 class="section-title">Cộng đồng</h2>
-      <p>Tham gia cộng đồng Hannah để kết nối với hàng ngàn lập trình viên, chia sẻ kiến thức, và cùng nhau giải quyết các bài tập lập trình thú vị.</p>
-      <a href="#">Tham gia ngay</a>
+      <div class="info-container">
+        <h2 class="section-title">Khóa học nổi bật</h2>
+        <div class="course-grid">
+          <div th:each="course : ${courses}" class="course-card">
+            <div class="course-image">
+              <img
+                th:src="${course.hinhAnh}"
+                alt="Ảnh khóa học"
+                class="course-image"
+              />
+              <div
+                class="course-level"
+                th:text="${course.trangThai == 'HoatDong' ? 'Cơ bản' : course.trangThai == 'ChoDuyet' ? 'Trung cấp' : 'Nâng cao'}"
+              >
+                Beginner
+              </div>
+            </div>
+            <div class="course-content">
+              <span class="course-type">KHÓA HỌC</span>
+              <h3 class="course-title" th:text="${course.tenKhoaHoc}">
+                Tên khóa học
+              </h3>
+              <p class="course-desc" th:text="${course.moTa}">Mô tả khóa học</p>
+              <div class="course-actions">
+                <a
+                  th:href="@{/hannah/course-detail(id=${course.maKhoaHoc})}"
+                  class="btn-course btn-course-primary"
+                  >Học ngay</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="info-section">
-      <h2 class="section-title">Giới thiệu về chúng tôi</h2>
-      <p>Hannah là nền tảng học lập trình trực tuyến hàng đầu Việt Nam, cam kết mang đến trải nghiệm học tập chất lượng với các khóa học thực tiễn và đội ngũ hỗ trợ tận tâm.</p>
-      <a href="#">Tìm hiểu thêm</a>
+      <div class="info-container">
+        <h2 class="section-title">Tài liệu</h2>
+        <p>
+          Khám phá kho tài liệu miễn phí với các hướng dẫn chi tiết về lập
+          trình, từ cơ bản đến nâng cao, giúp bạn học tập hiệu quả hơn.
+        </p>
+        <ul>
+          <li>Hướng dẫn Python cơ bản</li>
+          <li>Cẩm nang HTML & CSS</li>
+          <li>Tài liệu JavaScript nâng cao</li>
+        </ul>
+        <a th:href="@{/documents}">Xem thêm tài liệu</a>
+      </div>
     </section>
-  </div>
 
-  <!-- Stats -->
-  <main>
-    <div class="stats-section">
+    <section class="info-section">
+      <div class="info-container">
+        <h2 class="section-title">Cộng đồng</h2>
+        <p>
+          Tham gia cộng đồng Hannah để kết nối với hàng ngàn lập trình viên,
+          chia sẻ kiến thức, và cùng nhau giải quyết các bài tập lập trình thú
+          vị.
+        </p>
+        <a th:href="@{/community}">Tham gia ngay</a>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <div class="info-container">
+        <h2 class="section-title">Giới thiệu về chúng tôi</h2>
+        <p>
+          Hannah là nền tảng học lập trình trực tuyến hàng đầu Việt Nam, cam kết
+          mang đến trải nghiệm học tập chất lượng với các khóa học thực tiễn và
+          đội ngũ hỗ trợ tận tâm.
+        </p>
+        <a th:href="@{/about}">Tìm hiểu thêm</a>
+      </div>
+    </section>
+
+    <section class="stats-section">
       <div class="container">
         <div class="stats-grid">
           <div class="stat-item">
@@ -126,15 +122,12 @@
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </section>
 
-  <!-- Footer -->
-  <div th:replace="fragments/footer :: footer"></div>
-
-  <!-- Chatbox -->
-  <div th:replace="fragments/chatbox :: chatbox"></div>
-  <script th:src="@{/js/chatbox.js}"></script>
-  <script th:src="@{/js/pages.js}"></script>
-</body>
+    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="fragments/chatbox :: chatbox"></div>
+    <script th:src="@{/js/chatbox.js}"></script>
+    <script th:src="@{/js/pages.js}"></script>
+  </body>
 </html>
+```

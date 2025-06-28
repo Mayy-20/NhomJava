@@ -1,323 +1,171 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hannah - Khóa học</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  </head>
-  <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${course.tenKhoaHoc} + ' - Hannah'">Hannah - Chi tiết khóa học</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/documents.css}">
+</head>
+<body>
     <div th:replace="fragments/header :: header"></div>
-    <!-- Course Hero -->
+
     <section class="course-hero">
-      <div class="container">
-        <div class="course-hero-content">
-          <div class="course-info">
-            <h1>Python căn bản</h1>
-            <p>
-              Học các khái niệm lập trình cơ bản như biến, vòng lặp và hàm với
-              Python - ngôn ngữ dễ học nhất cho người mới bắt đầu
-            </p>
-
-            <div class="course-stats">
-              <div class="stat-item">
-                <h3>10 giờ</h3>
-                <p>Thời lượng</p>
-              </div>
-              <div class="stat-item">
-                <h3>Cơ bản</h3>
-                <p>Cấp độ</p>
-              </div>
-              <div class="stat-item">
-                <h3>4.8/5</h3>
-                <p>Đánh giá</p>
-              </div>
+        <div class="container">
+            <div class="course-hero-content">
+                <div class="course-info">
+                    <h1 th:text="${course.tenKhoaHoc}">Tên khóa học</h1>
+                    <p th:text="${course.moTa}">Mô tả khóa học</p>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <h3>10 giờ</h3>
+                            <p>Thời lượng</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 th:text="${course.trangThai == 'HoatDong' ? 'Cơ bản' : course.trangThai == 'ChoDuyet' ? 'Trung cấp' : 'Nâng cao'}">Cấp độ</h3>
+                            <p>Cấp độ</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 th:text="${course.danhGiaTB != null ? course.danhGiaTB : 'Chưa có đánh giá'}">Đánh giá</h3>
+                            <p>Đánh giá</p>
+                        </div>
+                    </div>
+                    <a th:href="@{/learning(id=${course.maKhoaHoc})}" class="btn btn-primary">Bắt đầu học</a>
+                </div>
+                <div class="course-video">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play play-button"></i>
+                    </div>
+                    <p>Video giới thiệu khóa học</p>
+                </div>
             </div>
-
-            <a
-              th:href="@{/learning}"
-              class="btn btn-primary"
-              style="font-size: 1.1rem; padding: 1rem 2rem"
-            >
-              <i class="fas fa-play"></i>
-              Bắt đầu học
-            </a>
-          </div>
-
-          <div class="course-video">
-            <div class="video-placeholder" onclick="playVideo()">
-              <div class="play-button">
-                <i class="fas fa-play"></i>
-              </div>
-            </div>
-            <p>Video giới thiệu khóa học</p>
-          </div>
         </div>
-      </div>
     </section>
 
-    <!-- Course Content -->
     <section class="course-content">
-      <div class="container">
-        <div class="content-grid">
-          <div class="main-content">
-            <!-- Course Overview -->
-            <div class="course-overview">
-              <h2 class="section-title">Tổng quan khóa học</h2>
-              <div class="overview-grid">
-                <div class="overview-item">
-                  <h3>Mục tiêu</h3>
-                  <p>
-                    Làm chủ ngôn ngữ lập trình Python để phát triển ứng dụng và
-                    phân tích dữ liệu cơ bản
-                  </p>
+        <div class="container">
+            <div class="content-grid">
+                <div class="main-content">
+                    <div class="course-overview">
+                        <h2 class="section-title">Tổng quan khóa học</h2>
+                        <div class="overview-grid">
+                            <div class="overview-item">
+                                <h3>Mục tiêu</h3>
+                                <p>Làm chủ ngôn ngữ lập trình</p>
+                            </div>
+                            <div class="overview-item">
+                                <h3>Yêu cầu</h3>
+                                <p>Không cần kinh nghiệm trước, chỉ cần máy tính và sự tò mò học hỏi</p>
+                            </div>
+                            <div class="overview-item">
+                                <h3>Đối tượng</h3>
+                                <p>Người mới bắt đầu, lập trình viên muốn học, sinh viên IT</p>
+                            </div>
+                            <div class="overview-item">
+                                <h3>Kết quả</h3>
+                                <p>Có thể viết các chương trình cơ bản và hiểu các khái niệm lập trình</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lesson-section">
+                        <h2 class="section-title">Danh sách bài học</h2>
+                        <ul class="lesson-list">
+                            <li th:each="lesson : ${lessons}" class="lesson-item">
+                                <div class="lesson-header">
+                                    <div class="lesson-info">
+                                        <h3 th:text="${lesson.tenBaiHoc}">Bài học</h3>
+                                        <p th:text="${lesson.moTa}">Mô tả bài học</p>
+                                    </div>
+                                    <div class="lesson-meta">
+                                        <span>Thời lượng</span>
+                                        <span class="lesson-status" th:classappend="${lesson.thuTu == 2} ? 'current' : ''"></span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="comments-section">
+                        <h2 class="section-title">Hỏi đáp và thảo luận</h2>
+                        <div class="comment-form">
+                            <textarea placeholder="Viết bình luận của bạn..."></textarea>
+                            <button class="btn btn-primary">Gửi bình luận</button>
+                        </div>
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <div class="comment-avatar">A</div>
+                                <div class="comment-info">
+                                    <h4>Nguyễn Văn A</h4>
+                                    <span>2 giờ trước</span>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                Khóa học rất hay và dễ hiểu! Tôi đã học được rất nhiều từ bài 1. Cảm ơn giáo viên đã giải thích rất chi tiết.
+                            </div>
+                        </div>
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <div class="comment-avatar">B</div>
+                                <div class="comment-info">
+                                    <h4>Trần Thị B</h4>
+                                    <span>5 giờ trước</span>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                Mình có thắc mắc về phần biến trong bài 2. Có thể giải thích thêm về scope của biến không ạ?
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="overview-item">
-                  <h3>Yêu cầu</h3>
-                  <p>
-                    Không cần kinh nghiệm trước, chỉ cần máy tính và sự tò mò
-                    học hỏi
-                  </p>
+                  <div class="sidebar">
+                    <!-- Progress -->
+                    <div class="progress-section">
+                        <h3>Tiến độ học tập</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>2/5 bài học</span>
+                            <span>35% hoàn thành</span>
+                        </div>
+                    </div>
+<!-- Course Info -->
+                    <div style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1rem;">Thông tin khóa học</h3>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Giảng viên:</span>
+                                <strong th:text="${course.maGiangVien}">Nguyễn Văn A</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Ngôn ngữ:</span>
+                                <strong>Tiếng Việt</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Cập nhật:</span><strong th:text="${course.ngayTao}">01/2025</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Học viên:</span>
+                                <strong th:text="${course.soLuongHocVien}">1,234</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1rem;">Thao tác nhanh</h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a th:href="@{/learning(id=${course.maKhoaHoc})}" class="btn btn-primary">Tiếp tục học</a>
+                    </div>
                 </div>
-                <div class="overview-item">
-                  <h3>Đối tượng</h3>
-                  <p>
-                    Người mới bắt đầu, lập trình viên muốn học Python, sinh viên
-                    IT
-                  </p>
-                </div>
-                <div class="overview-item">
-                  <h3>Kết quả</h3>
-                  <p>
-                    Có thể viết các chương trình Python cơ bản và hiểu các khái
-                    niệm lập trình
-                  </p>
-                </div>
-              </div>
             </div>
-
-            <!-- Lesson List -->
-            <div class="lesson-section">
-              <h2 class="section-title">Danh sách bài học</h2>
-              <ul class="lesson-list">
-                <li class="lesson-item" onclick="startLesson(1)">
-                  <div class="lesson-header">
-                    <div class="lesson-info">
-                      <h3>Bài 1: Giới thiệu Python</h3>
-                      <p>
-                        Tổng quan về Python, cài đặt và môi trường phát triển
-                      </p>
-                    </div>
-                    <div class="lesson-meta">
-                      <span><i class="fas fa-clock"></i> 30 phút</span>
-                      <div class="lesson-status completed">
-                        <i class="fas fa-check"></i>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-
-                <li class="lesson-item" onclick="startLesson(2)">
-                  <div class="lesson-header">
-                    <div class="lesson-info">
-                      <h3>Bài 2: Biến và kiểu dữ liệu</h3>
-                      <p>
-                        Học về các kiểu dữ liệu cơ bản và cách khai báo biến
-                      </p>
-                    </div>
-                    <div class="lesson-meta">
-                      <span><i class="fas fa-clock"></i> 45 phút</span>
-                      <div class="lesson-status current">2</div>
-                    </div>
-                  </div>
-                </li>
-
-                <li class="lesson-item" onclick="startLesson(3)">
-                  <div class="lesson-header">
-                    <div class="lesson-info">
-                      <h3>Bài 3: Cấu trúc điều khiển</h3>
-                      <p>Tìm hiểu câu lệnh if, vòng lặp for và while</p>
-                    </div>
-                    <div class="lesson-meta">
-                      <span><i class="fas fa-clock"></i> 1 giờ</span>
-                      <div class="lesson-status">3</div>
-                    </div>
-                  </div>
-                </li>
-
-                <li class="lesson-item" onclick="startLesson(4)">
-                  <div class="lesson-header">
-                    <div class="lesson-info">
-                      <h3>Bài 4: Hàm và Module</h3>
-                      <p>Tạo mã tái sử dụng với hàm và import module</p>
-                    </div>
-                    <div class="lesson-meta">
-                      <span><i class="fas fa-clock"></i> 1 giờ</span>
-                      <div class="lesson-status">4</div>
-                    </div>
-                  </div>
-                </li>
-
-                <li class="lesson-item" onclick="startLesson(5)">
-                  <div class="lesson-header">
-                    <div class="lesson-info">
-                      <h3>Bài 5: Cấu trúc dữ liệu</h3>
-                      <p>Khám phá list, tuple, dictionary và set</p>
-                    </div>
-                    <div class="lesson-meta">
-                      <span><i class="fas fa-clock"></i> 1.5 giờ</span>
-                      <div class="lesson-status">5</div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Comments Section -->
-            <div class="comments-section">
-              <h2 class="section-title">Hỏi đáp và thảo luận</h2>
-
-              <div class="comment-form">
-                <textarea
-                  placeholder="Đặt câu hỏi hoặc chia sẻ ý kiến của bạn..."
-                ></textarea>
-                <button class="btn btn-primary">
-                  <i class="fas fa-paper-plane"></i>
-                  Gửi bình luận
-                </button>
-              </div>
-
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">A</div>
-                  <div class="comment-info">
-                    <h4>Nguyễn Văn A</h4>
-                    <span>2 giờ trước</span>
-                  </div>
-                </div>
-                <div class="comment-content">
-                  Khóa học rất hay và dễ hiểu! Tôi đã học được rất nhiều từ bài
-                  1. Cảm ơn giáo viên đã giải thích rất chi tiết.
-                </div>
-              </div>
-
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">B</div>
-                  <div class="comment-info">
-                    <h4>Trần Thị B</h4>
-                    <span>5 giờ trước</span>
-                  </div>
-                </div>
-                <div class="comment-content">
-                  Mình có thắc mắc về phần biến trong bài 2. Có thể giải thích
-                  thêm về scope của biến không ạ?
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="sidebar">
-            <!-- Progress -->
-            <div class="progress-section">
-              <h3>Tiến độ học tập</h3>
-              <div class="progress-bar">
-                <div class="progress-fill"></div>
-              </div>
-              <div class="progress-text">
-                <span>2/5 bài học</span>
-                <span>35% hoàn thành</span>
-              </div>
-            </div>
-
-            <!-- Course Info -->
-            <div style="margin-top: 2rem">
-              <h3 style="margin-bottom: 1rem">Thông tin khóa học</h3>
-              <div style="display: flex; flex-direction: column; gap: 1rem">
-                <div style="display: flex; justify-content: space-between">
-                  <span>Giảng viên:</span>
-                  <strong>Nguyễn Văn A</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between">
-                  <span>Ngôn ngữ:</span>
-                  <strong>Tiếng Việt</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between">
-                  <span>Cập nhật:</span>
-                  <strong>01/2025</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between">
-                  <span>Học viên:</span>
-                  <strong>1,234</strong>
-                </div>
-              </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div style="margin-top: 2rem">
-              <h3 style="margin-bottom: 1rem">Thao tác nhanh</h3>
-              <div style="display: flex; flex-direction: column; gap: 0.5rem">
-              <a th:href="@{/learning}" class="btn btn-primary">
-    <i class="fas fa-play"></i>
-    Tiếp tục học
-</a>
-
-
-                <button
-                  class="btn btn-secondary"
-                  style="
-                    background: #f7fafc;
-                    color: #4a5568;
-                    border: 1px solid #e2e8f0;
-                  "
-                >
-                  <i class="fas fa-download"></i>
-                  Tải tài liệu
-                </button>
-                <button
-                  class="btn btn-secondary"
-                  style="
-                    background: #f7fafc;
-                    color: #4a5568;
-                    border: 1px solid #e2e8f0;
-                  "
-                >
-                  <i class="fas fa-bookmark"></i>
-                  Lưu khóa học
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <script>
-      function playVideo() {
-        alert("Đang phát video giới thiệu khóa học...");
-      }
-
-      function startLesson(lessonNumber) {
-        window.location.href = `learning.html?lesson=${lessonNumber}`;
-      }
-
-      // Update progress bar animation
-      window.addEventListener("load", function () {
-        const progressFill = document.querySelector(".progress-fill");
-        setTimeout(() => {
-          progressFill.style.width = "35%";
-        }, 500);
-      });
-    </script>
-    <!-- Footer -->
     <div th:replace="fragments/footer :: footer"></div>
-    <!-- Chatbox -->
     <div th:replace="fragments/chatbox :: chatbox"></div>
     <script th:src="@{/js/chatbox.js}"></script>
     <script th:src="@{/js/pages.js}"></script>
-  </body>
+</body>
 </html>
