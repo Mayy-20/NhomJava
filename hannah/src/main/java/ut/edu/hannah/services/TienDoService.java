@@ -1,72 +1,100 @@
 package ut.edu.hannah.services;
+
 import org.springframework.stereotype.Service;
-import ut.edu.hannah.model.BaiHoc;
-import ut.edu.hannah.model.KhoaHoc;
 import ut.edu.hannah.model.TienDo;
 import ut.edu.hannah.repository.BaiHocRepository;
-import ut.edu.hannah.repository.KhoaHocRepository;
 import ut.edu.hannah.repository.TienDoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class TienDoService {
 
     private final TienDoRepository tienDoRepository;
-    private final KhoaHocRepository khoaHocRepository;
     private final BaiHocRepository baiHocRepository;
 
-    public TienDoService(
-        TienDoRepository tienDoRepository,
-        KhoaHocRepository khoaHocRepository,
-        BaiHocRepository baiHocRepository
-    ) {
+    public TienDoService(TienDoRepository tienDoRepository, BaiHocRepository baiHocRepository) {
         this.tienDoRepository = tienDoRepository;
-        this.khoaHocRepository = khoaHocRepository;
         this.baiHocRepository = baiHocRepository;
     }
 
-    public List<Object[]> getUserProgress(Integer maNguoiDung) {
-        List<TienDo> tienDoList = tienDoRepository.findByMaNguoiDung(maNguoiDung);
-        List<Object[]> progressData = new ArrayList<>();
-
-        for (TienDo tienDo : tienDoList) {
-            KhoaHoc khoaHoc = khoaHocRepository.findById(tienDo.getMaKhoaHoc()).orElse(null);
-            List<BaiHoc> baiHocList = baiHocRepository.findByMaKhoaHoc(tienDo.getMaKhoaHoc());
-            int totalLessons = baiHocList.size();
-            int completedLessons = tienDoRepository.findByMaNguoiDungAndMaKhoaHoc(maNguoiDung, tienDo.getMaKhoaHoc())
-                    .stream()
-                    .filter(t -> t.getHoanThanh() != null && t.getHoanThanh())
-                    .mapToInt(t -> 1)
-                    .sum();
-            if (khoaHoc != null) {
-                progressData.add(new Object[]{khoaHoc.getTenKhoaHoc(), tienDo.getPhanTram(), completedLessons, totalLessons});
-            }
+    public List<ProgressDTO> getProgressByCourse(Integer maNguoiDung, Integer maKhoaHoc) {
+        List<TienDo> progresses = tienDoRepository.findByNguoiDungMaNguoiDungAndKhoaHocMaKhoaHoc(maNguoiDung, maKhoaHoc);
+        List<ProgressDTO> result = new ArrayList<>();
+        if (progresses == null || progresses.isEmpty()) {
+            return result;
         }
-        return progressData;
+
+        int totalLessons = baiHocRepository.findByKhoaHocMaKhoaHoc(maKhoaHoc).size();
+        int completedLessons = 0;
+        int totalHours = 0;
+
+        for (TienDo tienDo : progresses) {
+            if (tienDo.getTrangThai() == TienDo.TrangThai.HOAN_THANH) {
+                completedLessons++;
+            }
+            totalHours += Integer.parseInt(tienDo.getBaiHoc().getThoiLuong());
+        }
+
+        int phanTram = totalLessons > 0 ? (completedLessons * 100 / totalLessons) : 0;
+        ProgressDTO progressDTO = new ProgressDTO(totalLessons, completedLessons, phanTram, totalHours);
+        result.add(progressDTO);
+        return result;
     }
 
     public int getTotalCourses(Integer maNguoiDung) {
-        return tienDoRepository.findByMaNguoiDung(maNguoiDung)
-                .stream()
-                .map(TienDo::getMaKhoaHoc)
+        List<TienDo> progresses = tienDoRepository.findAll();
+        return (int) progresses.stream()
+                .filter(t -> t.getNguoiDung().getMaNguoiDung().equals(maNguoiDung))
+                .map(TienDo::getKhoaHoc)
                 .distinct()
-                .mapToInt(i -> 1)
-                .sum();
+                .count();
     }
 
     public int getTotalHours(Integer maNguoiDung) {
-        return tienDoRepository.findByMaNguoiDung(maNguoiDung)
-                .stream()
-                .mapToInt(t -> t.getThoiGianHoc() != null ? t.getThoiGianHoc() : 0)
+        List<TienDo> progresses = tienDoRepository.findAll();
+        return progresses.stream()
+                .filter(t -> t.getNguoiDung().getMaNguoiDung().equals(maNguoiDung))
+                .mapToInt(t -> Integer.parseInt(t.getBaiHoc().getThoiLuong()))
                 .sum();
     }
 
     public int getCompletedLessons(Integer maNguoiDung) {
-        return tienDoRepository.findByMaNguoiDung(maNguoiDung)
-                .stream()
-                .filter(t -> t.getHoanThanh() != null && t.getHoanThanh())
-                .mapToInt(t -> 1)
-                .sum();
+        List<TienDo> progresses = tienDoRepository.findAll();
+        return (int) progresses.stream()
+                .filter(t -> t.getNguoiDung().getMaNguoiDung().equals(maNguoiDung))
+                .filter(t -> t.getTrangThai() == TienDo.TrangThai.HOAN_THANH)
+                .count();
+    }
+
+    public static class ProgressDTO {
+        private final int totalLessons;
+        private final int completedLessons;
+        private final int phanTram;
+        private final int totalHours;
+
+        public ProgressDTO(int totalLessons, int completedLessons, int phanTram, int totalHours) {
+            this.totalLessons = totalLessons;
+            this.completedLessons = completedLessons;
+            this.phanTram = phanTram;
+            this.totalHours = totalHours;
+        }
+
+        public int getTotalLessons() {
+            return totalLessons;
+        }
+
+        public int getCompletedLessons() {
+            return completedLessons;
+        }
+
+        public int getPhanTram() {
+            return phanTram;
+        }
+
+        public int getTotalHours() {
+            return totalHours;
+        }
     }
 }

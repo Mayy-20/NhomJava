@@ -1,4 +1,3 @@
-
 package ut.edu.hannah.model;
 
 import jakarta.persistence.*;
@@ -15,11 +14,24 @@ public class ChuDe {
     private String tenChuDe;
 
     @Column(name = "MoTa")
-    private String moTa;
+    private String moTa = "";
 
     @Column(name = "Icon")
     private String icon;
 
+    // Constructor đầy đủ
+    public ChuDe(Integer maChuDe, String tenChuDe, String moTa, String icon) {
+        this.maChuDe = maChuDe;
+        this.tenChuDe = tenChuDe;
+        this.moTa = moTa != null ? moTa : "";
+        this.icon = icon;
+    }
+
+    // Constructor mặc định
+    public ChuDe() {
+    }
+
+    // Getter và Setter
     public Integer getMaChuDe() {
         return maChuDe;
     }
@@ -41,7 +53,7 @@ public class ChuDe {
     }
 
     public void setMoTa(String moTa) {
-        this.moTa = moTa;
+        this.moTa = moTa != null ? moTa : "";
     }
 
     public String getIcon() {

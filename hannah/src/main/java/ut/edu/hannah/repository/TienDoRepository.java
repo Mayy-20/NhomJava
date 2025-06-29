@@ -6,6 +6,5 @@ import ut.edu.hannah.model.TienDo;
 import java.util.List;
 
 public interface TienDoRepository extends JpaRepository<TienDo, Integer> {
-    List<TienDo> findByMaNguoiDung(Integer maNguoiDung);
-    List<TienDo> findByMaNguoiDungAndMaKhoaHoc(Integer maNguoiDung, Integer maKhoaHoc);
+    List<TienDo> findByNguoiDungMaNguoiDungAndKhoaHocMaKhoaHoc(Integer maNguoiDung, Integer maKhoaHoc);
 }
