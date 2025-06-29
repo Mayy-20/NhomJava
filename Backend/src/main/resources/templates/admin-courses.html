@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Quản lý Khóa học</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .breadcrumb {
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .filter-input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-published {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-draft {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .course-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .course-thumbnail {
+            width: 50px;
+            height: 50px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-dashboard.html" class="logo">Hannah Admin</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item active">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <span>/</span>
+                <span>Khóa học</span>
+            </div>
+
+            <div class="header">
+                <h1 class="page-title">Quản lý Khóa học</h1>
+                <button class="btn btn-primary" onclick="addCourse()">Thêm khóa học</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Tổng khóa học</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">128</div>
+                    <div class="stat-label">Đã xuất bản</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Chờ duyệt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Nháp</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Bị từ chối</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Tìm kiếm</label>
+                    <input type="text" class="filter-input" placeholder="Tên khóa học..." id="searchInput">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Trạng thái</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="published">Đã xuất bản</option>
+                        <option value="pending">Chờ duyệt</option>
+                        <option value="draft">Nháp</option>
+                        <option value="rejected">Bị từ chối</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Danh mục</label>
+                    <select class="filter-input" id="categoryFilter">
+                        <option value="">Tất cả</option>
+                        <option value="programming">Lập trình</option>
+                        <option value="design">Thiết kế</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">&nbsp;</label>
+                    <button class="btn btn-primary" onclick="applyFilters()">Lọc</button>
+                </div>
+            </div>
+
+            <!-- Courses Table -->
+            <div class="content-section">
+                <table class="table" id="coursesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Khóa học</th>
+                            <th>Giảng viên</th>
+                            <th>Danh mục</th>
+                            <th>Trạng thái</th>
+                            <th>Học viên</th>
+                            <th>Giá</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="course-info">
+                                    <div class="course-thumbnail">🐍</div>
+                                    <div>
+                                        <div style="font-weight: 500;">Python căn bản</div>
+                                        <div style="font-size: 0.875rem; color: #666;">Học lập trình Python từ đầu</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Nguyễn Văn A</td>
+                            <td>Lập trình</td>
+                            <td><span class="status-badge status-published">Đã xuất bản</span></td>
+                            <td>456</td>
+                            <td>1,200,000 VNĐ</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="viewCourse(1)">Xem</button>
+                                <button class="btn btn-secondary" onclick="editCourse(1)">Sửa</button>
+                                <button class="btn btn-danger" onclick="deleteCourse(1)">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div class="course-info">
+                                    <div class="course-thumbnail">⚡</div>
+                                    <div>
+                                        <div style="font-weight: 500;">JavaScript ES6+</div>
+                                        <div style="font-size: 0.875rem; color: #666;">JavaScript hiện đại</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Trần Thị B</td>
+                            <td>Lập trình</td>
+                            <td><span class="status-badge status-pending">Chờ duyệt</span></td>
+                            <td>0</td>
+                            <td>1,800,000 VNĐ</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="viewCourse(2)">Xem</button>
+                                <button class="btn btn-success" onclick="approveCourse(2)">Duyệt</button>
+                                <button class="btn btn-danger" onclick="rejectCourse(2)">Từ chối</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div class="course-info">
+                                    <div class="course-thumbnail">🎨</div>
+                                    <div>
+                                        <div style="font-weight: 500;">UI/UX Design</div>
+                                        <div style="font-size: 0.875rem; color: #666;">Thiết kế giao diện người dùng</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Lê Văn C</td>
+                            <td>Thiết kế</td>
+                            <td><span class="status-badge status-draft">Nháp</span></td>
+                            <td>0</td>
+                            <td>1,500,000 VNĐ</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="viewCourse(3)">Xem</button>
+                                <button class="btn btn-secondary" onclick="editCourse(3)">Sửa</button>
+                                <button class="btn btn-danger" onclick="deleteCourse(3)">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function addCourse() {
+            window.location.href = 'course-add.html';
+        }
+
+        function viewCourse(id) {
+            window.location.href = `course-detail.html?id=${id}`;
+        }
+
+        function editCourse(id) {
+            window.location.href = `course-edit.html?id=${id}`;
+        }
+
+        async function approveCourse(id) {
+            if (confirm('Bạn có chắc muốn duyệt khóa học này?')) {
+                try {
+                    const response = await fetch(`/api/courses/${id}/approve`, {
+                        method: 'POST'
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã duyệt khóa học');
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error approving course:', error);
+                    alert('Có lỗi xảy ra');
+                }
+            }
+        }
+
+        async function rejectCourse(id) {
+            const reason = prompt('Lý do từ chối:');
+            if (reason) {
+                try {
+                    const response = await fetch(`/api/courses/${id}/reject`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã từ chối khóa học');
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error rejecting course:', error);
+                    alert('Có lỗi xảy ra');
+                }
+            }
+        }
+
+        async function deleteCourse(id) {
+            if (confirm('Bạn có chắc muốn xóa khóa học này?')) {
+                try {
+                    const response = await fetch(`/api/courses/${id}`, {
+                        method: 'DELETE'
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã xóa khóa học');
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error deleting course:', error);
+                    alert('Có lỗi xảy ra');
+                }
+            }
+        }
+
+        function applyFilters() {
+            console.log('Applying filters...');
+        }
+    </script>
+</body>
+</html>

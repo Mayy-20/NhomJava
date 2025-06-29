@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Quản lý Tài liệu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .breadcrumb {
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .upload-area {
+            background: white;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-area:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .filter-input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .file-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #f3f4f6;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-dashboard.html" class="logo">Hannah Admin</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item active">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <span>/</span>
+                <span>Tài liệu</span>
+            </div>
+
+            <div class="header">
+                <h1 class="page-title">Quản lý Tài liệu</h1>
+                <button class="btn btn-primary" onclick="uploadDocument()">Tải lên tài liệu</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1,234</div>
+                    <div class="stat-label">Tổng tài liệu</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Chờ duyệt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15,678</div>
+                    <div class="stat-label">Lượt tải xuống</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2.5GB</div>
+                    <div class="stat-label">Dung lượng sử dụng</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.6</div>
+                    <div class="stat-label">Đánh giá TB</div>
+                </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="upload-area" onclick="triggerFileUpload()">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Kéo thả tài liệu vào đây hoặc click để chọn file</div>
+                <div class="upload-hint">Hỗ trợ: PDF, DOC, PPT, ZIP, MP4 (Tối đa 100MB)</div>
+                <input type="file" id="fileInput" style="display: none;" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.mp4">
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Tìm kiếm</label>
+                    <input type="text" class="filter-input" placeholder="Tên tài liệu..." id="searchInput">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Loại file</label>
+                    <select class="filter-input" id="typeFilter">
+                        <option value="">Tất cả</option>
+                        <option value="pdf">PDF</option>
+                        <option value="doc">Word</option>
+                        <option value="ppt">PowerPoint</option>
+                        <option value="zip">Archive</option>
+                        <option value="video">Video</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Trạng thái</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="approved">Đã duyệt</option>
+                        <option value="pending">Chờ duyệt</option>
+                        <option value="rejected">Bị từ chối</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">&nbsp;</label>
+                    <button class="btn btn-primary" onclick="applyFilters()">Lọc</button>
+                </div>
+            </div>
+
+            <!-- Documents Table -->
+            <div class="content-section">
+                <table class="table" id="documentsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên tài liệu</th>
+                            <th>Loại</th>
+                            <th>Tác giả</th>
+                            <th>Trạng thái</th>
+                            <th>Kích thước</th>
+                            <th>Lượt tải</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Python Programming Guide</td>
+                            <td><span class="file-type">PDF</span></td>
+                            <td>Nguyễn Văn A</td>
+                            <td><span class="status-badge status-approved">Đã duyệt</span></td>
+                            <td>2.5 MB</td>
+                            <td>1,234</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="viewDocument(1)">Xem</button>
+                                <button class="btn btn-secondary" onclick="downloadDocument(1)">Tải</button>
+                                <button class="btn btn-danger" onclick="deleteDocument(1)">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>JavaScript Cheat Sheet</td>
+                            <td><span class="file-type">DOC</span></td>
+                            <td>Trần Thị B</td>
+                            <td><span class="status-badge status-pending">Chờ duyệt</span></td>
+                            <td>1.8 MB</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="viewDocument(2)">Xem</button>
+                                <button class="btn btn-success" onclick="approveDocument(2)">Duyệt</button>
+                                <button class="btn btn-danger" onclick="rejectDocument(2)">Từ chối</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>React Tutorial Video</td>
+                            <td><span class="file-type">MP4</span></td>
+                            <td>Lê Văn C</td>
+                            <td><span class="status-badge status-approved">Đã duyệt</span></td>
+                            <td>125 MB</td>
+                            <td>567</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="viewDocument(3)">Xem</button>
+                                <button class="btn btn-secondary" onclick="downloadDocument(3)">Tải</button>
+                                <button class="btn btn-danger" onclick="deleteDocument(3)">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Source Code Project</td>
+                            <td><span class="file-type">ZIP</span></td>
+                            <td>Phạm Thị D</td>
+                            <td><span class="status-badge status-rejected">Bị từ chối</span></td>
+                            <td>15.8 MB</td>
+                            <td>0</td>
+                            <td>
+                                <button class="btn btn-primary" onclick="viewDocument(4)">Xem</button>
+                                <button class="btn btn-secondary" onclick="viewRejectionReason(4)">Lý do</button>
+                                <button class="btn btn-danger" onclick="deleteDocument(4)">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function uploadDocument() {
+            document.getElementById('fileInput').click();
+        }
+
+        function triggerFileUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function viewDocument(id) {
+            window.location.href = `document-detail.html?id=${id}`;
+        }
+
+        function downloadDocument(id) {
+            window.open(`/api/documents/${id}/download`, '_blank');
+        }
+
+        async function approveDocument(id) {
+            if (confirm('Bạn có chắc muốn duyệt tài liệu này?')) {
+                try {
+                    const response = await fetch(`/api/documents/${id}/approve`, {
+                        method: 'POST'
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã duyệt tài liệu');
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error approving document:', error);
+                    alert('Có lỗi xảy ra');
+                }
+            }
+        }
+
+        async function rejectDocument(id) {
+            const reason = prompt('Lý do từ chối:');
+            if (reason) {
+                try {
+                    const response = await fetch(`/api/documents/${id}/reject`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã từ chối tài liệu');
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error rejecting document:', error);
+                    alert('Có lỗi xảy ra');
+                }
+            }
+        }
+
+        async function deleteDocument(id) {
+            if (confirm('Bạn có chắc muốn xóa tài liệu này?')) {
+                try {
+                    const response = await fetch(`/api/documents/${id}`, {
+                        method: 'DELETE'
+                    });
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã xóa tài liệu');
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error deleting document:', error);
+                    alert('Có lỗi xảy ra');
+                }
+            }
+        }
+
+        function viewRejectionReason(id) {
+            alert('Lý do từ chối: Tài liệu không đúng định dạng yêu cầu');
+        }
+
+        function applyFilters() {
+            console.log('Applying filters...');
+        }
+
+        // File upload handler
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                alert(`Đang tải lên ${files.length} tài liệu...`);
+                // Handle file upload here
+            }
+        });
+    </script>
+</body>
+</html>
