@@ -1,0 +1,162 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học viên - Hannah</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <ul class="nav-menu">
+                <li><a href="teacher-dashboard.html">Trang chủ</a></li>
+                <li><a href="teacher-courses.html">Khóa học</a></li>
+                <li><a href="teacher-students.html" class="active">Học viên</a></li>
+                <li><a href="teacher-analytics.html">Thống kê</a></li>
+                <li><a href="teacher-community.html">Cộng đồng</a></li>
+                <li><a href="teacher-profile.html">Hồ sơ</a></li>
+                <li><a href="teacher-settings.html">Cài đặt</a></li>
+                <li><a href="#" class="nav-logout">Đăng xuất</a></li>
+            </ul>
+            <div class="user-profile">
+                <div class="user-badge">Giáo viên</div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Học viên</h1>
+                <p>Quản lý danh sách học viên của bạn</p>
+            </div>
+            <div class="page-actions">
+                <a href="teacher-add-student.html" class="btn btn-primary">Thêm học viên</a>
+            </div>
+        </div>
+
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" class="form-input" placeholder="Tìm kiếm học viên...">
+                </div>
+                <div class="filter-group">
+                    <label class="form-label">Khóa học</label>
+                    <select class="form-select">
+                        <option>Tất cả</option>
+                        <option>Python căn bản</option>
+                        <option>Python nâng cao</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="student-list">
+            <div class="student-item">
+                <div class="student-info">
+                    <div class="student-name">Trần Thị B</div>
+                    <div class="student-course">Python căn bản</div>
+                </div>
+                <div class="student-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%;"></div>
+                    </div>
+                    <div class="progress-text">85% hoàn thành</div>
+                </div>
+                <div class="student-actions">
+                    <a href="teacher-student-profile.html" class="btn btn-primary btn-sm">Xem</a>
+                    <a href="#" class="btn btn-danger btn-sm" onclick="showDeleteModal('Trần Thị B')">Xóa</a>
+                </div>
+            </div>
+            <div class="student-item">
+                <div class="student-info">
+                    <div class="student-name">Lê Văn C</div>
+                    <div class="student-course">Python nâng cao</div>
+                </div>
+                <div class="student-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+                    <div class="progress-text">60% hoàn thành</div>
+                </div>
+                <div class="student-actions">
+                    <a href="teacher-student-profile.html" class="btn btn-primary btn-sm">Xem</a>
+                    <a href="#" class="btn btn-danger btn-sm" onclick="showDeleteModal('Lê Văn C')">Xóa</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal xác nhận xóa -->
+        <div class="modal" id="deleteModal">
+            <div class="modal-content">
+                <h2 class="modal-title">Xác nhận xóa học viên</h2>
+                <p>Bạn có chắc muốn xóa học viên <span id="deleteStudentName"></span>?</p>
+                <div class="modal-actions">
+                    <a href="#" class="btn btn-secondary" onclick="hideDeleteModal()">Hủy</a>
+                    <a href="#" class="btn btn-danger" onclick="confirmDelete()">Xóa</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showDeleteModal(studentName) {
+            document.getElementById('deleteStudentName').textContent = studentName;
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            alert('Học viên đã được xóa!');
+            hideDeleteModal();
+        }
+    </script>
+</body>
+</html>
