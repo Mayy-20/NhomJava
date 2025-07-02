@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hannah - Khóa học</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/documents.css}" />
-  </head>
+</head>
   <body>
     <div th:replace="fragments/header :: header"></div>
 
@@ -30,12 +27,12 @@
       </div>
       <div class="container">
         <div class="category-tabs">
-          <button
-            th:each="topic : ${topics}"
+        <button
+            th:each="chuDe : ${chuDeList}"
             class="tab-btn"
-            th:classappend="${selectedTopic == topic.maChuDe} ? 'active' : ''"
-            th:onclick="'window.location.href=\'' + @{/courses/filter(topic=${topic.maChuDe})} + '\''"
-            th:text="${topic.tenChuDe}"
+            th:classappend="${selectedTopic == chuDe.tenChuDe} ? 'active' : ''" 
+            th:attr="data-topic=${chuDe.tenChuDe}"
+            th:text="${chuDe.tenChuDe}"
           >
             Chủ đề
           </button>
@@ -48,46 +45,46 @@
       <div class="container">
         <div class="course-grid">
           <div
-            th:each="course : ${courses}"
+            th:each="khoaHoc : ${khoaHocList}"
             class="course-card"
-            th:onclick="'window.location.href=\'' + @{/course-detail(id=${course.maKhoaHoc})} + '\''"
+            th:onclick="'window.location.href=\'' + @{/courses/{id}(id=${khoaHoc.maKhoaHoc})} + '\''"
           >
             <div class="course-image">
               <img
-                th:src="${course.hinhAnh}"
+                th:src="${khoaHoc.hinhAnh != null ? khoaHoc.hinhAnh : '/images/default-course.jpg'}"
                 alt="Ảnh khóa học"
                 class="course-image"
               />
               <div
                 class="course-level"
-                th:text="${course.trangThai == 'HoatDong' ? 'Cơ bản' : course.trangThai == 'ChoDuyet' ? 'Trung cấp' : 'Nâng cao'}"
+                th:text="${khoaHoc.capDo != null ? khoaHoc.capDo : 'Chưa xác định'}"
               >
                 Cấp độ
               </div>
             </div>
             <div class="course-content">
-              <h3 class="course-title" th:text="${course.tenKhoaHoc}">
+              <h3 class="course-title" th:text="${khoaHoc.tenKhoaHoc}">
                 Tên khóa học
               </h3>
-              <p class="course-desc" th:text="${course.moTa}">Mô tả khóa học</p>
+              <p class="course-desc" th:text="${khoaHoc.moTa}">Mô tả khóa học</p>
               <div class="course-meta">
-                <span><i class="fas fa-clock"></i>10 giờ</span>
+                <span><i class="fas fa-clock"></i> <span th:text="${khoaHoc.danhGiaTB != null ? khoaHoc.danhGiaTB : 'Chưa có'} + ' giờ'">10 giờ</span></span>
                 <span class="course-rating">
                   <i class="fas fa-star"></i>
                   <span
-                    th:text="${course.danhGiaTB != null ? course.danhGiaTB : 'Chưa có đánh giá'}"
+                    th:text="${khoaHoc.danhGiaTB != null ? khoaHoc.danhGiaTB : 'Chưa có đánh giá'}"
                     >4.8</span
                   >
                 </span>
               </div>
               <div class="course-actions">
                 <a
-                  th:href="@{/course-detail(id=${course.maKhoaHoc})}"
+                  th:href="@{/courses/{id}(id=${khoaHoc.maKhoaHoc})}"
                   class="btn-course btn-course-primary"
                   >Học ngay</a
                 >
                 <a
-                  th:href="@{/course-detail(id=${course.maKhoaHoc})}"
+                  th:href="@{/courses/preview/{id}(id=${khoaHoc.maKhoaHoc})}"
                   class="btn-course btn-course-secondary"
                   >Xem trước</a
                 >
@@ -102,5 +99,5 @@
     <div th:replace="fragments/chatbox :: chatbox"></div>
     <script th:src="@{/js/chatbox.js}"></script>
     <script th:src="@{/js/pages.js}"></script>
-  </body>
+</body>
 </html>
