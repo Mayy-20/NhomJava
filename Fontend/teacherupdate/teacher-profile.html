@@ -1,0 +1,129 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ Giáo viên - Hannah</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <ul class="nav-menu">
+                <li><a href="teacher-dashboard.html">Trang chủ</a></li>
+                <li><a href="teacher-courses.html">Khóa học</a></li>
+                <li><a href="teacher-students.html">Học viên</a></li>
+                <li><a href="teacher-analytics.html">Thống kê</a></li>
+                <li><a href="teacher-community.html">Cộng đồng</a></li>
+                <li><a href="teacher-profile.html" class="active">Hồ sơ</a></li>
+                <li><a href="teacher-settings.html">Cài đặt</a></li>
+                <li><a href="#" class="nav-logout">Đăng xuất</a></li>
+            </ul>
+            <div class="user-profile">
+                <div class="user-badge">Giáo viên</div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Hồ sơ Giáo viên</h1>
+                <p>Quản lý thông tin cá nhân và thành tích</p>
+            </div>
+            <div class="page-actions">
+                <a href="teacher-settings.html" class="btn btn-primary">Chỉnh sửa hồ sơ</a>
+            </div>
+        </div>
+
+        <div class="card profile-card">
+            <div class="profile-avatar">GV</div>
+            <div class="profile-name">Nguyễn Văn A</div>
+            <div class="profile-title">Giáo viên Python</div>
+            <div class="profile-badge">Tham gia: 10/01/2024</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-panel">
+                <div class="card">
+                    <h2 class="card-title">Thông tin cá nhân</h2>
+                    <p><strong>Email:</strong> [email protected]</p>
+                    <p><strong>Số điện thoại:</strong> 0123 456 789</p>
+                    <p><strong>Giới thiệu:</strong> Tôi là một giáo viên đam mê giảng dạy Python và Data Science.</p>
+                </div>
+                <div class="card">
+                    <h2 class="card-title">Kỹ năng</h2>
+                    <div class="skills-list">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Data Science</span>
+                        <span class="skill-tag">Web Development</span>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-panel">
+                <div class="card">
+                    <h2 class="card-title">Thành tích</h2>
+                    <div class="achievements-list">
+                        <div class="achievement-item">
+                            <div class="achievement-icon">🏆</div>
+                            <div>
+                                <div class="achievement-title">Giáo viên xuất sắc</div>
+                                <div class="achievement-desc">2024</div>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon">📜</div>
+                            <div>
+                                <div class="achievement-title">Chứng chỉ Python</div>
+                                <div class="achievement-desc">2023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
