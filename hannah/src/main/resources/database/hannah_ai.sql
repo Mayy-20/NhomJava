@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 21, 2025 lúc 03:08 PM
+-- Thời gian đã tạo: Th7 02, 2025 lúc 07:18 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -59,6 +59,7 @@ CREATE TABLE `baihoc` (
   `MaKhoaHoc` int(11) NOT NULL,
   `ThuTu` int(11) NOT NULL,
   `VideoURL` varchar(255) DEFAULT NULL,
+  `MoTa` varchar(255) NOT NULL,
   `CapDo` enum('CoBan','TrungCap','NangCao') DEFAULT 'CoBan',
   `ThoiLuong` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -67,24 +68,24 @@ CREATE TABLE `baihoc` (
 -- Đang đổ dữ liệu cho bảng `baihoc`
 --
 
-INSERT INTO `baihoc` (`MaBaiHoc`, `TenBaiHoc`, `MaKhoaHoc`, `ThuTu`, `VideoURL`, `CapDo`, `ThoiLuong`) VALUES
-(1, 'Bài 1: Giới thiệu về Java', 1, 1, 'https://www.youtube.com/watch?v=3gtOAlcovoQ&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=1', 'CoBan', '10 phút'),
-(2, 'Bài 2: Cài đặt môi trường Java', 1, 2, 'https://www.youtube.com/watch?v=KjMRn1YQcLc&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=2', 'CoBan', '15 phút'),
-(3, 'Bài 3: Chương trình Java đầu tiên', 1, 3, 'https://www.youtube.com/watch?v=jIQmebw9VaA&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=3', 'CoBan', '10 phút'),
-(4, 'Bài 4: Biến trong Java', 1, 4, 'https://www.youtube.com/watch?v=G2mCSTtBojM&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=4', 'CoBan', '15 phút'),
-(5, 'Bài 5: Kiểu dữ liệu trong Java', 1, 5, 'https://www.youtube.com/watch?v=4k_5vWY2wps&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=5', 'CoBan', '10 phút'),
-(6, 'Bài 6: Toán tử trong Java', 1, 6, 'https://www.youtube.com/watch?v=H9FmP010A_Q&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=6', 'CoBan', '12 phút'),
-(7, 'Bài 7: Hằng trong Java', 1, 7, 'https://www.youtube.com/watch?v=dqybUkGCaVw&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=7', 'CoBan', '8 phút'),
-(8, 'Bài 8: Ép kiểu trong Java', 1, 8, 'https://www.youtube.com/watch?v=kOMiIKLCK34&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=8', 'CoBan', '12 phút'),
-(9, 'Bài 9: Cấu trúc rẽ nhánh trong Java', 1, 9, 'https://www.youtube.com/watch?v=vradAZcby8I&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=9', 'CoBan', '13 phút'),
-(10, 'Bài 10: Vòng lặp While trong Java', 1, 10, 'https://www.youtube.com/watch?v=tDfQ33fmmvs&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=10', 'CoBan', '9 phút'),
-(11, 'Bài 11: Vòng lặp For trong Java', 1, 11, 'https://www.youtube.com/watch?v=1QVfZFOt7uI&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=11', 'CoBan', '10 phút'),
-(12, 'Bài 1: Giới thiệu khóa học HTML-CSS và cài đặt phần mềm cần thiết', 2, 1, 'https://www.youtube.com/watch?v=G0quBPou7Z8&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe', 'CoBan', '4 phút'),
-(13, 'Bài 2: Các thẻ HTML cơ bản - phần 1', 2, 2, 'https://www.youtube.com/watch?v=B51n2ucFn_I&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=2', 'CoBan', '8 phút'),
-(14, 'Bài 3: Các thẻ HTML cơ bản - phần 2', 2, 3, 'https://www.youtube.com/watch?v=i4XT_evGNZo&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=3', 'CoBan', '10 phút'),
-(15, 'Bài 4: Các cách thêm định dạng css vào file HTML', 2, 4, 'https://www.youtube.com/watch?v=zOQKvo-YD6k&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=4', 'CoBan', '14 phút'),
-(16, 'Bài 5: Phân biệt class và id trong html và css', 2, 5, 'https://www.youtube.com/watch?v=mFHyyABjnXg&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=5', 'CoBan', '18 phút'),
-(17, 'Bài 6: Một số thuộc tính cơ bản của CSS', 2, 6, 'https://www.youtube.com/watch?v=CRLl-csb2kw&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=6', 'CoBan', '20 phút');
+INSERT INTO `baihoc` (`MaBaiHoc`, `TenBaiHoc`, `MaKhoaHoc`, `ThuTu`, `VideoURL`, `MoTa`, `CapDo`, `ThoiLuong`) VALUES
+(1, 'Bài 1: Giới thiệu về Java', 1, 1, 'https://www.youtube.com/watch?v=3gtOAlcovoQ&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=1', '', 'CoBan', '10 '),
+(2, 'Bài 2: Cài đặt môi trường Java', 1, 2, 'https://www.youtube.com/watch?v=KjMRn1YQcLc&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=2', '', 'CoBan', '15'),
+(3, 'Bài 3: Chương trình Java đầu tiên', 1, 3, 'https://www.youtube.com/watch?v=jIQmebw9VaA&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=3', '', 'CoBan', '10 '),
+(4, 'Bài 4: Biến trong Java', 1, 4, 'https://www.youtube.com/watch?v=G2mCSTtBojM&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=4', '', 'CoBan', '15 '),
+(5, 'Bài 5: Kiểu dữ liệu trong Java', 1, 5, 'https://www.youtube.com/watch?v=4k_5vWY2wps&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=5', '', 'CoBan', '10'),
+(6, 'Bài 6: Toán tử trong Java', 1, 6, 'https://www.youtube.com/watch?v=H9FmP010A_Q&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=6', '', 'CoBan', '12 '),
+(7, 'Bài 7: Hằng trong Java', 1, 7, 'https://www.youtube.com/watch?v=dqybUkGCaVw&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=7', '', 'CoBan', '8'),
+(8, 'Bài 8: Ép kiểu trong Java', 1, 8, 'https://www.youtube.com/watch?v=kOMiIKLCK34&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=8', '', 'CoBan', '12 '),
+(9, 'Bài 9: Cấu trúc rẽ nhánh trong Java', 1, 9, 'https://www.youtube.com/watch?v=vradAZcby8I&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=9', '', 'CoBan', '13'),
+(10, 'Bài 10: Vòng lặp While trong Java', 1, 10, 'https://www.youtube.com/watch?v=tDfQ33fmmvs&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=10', '', 'CoBan', '9 '),
+(11, 'Bài 11: Vòng lặp For trong Java', 1, 11, 'https://www.youtube.com/watch?v=1QVfZFOt7uI&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs&index=11', '', 'CoBan', '10'),
+(12, 'Bài 1: Giới thiệu khóa học HTML-CSS và cài đặt phần mềm cần thiết', 2, 1, 'https://www.youtube.com/watch?v=G0quBPou7Z8&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe', '', 'CoBan', '4'),
+(13, 'Bài 2: Các thẻ HTML cơ bản - phần 1', 2, 2, 'https://www.youtube.com/watch?v=B51n2ucFn_I&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=2', '', 'CoBan', '8 '),
+(14, 'Bài 3: Các thẻ HTML cơ bản - phần 2', 2, 3, 'https://www.youtube.com/watch?v=i4XT_evGNZo&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=3', '', 'CoBan', '10 '),
+(15, 'Bài 4: Các cách thêm định dạng css vào file HTML', 2, 4, 'https://www.youtube.com/watch?v=zOQKvo-YD6k&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=4', '', 'CoBan', '14'),
+(16, 'Bài 5: Phân biệt class và id trong html và css', 2, 5, 'https://www.youtube.com/watch?v=mFHyyABjnXg&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=5', '', 'CoBan', '18'),
+(17, 'Bài 6: Một số thuộc tính cơ bản của CSS', 2, 6, 'https://www.youtube.com/watch?v=CRLl-csb2kw&list=PLgk9x84DhO7X1cP-jI8UgtGmsJpXYdafe&index=6', '', 'CoBan', '20 ');
 
 -- --------------------------------------------------------
 
@@ -166,6 +167,7 @@ CREATE TABLE `khoahoc` (
   `MoTa` text DEFAULT NULL,
   `MaGiangVien` int(11) NOT NULL,
   `HinhAnh` varchar(255) DEFAULT NULL,
+  `CapDo` enum('NguoiMoi','TrungCap','NangCao') NOT NULL DEFAULT 'NguoiMoi',
   `MienPhi` tinyint(1) DEFAULT 1,
   `TrangThai` enum('HoatDong','ChoDuyet','An') DEFAULT 'HoatDong',
   `DanhGiaTB` float DEFAULT 0,
@@ -177,12 +179,12 @@ CREATE TABLE `khoahoc` (
 -- Đang đổ dữ liệu cho bảng `khoahoc`
 --
 
-INSERT INTO `khoahoc` (`MaKhoaHoc`, `TenKhoaHoc`, `MoTa`, `MaGiangVien`, `HinhAnh`, `MienPhi`, `TrangThai`, `DanhGiaTB`, `SoLuongHocVien`, `NgayTao`) VALUES
-(1, 'Lập trình Java cơ bản', 'Khóa học giúp bạn làm quen với Java từ số 0', 2, 'https://www.adm.ee/wordpress/wp-content/uploads/2023/08/JAVA.png', 1, 'HoatDong', 4.9, 100, '2025-05-08 07:45:20'),
-(2, 'HTML & CSS cơ bản', 'Học cách xây dựng giao diện web', 2, 'https://ostraining.com/wp-content/uploads/coding/html5-css3-hd.jpg', 1, 'HoatDong', 4.6, 25, '2025-05-08 07:47:54'),
-(3, 'Database-SQL Server', 'Tìm hiểu những kiến ​​thức cơ bản về cơ sở dữ liệu, truy vấn, tính toán và nhiều nội dung khác để bắt đầu quản lý và phân tích dữ liệu như một chuyên gia.', 2, 'https://www.netgen.co.za/wp-content/uploads/2023/05/SQL-Database.png', 1, 'HoatDong', 4.5, 15, '2025-05-11 12:41:20'),
-(4, 'JavaScript cơ bản', 'Tìm hiểu các biến, vòng lặp, hàm và sự kiện để bắt đầu xây dựng các ứng dụng web tương tác bằng ngôn ngữ lập trình web – JavaScript!', 2, 'https://techvccloud.mediacdn.vn/2018/11/23/js-15429579443112042672363-crop-1542957949936317424252.png', 1, 'HoatDong', 4.9, 123, '2025-05-12 12:41:20'),
-(5, 'Node.js', 'Kết hợp JavaScript với sức mạnh của Node.js—giải phóng tiềm năng toàn diện của bạn với lập trình phía máy chủ & ứng dụng web động!\r\nĐiều kiện tiên quyết: JavaScript và Dòng lệnh', 4, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6Hd-Hz0vOuWyFXYO3xUrG4_bJQ0wcmd-DtA&s', 1, 'HoatDong', 4.8, 100, '2025-05-04 12:51:32');
+INSERT INTO `khoahoc` (`MaKhoaHoc`, `TenKhoaHoc`, `MoTa`, `MaGiangVien`, `HinhAnh`, `CapDo`, `MienPhi`, `TrangThai`, `DanhGiaTB`, `SoLuongHocVien`, `NgayTao`) VALUES
+(1, 'Lập trình Java cơ bản', 'Khóa học giúp bạn làm quen với Java từ số 0.\r\nBạn sẽ được học về biến, vòng lặp, điều kiện và các cấu trúc cơ bản trong lập trình hướng đối tượng.', 2, 'https://www.adm.ee/wordpress/wp-content/uploads/2023/08/JAVA.png', 'NguoiMoi', 1, 'HoatDong', 4.9, 100, '2025-05-08 07:45:20'),
+(2, 'HTML & CSS cơ bản', 'Học cách xây dựng giao diện web.\r\nTìm hiểu thẻ HTML, cách định dạng bố cục với CSS và tạo giao diện phản hồi trên nhiều thiết bị.Là bước khởi đầu để phát triển website', 2, 'https://www.pngitem.com/pimgs/m/23-237369_html5-and-css3-transparent-background-html-logo-hd.png', 'NguoiMoi', 1, 'HoatDong', 4.6, 25, '2025-05-08 07:47:54'),
+(3, 'Database-SQL Server', 'Tìm hiểu những kiến ​​thức cơ bản về cơ sở dữ liệu, truy vấn, tính toán và nhiều nội dung khác để bắt đầu quản lý và phân tích dữ liệu như một chuyên gia.', 2, 'https://www.w2solution.co.jp/wp-content/uploads/2023/01/-e1673938684663.png', 'TrungCap', 1, 'HoatDong', 4.5, 15, '2025-05-11 12:41:20'),
+(4, 'JavaScript cơ bản', 'Tìm hiểu các biến, vòng lặp, hàm và sự kiện để bắt đầu xây dựng các ứng dụng web tương tác bằng ngôn ngữ lập trình web – JavaScript!', 2, 'https://techvccloud.mediacdn.vn/2018/11/23/js-15429579443112042672363-crop-1542957949936317424252.png', 'TrungCap', 1, 'HoatDong', 4.9, 123, '2025-05-12 12:41:20'),
+(5, 'Node.js', 'Kết hợp JavaScript với sức mạnh của Node.js—giải phóng tiềm năng toàn diện của bạn với lập trình phía máy chủ & ứng dụng web động!\r\nĐiều kiện tiên quyết: JavaScript và Dòng lệnh', 4, 'https://images.seeklogo.com/logo-png/26/1/node-js-logo-png_seeklogo-269242.png', 'NangCao', 1, 'HoatDong', 4.8, 100, '2025-05-04 12:51:32');
 
 -- --------------------------------------------------------
 
@@ -225,6 +227,16 @@ CREATE TABLE `loaitailieu` (
   `MoTa` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `loaitailieu`
+--
+
+INSERT INTO `loaitailieu` (`MaLoaiTaiLieu`, `TenLoai`, `MoTa`) VALUES
+(1, 'Slide', 'Slide bài giảng'),
+(2, 'Code', 'Mã nguồn ví dụ'),
+(3, 'PDF', 'Tài liệu PDF'),
+(4, 'Bài tập', 'Bài tập thực hành');
+
 -- --------------------------------------------------------
 
 --
@@ -234,7 +246,7 @@ CREATE TABLE `loaitailieu` (
 CREATE TABLE `nguoidung` (
   `MaNguoiDung` int(11) NOT NULL,
   `TenDangNhap` varchar(50) NOT NULL,
-  `Email` varchar(100) NOT NULL,
+  `Email` varchar(255) NOT NULL,
   `MatKhau` varchar(255) NOT NULL,
   `HoTen` varchar(100) NOT NULL,
   `MaVaiTro` int(11) NOT NULL,
@@ -255,7 +267,10 @@ INSERT INTO `nguoidung` (`MaNguoiDung`, `TenDangNhap`, `Email`, `MatKhau`, `HoTe
 (3, 'nvteo', 'nvteo123@gmail.com', 'nvteo@123', 'Nguyễn Văn Tèo', 3, NULL, '0343294824', NULL, 'Active', '2025-05-12 07:44:11'),
 (4, 'thayquan@123', 'thayquan123@gmail.com', 'thayquan@123', 'Lê Trọng Quân', 2, NULL, '0345612789', 'Giảng viên lập trình ', 'Active', '2025-05-01 12:49:54'),
 (5, 'thanhan12', 'thanhan12@gmail.com', 'thanhan12@', 'Nguyễn Thanh An', 3, NULL, '0343294824', 'Xin chàooo', 'Active', '2025-05-01 12:54:35'),
-(6, 'baoan123', 'baoan123@gmail.com', 'baoan123@', 'Trần Bảo An', 3, NULL, '0312456789', 'Học viên mớiiii', 'Active', '2025-05-02 12:54:35');
+(6, 'baoan123', 'baoan123@gmail.com', 'baoan123@', 'Trần Bảo An', 3, NULL, '0312456789', 'Học viên mớiiii', 'Active', '2025-05-02 12:54:35'),
+(7, 'vannghia', 'vannghia@gmail.com', 'vannghia', 'Văn Nghĩa', 3, NULL, NULL, NULL, 'Active', '2025-06-25 09:33:16'),
+(8, 'transon123', 'transon123@gmail.com', 'transon', 'Trần Văn Sơn', 3, NULL, NULL, NULL, 'Active', '2025-06-25 10:33:31'),
+(9, 'vanb', 'vanb@gmail.com', 'vanb', 'Nguyễn Văn B', 3, NULL, NULL, NULL, 'Active', '2025-06-25 19:34:10');
 
 -- --------------------------------------------------------
 
@@ -269,6 +284,14 @@ CREATE TABLE `phienchat` (
   `MaBaiHoc` int(11) DEFAULT NULL,
   `BatDau` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `phienchat`
+--
+
+INSERT INTO `phienchat` (`MaPhien`, `MaNguoiDung`, `MaBaiHoc`, `BatDau`) VALUES
+(1, 3, 4, '2025-05-11 18:02:55'),
+(2, 3, 13, '2025-05-11 18:02:55');
 
 -- --------------------------------------------------------
 
@@ -289,6 +312,13 @@ CREATE TABLE `tailieu` (
   `TrangThai` enum('DaDuyet','ChoDuyet','TuChoi') DEFAULT 'ChoDuyet',
   `NgayTao` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tailieu`
+--
+
+INSERT INTO `tailieu` (`MaTaiLieu`, `TenTaiLieu`, `MaLoaiTaiLieu`, `MaBaiHoc`, `MaTacGia`, `DuongDan`, `KichThuoc`, `LuotTai`, `DanhGia`, `TrangThai`, `NgayTao`) VALUES
+(1, 'Code ví dụ Java', 2, 4, 2, '/files/code_java.zip', 15000, 100, 4.9, 'DaDuyet', '2025-05-12 18:04:16');
 
 -- --------------------------------------------------------
 
@@ -312,7 +342,8 @@ CREATE TABLE `tiendo` (
 --
 
 INSERT INTO `tiendo` (`MaTienDo`, `MaNguoiDung`, `MaKhoaHoc`, `MaBaiHoc`, `PhanTram`, `ThoiGianHoc`, `HoanThanh`, `LanCuoiHoc`) VALUES
-(1, 3, 1, 1, 100.00, NULL, NULL, NULL);
+(1, 3, 1, 1, 100.00, NULL, NULL, NULL),
+(2, 3, 2, 13, 50.00, 10, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -327,6 +358,14 @@ CREATE TABLE `tinnhan` (
   `NoiDung` text DEFAULT NULL,
   `ThoiGian` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `tinnhan`
+--
+
+INSERT INTO `tinnhan` (`MaTinNhan`, `MaPhien`, `NguoiGui`, `NoiDung`, `ThoiGian`) VALUES
+(1, 1, 'User', 'Cho em hỏi về biến trong Java?', '2025-05-11 18:07:01'),
+(2, 1, 'AI', 'Biến trong Java là một vùng nhớ được đặt tên để lưu trữ dữ liệu. Bạn có thắc mắc cụ thể nào về biến không?', '2025-05-11 18:07:01');
 
 -- --------------------------------------------------------
 
@@ -512,37 +551,37 @@ ALTER TABLE `khoahoc`
 -- AUTO_INCREMENT cho bảng `loaitailieu`
 --
 ALTER TABLE `loaitailieu`
-  MODIFY `MaLoaiTaiLieu` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MaLoaiTaiLieu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `nguoidung`
 --
 ALTER TABLE `nguoidung`
-  MODIFY `MaNguoiDung` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `MaNguoiDung` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `phienchat`
 --
 ALTER TABLE `phienchat`
-  MODIFY `MaPhien` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MaPhien` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `tailieu`
 --
 ALTER TABLE `tailieu`
-  MODIFY `MaTaiLieu` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MaTaiLieu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `tiendo`
 --
 ALTER TABLE `tiendo`
-  MODIFY `MaTienDo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `MaTienDo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `tinnhan`
 --
 ALTER TABLE `tinnhan`
-  MODIFY `MaTinNhan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `MaTinNhan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `vaitro`

@@ -1,54 +1,55 @@
 package ut.edu.hannah.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tiendo")
 public class TienDo {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MaTienDo")
     private Integer maTienDo;
 
     @ManyToOne
-    @JoinColumn(name = "maNguoiDung", nullable = false)
+    @JoinColumn(name = "MaNguoiDung", nullable = false)
     private NguoiDung nguoiDung;
 
     @ManyToOne
-    @JoinColumn(name = "maKhoaHoc", nullable = false)
+    @JoinColumn(name = "MaKhoaHoc", nullable = false)
     private KhoaHoc khoaHoc;
 
     @ManyToOne
-    @JoinColumn(name = "maBaiHoc", nullable = false)
+    @JoinColumn(name = "MaBaiHoc", nullable = false)
     private BaiHoc baiHoc;
 
-    @Enumerated(EnumType.STRING)
-    private TrangThai trangThai;
+    @Column(name = "PhanTram")
+    private BigDecimal phanTram = BigDecimal.ZERO;
 
-    private LocalDateTime thoiGianHoanThanh;
+    @Column(name = "ThoiGianHoc")
+    private Integer thoiGianHoc = 0;
 
-    public enum TrangThai {
-        DANG_HOC, HOAN_THANH
-    }
-public TienDo() {
-        // Constructor mặc định
-    }
-    public TienDo(Integer maTienDo, NguoiDung nguoiDung, KhoaHoc khoaHoc, BaiHoc baiHoc, TrangThai trangThai,
-            LocalDateTime thoiGianHoanThanh) {
-        this.maTienDo = maTienDo;
+    @Column(name = "HoanThanh")
+    private Boolean hoanThanh = false;
+
+    @Column(name = "LanCuoiHoc")
+    private LocalDateTime lanCuoiHoc;
+
+    // Constructor
+    public TienDo() {}
+
+    public TienDo(NguoiDung nguoiDung, KhoaHoc khoaHoc, BaiHoc baiHoc) {
         this.nguoiDung = nguoiDung;
         this.khoaHoc = khoaHoc;
         this.baiHoc = baiHoc;
-        this.trangThai = trangThai;
-        this.thoiGianHoanThanh = thoiGianHoanThanh;
     }
 
-    // Getters and setters
+    // Getters and Setters
     public Integer getMaTienDo() {
         return maTienDo;
     }
-
     public void setMaTienDo(Integer maTienDo) {
         this.maTienDo = maTienDo;
     }
@@ -77,19 +78,34 @@ public TienDo() {
         this.baiHoc = baiHoc;
     }
 
-    public TrangThai getTrangThai() {
-        return trangThai;
+    public BigDecimal getPhanTram() {
+        return phanTram;
+    }
+    public void setPhanTram(BigDecimal phanTram) {
+        this.phanTram = phanTram;
+    }
+    public Integer getThoiGianHoc() {
+        return thoiGianHoc;
     }
 
-    public void setTrangThai(TrangThai trangThai) {
-        this.trangThai = trangThai;
+    public void setThoiGianHoc(Integer thoiGianHoc) {
+        this.thoiGianHoc = thoiGianHoc;
     }
 
-    public LocalDateTime getThoiGianHoanThanh() {
-        return thoiGianHoanThanh;
+    public Boolean getHoanThanh() {
+        return hoanThanh;
     }
 
-    public void setThoiGianHoanThanh(LocalDateTime thoiGianHoanThanh) {
-        this.thoiGianHoanThanh = thoiGianHoanThanh;
+    public void setHoanThanh(Boolean hoanThanh) {
+        this.hoanThanh = hoanThanh;
     }
+
+    public LocalDateTime getLanCuoiHoc() {
+        return lanCuoiHoc;
+    }
+
+    public void setLanCuoiHoc(LocalDateTime lanCuoiHoc) {
+        this.lanCuoiHoc = lanCuoiHoc;
+    }
+    
 }

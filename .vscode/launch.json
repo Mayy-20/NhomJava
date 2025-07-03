@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-HannahApplication<hannah>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "ut.edu.hannah.HannahApplication",
+      "projectName": "hannah",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

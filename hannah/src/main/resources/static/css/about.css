@@ -32,7 +32,7 @@
 }
 
 .mission-image {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+ background: linear-gradient(45deg, #667eea, #764ba2); 
   border-radius: 20px;
   height: 400px;
   display: flex;

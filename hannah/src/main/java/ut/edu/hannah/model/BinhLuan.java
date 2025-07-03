@@ -6,35 +6,35 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "binhluan")
 public class BinhLuan {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MaBinhLuan")
     private Integer maBinhLuan;
 
-    @ManyToOne
-    @JoinColumn(name = "maNguoiDung", nullable = false)
-    private NguoiDung nguoiDung;
-
-    @Column(name = "maKhoaHoc")
-    private Integer maKhoaHoc;
-
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "NoiDung", nullable = false)
     private String noiDung;
 
-    private LocalDateTime ngayTao;
-    // Constructor mặc định
-    public BinhLuan() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "MaBaiDang", nullable = false)
+    private BaiDang baiDang;
 
-    public BinhLuan(Integer maBinhLuan, NguoiDung nguoiDung, Integer maKhoaHoc, String noiDung, LocalDateTime ngayTao) {
-        this.maBinhLuan = maBinhLuan;
-        this.nguoiDung = nguoiDung;
-        this.maKhoaHoc = maKhoaHoc;
+    @ManyToOne
+    @JoinColumn(name = "MaNguoiDung", nullable = false)
+    private NguoiDung nguoiDung;
+
+    @Column(name = "NgayTao")
+    private LocalDateTime ngayTao = LocalDateTime.now();
+
+    // Constructor
+    public BinhLuan() {}
+
+    public BinhLuan(String noiDung, BaiDang baiDang, NguoiDung nguoiDung) {
         this.noiDung = noiDung;
-        this.ngayTao = ngayTao;
+        this.baiDang = baiDang;
+        this.nguoiDung = nguoiDung;
     }
 
-    // Getters and setters
+    // Getters and Setters
     public Integer getMaBinhLuan() {
         return maBinhLuan;
     }
@@ -43,28 +43,28 @@ public class BinhLuan {
         this.maBinhLuan = maBinhLuan;
     }
 
-    public NguoiDung getNguoiDung() {
-        return nguoiDung;
-    }
-
-    public void setNguoiDung(NguoiDung nguoiDung) {
-        this.nguoiDung = nguoiDung;
-    }
-
-    public Integer getMaKhoaHoc() {
-        return maKhoaHoc;
-    }
-
-    public void setMaKhoaHoc(Integer maKhoaHoc) {
-        this.maKhoaHoc = maKhoaHoc;
-    }
-
     public String getNoiDung() {
         return noiDung;
     }
 
     public void setNoiDung(String noiDung) {
         this.noiDung = noiDung;
+    }
+
+    public BaiDang getBaiDang() {
+        return baiDang;
+    }
+
+    public void setBaiDang(BaiDang baiDang) {
+        this.baiDang = baiDang;
+    }
+
+    public NguoiDung getNguoiDung() {
+        return nguoiDung;
+    }
+
+    public void setNguoiDung(NguoiDung nguoiDung) {
+        this.nguoiDung = nguoiDung;
     }
 
     public LocalDateTime getNgayTao() {

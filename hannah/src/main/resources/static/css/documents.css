@@ -1,10 +1,11 @@
 .content-layout,
 .content-grid {
   display: grid;
-  grid-template-columns: 250px 1fr;
   gap: 2rem;
 }
-
+.content-layout {
+  grid-template-columns: 250px 1fr;
+}
 /* Sidebar */
 .sidebar {
   background: white;
@@ -234,7 +235,7 @@
   gap: 0.5rem;
 }
 
-.doc-btn, .btn  {
+.doc-btn {
   flex: 1;
   padding: 0.6rem 1rem;
   border: none;
@@ -245,23 +246,23 @@
   transition: all 0.3s ease;
 }
 
-.doc-btn-primary, .btn-primary  {
+.doc-btn-primary {
   background: linear-gradient(45deg, #667eea, #764ba2);
   color: white;
 }
 
-.doc-btn-primary:hover,.btn-primary:hover {
+.doc-btn-primary:hover {
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-.doc-btn-secondary,.btn-secondary {
+.doc-btn-secondary {
   background: #f7fafc;
   color: #4a5568;
   border: 1px solid #e2e8f0;
 }
 
-.doc-btn-secondary:hover, .btn-secondary:hover{
+.doc-btn-secondary:hover {
   background: #edf2f7;
   transform: translateY(-2px);
 }

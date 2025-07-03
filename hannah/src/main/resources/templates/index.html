@@ -28,29 +28,24 @@
       <div class="info-container">
         <h2 class="section-title">Khóa học nổi bật</h2>
         <div class="course-grid">
-          <div th:each="course : ${courses}" class="course-card">
+          <div
+           class="course-card" th:each="khoaHoc : ${khoaHocList}" >
             <div class="course-image">
-              <img
-                th:src="${course.hinhAnh}"
-                alt="Ảnh khóa học"
-                class="course-image"
-              />
+              <img th:src="${khoaHoc.hinhAnh}" alt="Ảnh khóa học" class="course-image"/>
               <div
                 class="course-level"
-                th:text="${course.trangThai == 'HoatDong' ? 'Cơ bản' : course.trangThai == 'ChoDuyet' ? 'Trung cấp' : 'Nâng cao'}"
-              >
-                Beginner
-              </div>
+               th:text="${khoaHoc.capDo != null ? khoaHoc.capDo : 'Chưa xác định'}">
+                Beginner </div>
             </div>
             <div class="course-content">
               <span class="course-type">KHÓA HỌC</span>
-              <h3 class="course-title" th:text="${course.tenKhoaHoc}">
+              <h3 class="course-title"th:text="${khoaHoc.tenKhoaHoc}">
                 Tên khóa học
               </h3>
-              <p class="course-desc" th:text="${course.moTa}">Mô tả khóa học</p>
+              <p class="course-desc"th:text="${khoaHoc.moTa}">Mô tả khóa học</p>
               <div class="course-actions">
                 <a
-                  th:href="@{/hannah/course-detail(id=${course.maKhoaHoc})}"
+                 th:href="@{/courses/{id}(id=${khoaHoc.maKhoaHoc})}"
                   class="btn-course btn-course-primary"
                   >Học ngay</a
                 >

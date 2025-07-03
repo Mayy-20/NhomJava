@@ -1,5 +1,7 @@
 package ut.edu.hannah.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,24 +16,22 @@ public class ChuDe {
     private String tenChuDe;
 
     @Column(name = "MoTa")
-    private String moTa = "";
+    private String moTa;
 
     @Column(name = "Icon")
     private String icon;
 
-    // Constructor đầy đủ
-    public ChuDe(Integer maChuDe, String tenChuDe, String moTa, String icon) {
+    @ManyToMany(mappedBy = "chuDes")
+    private List<KhoaHoc> khoaHocList;
+
+    // Constructor
+    public ChuDe() {}
+
+    public ChuDe(Integer maChuDe) {
         this.maChuDe = maChuDe;
-        this.tenChuDe = tenChuDe;
-        this.moTa = moTa != null ? moTa : "";
-        this.icon = icon;
     }
 
-    // Constructor mặc định
-    public ChuDe() {
-    }
-
-    // Getter và Setter
+    // Getters and Setters
     public Integer getMaChuDe() {
         return maChuDe;
     }
@@ -53,7 +53,7 @@ public class ChuDe {
     }
 
     public void setMoTa(String moTa) {
-        this.moTa = moTa != null ? moTa : "";
+        this.moTa = moTa;
     }
 
     public String getIcon() {
@@ -62,5 +62,13 @@ public class ChuDe {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public List<KhoaHoc> getKhoaHocList() {
+        return khoaHocList;
+    }
+
+    public void setKhoaHocList(List<KhoaHoc> khoaHocList) {
+        this.khoaHocList = khoaHocList;
     }
 }

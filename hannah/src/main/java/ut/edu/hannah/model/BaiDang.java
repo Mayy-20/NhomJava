@@ -2,6 +2,7 @@ package ut.edu.hannah.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "baidang")
@@ -19,13 +20,13 @@ public class BaiDang {
 
     @ManyToOne
     @JoinColumn(name = "MaTacGia", nullable = false)
-    private NguoiDung maTacGia;
+    private NguoiDung tacGia;
 
     @ManyToOne
     @JoinColumn(name = "MaChuDe")
     private ChuDe chuDe;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "MaBaiHoc")
     private BaiHoc baiHoc;
 
@@ -39,107 +40,107 @@ public class BaiDang {
     @Column(name = "LuotXem")
     private Integer luotXem = 0;
 
-    @Column(name = "NgayTao", nullable = false)
+    @Column(name = "NgayTao")
     private LocalDateTime ngayTao = LocalDateTime.now();
 
     public enum TrangThai {
         DaDuyet, ChoDuyet, An
     }
+    @OneToMany(mappedBy = "baiDang")
+    private List<BinhLuan> binhLuanList;
 
-    // Giả lập các trường không có trong CSDL
-    private Integer luotThich = 0;
-    private Integer luotBinhLuan = 0;
-    private Integer luotChiaSe = 0;
-    private String hinhAnh;
-
+    // Constructor
     public BaiDang() {}
-    public BaiDang(String tieuDe, String noiDung, NguoiDung maTacGia) {
+
+    public BaiDang(String tieuDe, String noiDung, NguoiDung tacGia) {
         this.tieuDe = tieuDe;
         this.noiDung = noiDung;
-        this.maTacGia = maTacGia;
+        this.tacGia = tacGia;
     }
+    // Getters and Setters
     public Integer getMaBaiDang() {
         return maBaiDang;
     }
+
     public void setMaBaiDang(Integer maBaiDang) {
         this.maBaiDang = maBaiDang;
     }
+
     public String getTieuDe() {
         return tieuDe;
     }
+
     public void setTieuDe(String tieuDe) {
         this.tieuDe = tieuDe;
     }
+
     public String getNoiDung() {
         return noiDung;
     }
+
     public void setNoiDung(String noiDung) {
         this.noiDung = noiDung;
     }
-    public NguoiDung getMaTacGia() {
-        return maTacGia;
+
+    public NguoiDung getTacGia() {
+        return tacGia;
     }
-    public void setMaTacGia(NguoiDung maTacGia) {
-        this.maTacGia = maTacGia;
+
+    public void setTacGia(NguoiDung tacGia) {
+        this.tacGia = tacGia;
     }
+
     public ChuDe getChuDe() {
         return chuDe;
     }
+
     public void setChuDe(ChuDe chuDe) {
         this.chuDe = chuDe;
     }
+
     public BaiHoc getBaiHoc() {
         return baiHoc;
     }
+
     public void setBaiHoc(BaiHoc baiHoc) {
         this.baiHoc = baiHoc;
     }
+
     public TrangThai getTrangThai() {
         return trangThai;
     }
+
     public void setTrangThai(TrangThai trangThai) {
         this.trangThai = trangThai;
     }
+
     public Integer getSoBaoCao() {
         return soBaoCao;
     }
+
     public void setSoBaoCao(Integer soBaoCao) {
         this.soBaoCao = soBaoCao;
     }
+
     public Integer getLuotXem() {
         return luotXem;
     }
+
     public void setLuotXem(Integer luotXem) {
         this.luotXem = luotXem;
     }
+
     public LocalDateTime getNgayTao() {
         return ngayTao;
     }
+
     public void setNgayTao(LocalDateTime ngayTao) {
         this.ngayTao = ngayTao;
     }
-    public Integer getLuotThich() {
-        return luotThich;
+    public List<BinhLuan> getBinhLuanList() {
+        return binhLuanList;
     }
-    public void setLuotThich(Integer luotThich) {
-        this.luotThich = luotThich;
-    }
-    public Integer getLuotBinhLuan() {
-        return luotBinhLuan;
-    }
-    public void setLuotBinhLuan(Integer luotBinhLuan) {
-        this.luotBinhLuan = luotBinhLuan;
-    }
-    public Integer getLuotChiaSe() {
-        return luotChiaSe;
-    }
-    public void setLuotChiaSe(Integer luotChiaSe) {
-        this.luotChiaSe = luotChiaSe;
-    }
-    public String getHinhAnh() {
-        return hinhAnh;
-    }
-    public void setHinhAnh(String hinhAnh) {
-        this.hinhAnh = hinhAnh;
+    public void setBinhLuanList(List<BinhLuan> binhLuanList) {
+        this.binhLuanList = binhLuanList;
     }
 }

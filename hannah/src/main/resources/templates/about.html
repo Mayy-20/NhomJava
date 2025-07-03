@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hannah - Về chúng tôi </title>
+    <title>Hannah - Về chúng tôi</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
@@ -15,203 +15,279 @@
   <body>
     <!-- Header Fragment -->
     <div th:replace="fragments/header :: header"></div>
-     <!-- Hero Section -->
-       <section class="about-hero">
-        <div class="container">
-            <h1>Về Hannah</h1>
-            <p>Chúng tôi tin rằng mọi người đều có thể học lập trình và thành công trong lĩnh vực công nghệ</p>
-        </div>
+    <!-- Hero Section -->
+    <section class="about-hero">
+      <div class="container">
+        <h1>Về Hannah</h1>
+        <p>
+          Chúng tôi tin rằng mọi người đều có thể học lập trình và thành công
+          trong lĩnh vực công nghệ
+        </p>
+      </div>
     </section>
 
     <!-- Main Content -->
     <section class="main-content">
-        <div class="container">
-            <!-- Mission Section -->
-            <div class="section">
-                <h2 class="section-title">Sứ mệnh của chúng tôi</h2>
-                <div class="mission-grid">
-                    <div class="mission-content">
-                        <h3>Dân chủ hóa giáo dục lập trình</h3>
-                        <p>Hannah được sinh ra với sứ mệnh làm cho việc học lập trình trở nên dễ tiếp cận, thú vị và hiệu quả cho mọi người, bất kể xuất thân hay trình độ ban đầu.</p>
-                        <p>Chúng tôi tin rằng công nghệ có thể thay đổi cuộc sống và tạo ra cơ hội việc làm tốt hơn. Vì vậy, chúng tôi cam kết cung cấp nền tảng học tập chất lượng cao với chi phí hợp lý.</p>
-                    </div>
-                    <div class="mission-image">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                </div>
+      <div class="container">
+        <!-- Mission Section -->
+        <div class="section">
+          <h2 class="section-title">Sứ mệnh của chúng tôi</h2>
+          <div class="mission-grid">
+            <div class="mission-content">
+              <h3>Dân chủ hóa giáo dục lập trình</h3>
+              <p>
+                Hannah được sinh ra với sứ mệnh làm cho việc học lập trình trở
+                nên dễ tiếp cận, thú vị và hiệu quả cho mọi người, bất kể xuất
+                thân hay trình độ ban đầu.
+              </p>
+              <p>
+                Chúng tôi tin rằng công nghệ có thể thay đổi cuộc sống và tạo ra
+                cơ hội việc làm tốt hơn. Vì vậy, chúng tôi cam kết cung cấp nền
+                tảng học tập chất lượng cao với chi phí hợp lý.
+              </p>
             </div>
-
-            <!-- Values Section -->
-            <div class="section">
-                <h2 class="section-title">Giá trị cốt lõi</h2>
-                <div class="values-grid">
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <h3 class="value-title">Tận tâm</h3>
-                        <p class="value-desc">Chúng tôi luôn đặt học viên làm trung tâm, tận tâm hỗ trợ và đồng hành cùng bạn trong hành trình học tập.</p>
-                    </div>
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h3 class="value-title">Sáng tạo</h3>
-                        <p class="value-desc">Chúng tôi không ngừng đổi mới phương pháp giảng dạy, ứng dụng công nghệ để tạo ra trải nghiệm học tập tốt nhất.</p>
-                    </div>
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="value-title">Cộng đồng</h3>
-                        <p class="value-desc">Xây dựng cộng đồng học tập mạnh mẽ, nơi mọi người cùng chia sẻ, học hỏi và phát triển.</p>
-                    </div>
-                    <div class="value-card">
-                        <div class="value-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h3 class="value-title">Chất lượng</h3>
-                        <p class="value-desc">Cam kết cung cấp nội dung chất lượng cao, được cập nhật liên tục theo xu hướng công nghệ mới nhất.</p>
-                    </div>
-                </div>
+            <div class="mission-image">
+              <img th:src="@{/logo/anhnhom.png}" alt="anhnhom" />
             </div>
-
-            <!-- Stats Section -->
-            <div class="stats-section">
-                <div class="container">
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-number">15,000+</div>
-                            <div class="stat-label">Học viên</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">150+</div>
-                            <div class="stat-label">Khóa học</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">50+</div>
-                            <div class="stat-label">Giảng viên</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">98%</div>
-                            <div class="stat-label">Hài lòng</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team Section -->
-            <div class="section">
-                <h2 class="section-title">Đội ngũ của chúng tôi</h2>
-                <div class="team-grid">
-                    <div class="team-card">
-                        <div class="team-avatar">A</div>
-                        <div class="team-content">
-                            <h3 class="team-name">Nguyễn Văn A</h3>
-                            <p class="team-role">CEO & Founder</p>
-                            <p class="team-desc">10+ năm kinh nghiệm trong lĩnh vực công nghệ và giáo dục. Tốt nghiệp Thạc sĩ Khoa học Máy tính tại Stanford.</p>
-                            <div class="team-social">
-                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="team-card">
-                        <div class="team-avatar">B</div>
-                        <div class="team-content">
-                            <h3 class="team-name">Trần Thị B</h3>
-                            <p class="team-role">CTO</p>
-                            <p class="team-desc">Chuyên gia về phát triển phần mềm với 8 năm kinh nghiệm. Từng làm việc tại Google và Facebook.</p>
-                            <div class="team-social">
-                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="team-card">
-                        <div class="team-avatar">C</div>
-                        <div class="team-content">
-                            <h3 class="team-name">Lê Văn C</h3>
-                            <p class="team-role">Head of Education</p>
-                            <p class="team-desc">Chuyên gia giáo dục với 12 năm kinh nghiệm. Tiến sĩ Giáo dục học, chuyên về phương pháp giảng dạy trực tuyến.</p>
-                            <div class="team-social">
-                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Timeline Section -->
-            <div class="section">
-                <h2 class="section-title">Hành trình phát triển</h2>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-year">2020</div>
-                            <h3 class="timeline-title">Khởi đầu</h3>
-                            <p class="timeline-desc">Hannah được thành lập với 3 khóa học đầu tiên về Python, JavaScript và HTML/CSS.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-year">2021</div>
-                            <h3 class="timeline-title">Mở rộng</h3>
-                            <p class="timeline-desc">Đạt 1,000 học viên đầu tiên và ra mắt 20 khóa học mới về các công nghệ hot trend.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-year">2022</div>
-                            <h3 class="timeline-title">Phát triển</h3>
-                            <p class="timeline-desc">Xây dựng cộng đồng học tập và ra mắt ứng dụng mobile. Đạt 5,000 học viên.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-year">2023</div>
-                            <h3 class="timeline-title">Bứt phá</h3>
-                            <p class="timeline-desc">Hợp tác với các doanh nghiệp lớn, ra mắt chương trình đào tạo doanh nghiệp.</p>
-                        </div>
-                    </div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-year">2024</div>
-                            <h3 class="timeline-title">Hiện tại</h3>
-                            <p class="timeline-desc">Trở thành nền tảng học lập trình hàng đầu Việt Nam với 15,000+ học viên và 150+ khóa học.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact CTA -->
-            <div class="contact-cta">
-                <h3>Sẵn sàng bắt đầu hành trình?</h3>
-                <p>Tham gia cùng hàng nghìn học viên đã thành công với Hannah</p>
-                <div class="cta-buttons">
-                    <a th:href="@{/courses}"  class="btn btn-primary">Khám phá khóa học</a>
-                     <a th:href="@{/support}"  class="btn btn-secondary" style="background: #f7fafc; color: #4a5568; border: 2px solid #e2e8f0;">Liên hệ với chúng tôi</a>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <!-- Values Section -->
+        <div class="section">
+          <h2 class="section-title">Giá trị cốt lõi</h2>
+          <div class="values-grid">
+            <div class="value-card">
+              <div class="value-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <h3 class="value-title">Tận tâm</h3>
+              <p class="value-desc">
+                Chúng tôi luôn đặt học viên làm trung tâm, tận tâm hỗ trợ và
+                đồng hành cùng bạn trong hành trình học tập.
+              </p>
+            </div>
+            <div class="value-card">
+              <div class="value-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h3 class="value-title">Sáng tạo</h3>
+              <p class="value-desc">
+                Chúng tôi không ngừng đổi mới phương pháp giảng dạy, ứng dụng
+                công nghệ để tạo ra trải nghiệm học tập tốt nhất.
+              </p>
+            </div>
+            <div class="value-card">
+              <div class="value-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <h3 class="value-title">Cộng đồng</h3>
+              <p class="value-desc">
+                Xây dựng cộng đồng học tập mạnh mẽ, nơi mọi người cùng chia sẻ,
+                học hỏi và phát triển.
+              </p>
+            </div>
+            <div class="value-card">
+              <div class="value-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <h3 class="value-title">Chất lượng</h3>
+              <p class="value-desc">
+                Cam kết cung cấp nội dung chất lượng cao, được cập nhật liên tục
+                theo xu hướng công nghệ mới nhất.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+          <div class="container">
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-number">15,000+</div>
+                <div class="stat-label">Học viên</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">150+</div>
+                <div class="stat-label">Khóa học</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Giảng viên</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Hài lòng</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="section">
+          <h2 class="section-title">Đội ngũ của chúng tôi</h2>
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="team-avatar">A</div>
+              <div class="team-content">
+                <h3 class="team-name">Nguyễn Văn A</h3>
+                <p class="team-role">CEO & Founder</p>
+                <p class="team-desc">
+                  10+ năm kinh nghiệm trong lĩnh vực công nghệ và giáo dục. Tốt
+                  nghiệp Thạc sĩ Khoa học Máy tính tại Stanford.
+                </p>
+                <div class="team-social">
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-linkedin"></i
+                  ></a>
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-twitter"></i
+                  ></a>
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-github"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar">B</div>
+              <div class="team-content">
+                <h3 class="team-name">Trần Thị B</h3>
+                <p class="team-role">CTO</p>
+                <p class="team-desc">
+                  Chuyên gia về phát triển phần mềm với 8 năm kinh nghiệm. Từng
+                  làm việc tại Google và Facebook.
+                </p>
+                <div class="team-social">
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-linkedin"></i
+                  ></a>
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-twitter"></i
+                  ></a>
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-github"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="team-card">
+              <div class="team-avatar">C</div>
+              <div class="team-content">
+                <h3 class="team-name">Lê Văn C</h3>
+                <p class="team-role">Head of Education</p>
+                <p class="team-desc">
+                  Chuyên gia giáo dục với 12 năm kinh nghiệm. Tiến sĩ Giáo dục
+                  học, chuyên về phương pháp giảng dạy trực tuyến.
+                </p>
+                <div class="team-social">
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-linkedin"></i
+                  ></a>
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-twitter"></i
+                  ></a>
+                  <a href="#" class="social-link"
+                    ><i class="fab fa-github"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="section">
+          <h2 class="section-title">Hành trình phát triển</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-year">2020</div>
+                <h3 class="timeline-title">Khởi đầu</h3>
+                <p class="timeline-desc">
+                  Hannah được thành lập với 3 khóa học đầu tiên về Python,
+                  JavaScript và HTML/CSS.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-year">2021</div>
+                <h3 class="timeline-title">Mở rộng</h3>
+                <p class="timeline-desc">
+                  Đạt 1,000 học viên đầu tiên và ra mắt 20 khóa học mới về các
+                  công nghệ hot trend.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-year">2022</div>
+                <h3 class="timeline-title">Phát triển</h3>
+                <p class="timeline-desc">
+                  Xây dựng cộng đồng học tập và ra mắt ứng dụng mobile. Đạt
+                  5,000 học viên.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-year">2023</div>
+                <h3 class="timeline-title">Bứt phá</h3>
+                <p class="timeline-desc">
+                  Hợp tác với các doanh nghiệp lớn, ra mắt chương trình đào tạo
+                  doanh nghiệp.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <div class="timeline-year">2024</div>
+                <h3 class="timeline-title">Hiện tại</h3>
+                <p class="timeline-desc">
+                  Trở thành nền tảng học lập trình hàng đầu Việt Nam với 15,000+
+                  học viên và 150+ khóa học.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="contact-cta">
+          <h3>Sẵn sàng bắt đầu hành trình?</h3>
+          <p>Tham gia cùng hàng nghìn học viên đã thành công với Hannah</p>
+          <div class="cta-buttons">
+            <a th:href="@{/courses}" class="btn btn-primary"
+              >Khám phá khóa học</a
+            >
+            <a
+              th:href="@{/support}"
+              class="btn btn-secondary"
+              style="
+                background: #f7fafc;
+                color: #4a5568;
+                border: 2px solid #e2e8f0;
+              "
+              >Liên hệ với chúng tôi</a
+            >
+          </div>
+        </div>
+      </div>
     </section>
-       <!-- Footer -->
-  <div th:replace="fragments/footer :: footer"></div>
-  <script th:src="@{/js/pages.js}"></script>
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script th:src="@{/js/pages.js}"></script>
   </body>
 </html>

@@ -3,66 +3,62 @@ package ut.edu.hannah.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-// Lớp này đại diện cho người dùng trong hệ thống
 @Entity
 @Table(name = "nguoidung")
 public class NguoiDung {
-    // ID duy nhất của người dùng
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaNguoiDung")
     private Integer maNguoiDung;
 
-    // Tên đăng nhập, duy nhất
     @Column(name = "TenDangNhap", nullable = false, unique = true)
     private String tenDangNhap;
 
-    // Email, duy nhất
     @Column(name = "Email", nullable = false, unique = true)
     private String email;
 
-    // Mật khẩu
     @Column(name = "MatKhau", nullable = false)
     private String matKhau;
 
-    // Họ và tên
     @Column(name = "HoTen", nullable = false)
     private String hoTen;
 
-    // Ảnh đại diện
+    @ManyToOne
+    @JoinColumn(name = "MaVaiTro", nullable = false)
+    private VaiTro vaiTro;
+
     @Column(name = "AnhDaiDien")
     private String anhDaiDien;
 
-    // Vai trò của người dùng
-    @Column(name = "MaVaiTro", nullable = false)
-    private Integer maVaiTro;
+    @Column(name = "DienThoai")
+    private String dienThoai;
 
-    // Trạng thái người dùng
+    @Column(name = "GioiThieu")
+    private String gioiThieu;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "TrangThai")
     private TrangThai trangThai = TrangThai.Active;
 
-    // Ngày tạo tài khoản
-    @Column(name = "NgayTao", nullable = false)
+    @Column(name = "NgayTao")
     private LocalDateTime ngayTao = LocalDateTime.now();
 
     public enum TrangThai {
         Active, Inactive, Banned
     }
 
-    // Constructor mặc định
-    public NguoiDung() {
-    }
+    // Constructor
+    public NguoiDung() {}
 
-    // Constructor cơ bản
     public NguoiDung(String tenDangNhap, String email, String matKhau, String hoTen, Integer maVaiTro) {
         this.tenDangNhap = tenDangNhap;
         this.email = email;
         this.matKhau = matKhau;
         this.hoTen = hoTen;
-        this.maVaiTro = maVaiTro;
+        this.vaiTro = new VaiTro(maVaiTro);
     }
 
+    // Getters and Setters
     public Integer getMaNguoiDung() {
         return maNguoiDung;
     }
@@ -103,6 +99,14 @@ public class NguoiDung {
         this.hoTen = hoTen;
     }
 
+    public VaiTro getVaiTro() {
+        return vaiTro;
+    }
+
+    public void setVaiTro(VaiTro vaiTro) {
+        this.vaiTro = vaiTro;
+    }
+
     public String getAnhDaiDien() {
         return anhDaiDien;
     }
@@ -111,12 +115,20 @@ public class NguoiDung {
         this.anhDaiDien = anhDaiDien;
     }
 
-    public Integer getMaVaiTro() {
-        return maVaiTro;
+    public String getDienThoai() {
+        return dienThoai;
     }
 
-    public void setMaVaiTro(Integer maVaiTro) {
-        this.maVaiTro = maVaiTro;
+    public void setDienThoai(String dienThoai) {
+        this.dienThoai = dienThoai;
+    }
+
+    public String getGioiThieu() {
+        return gioiThieu;
+    }
+
+    public void setGioiThieu(String gioiThieu) {
+        this.gioiThieu = gioiThieu;
     }
 
     public TrangThai getTrangThai() {
@@ -134,7 +146,4 @@ public class NguoiDung {
     public void setNgayTao(LocalDateTime ngayTao) {
         this.ngayTao = ngayTao;
     }
-
-    // Getter và Setter
-  
 }

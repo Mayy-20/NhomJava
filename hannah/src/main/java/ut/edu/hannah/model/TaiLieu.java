@@ -2,82 +2,57 @@ package ut.edu.hannah.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "tailieu")
 public class TaiLieu {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MaTaiLieu")
     private Integer maTaiLieu;
 
-    @Column(nullable = false)
+    @Column(name = "TenTaiLieu", nullable = false)
     private String tenTaiLieu;
 
     @ManyToOne
-    @JoinColumn(name = "maLoaiTaiLieu", nullable = false)
+    @JoinColumn(name = "MaLoaiTaiLieu", nullable = false)
     private LoaiTaiLieu loaiTaiLieu;
 
     @ManyToOne
-    @JoinColumn(name = "maBaiHoc", nullable = false)
+    @JoinColumn(name = "MaBaiHoc", nullable = false)
     private BaiHoc baiHoc;
 
     @ManyToOne
-    @JoinColumn(name = "maTacGia", nullable = false)
+    @JoinColumn(name = "MaTacGia", nullable = false)
     private NguoiDung tacGia;
 
+    @Column(name = "DuongDan")
     private String duongDan;
 
+    @Column(name = "KichThuoc")
     private Long kichThuoc;
 
-    private Integer luotTai;
+    @Column(name = "LuotTai")
+    private Integer luotTai = 0;
 
-    private Float danhGia;
+    @Column(name = "DanhGia")
+    private Float danhGia = 0f;
 
     @Enumerated(EnumType.STRING)
-    private TrangThai trangThai;
+    @Column(name = "TrangThai")
+    private TrangThai trangThai = TrangThai.ChoDuyet;
 
-    @Column(updatable = false)
-    private LocalDateTime ngayTao;
-
-    private String format;
-
-    @ElementCollection
-    private List<String> tags;
-
-    @Transient
-    private String tenLoai;
+    @Column(name = "NgayTao")
+    private LocalDateTime ngayTao = LocalDateTime.now();
 
     public enum TrangThai {
         DaDuyet, ChoDuyet, TuChoi
     }
 
-    // Constructor đầy đủ
-    public TaiLieu(Integer maTaiLieu, String tenTaiLieu, LoaiTaiLieu loaiTaiLieu, BaiHoc baiHoc, NguoiDung tacGia,
-                   String duongDan, Long kichThuoc, Integer luotTai, Float danhGia, TrangThai trangThai,
-                   LocalDateTime ngayTao, String format, List<String> tags, String tenLoai) {
-        this.maTaiLieu = maTaiLieu;
-        this.tenTaiLieu = tenTaiLieu;
-        this.loaiTaiLieu = loaiTaiLieu;
-        this.baiHoc = baiHoc;
-        this.tacGia = tacGia;
-        this.duongDan = duongDan;
-        this.kichThuoc = kichThuoc;
-        this.luotTai = luotTai;
-        this.danhGia = danhGia;
-        this.trangThai = trangThai;
-        this.ngayTao = ngayTao;
-        this.format = format;
-        this.tags = tags;
-        this.tenLoai = tenLoai;
-    }
+    // Constructor
+    public TaiLieu() {}
 
-    // Constructor mặc định
-    public TaiLieu() {
-    }
-
-    // Getter và Setter
+    // Getters and Setters
     public Integer getMaTaiLieu() {
         return maTaiLieu;
     }
@@ -164,29 +139,5 @@ public class TaiLieu {
 
     public void setNgayTao(LocalDateTime ngayTao) {
         this.ngayTao = ngayTao;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
-    public String getTenLoai() {
-        return tenLoai;
-    }
-
-    public void setTenLoai(String tenLoai) {
-        this.tenLoai = tenLoai;
     }
 }

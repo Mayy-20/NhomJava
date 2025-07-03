@@ -14,6 +14,7 @@
     <link rel="stylesheet" th:href="@{/css/learning.css}" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/user-profile.css}" />
+    <link rel="stylesheet" th:href="@{/css/user-dashboard.css}" />
   </head>
   <body>
     <!-- Header -->
@@ -29,21 +30,17 @@
         </nav>
         <div class="user-dropdown" onclick="toggleDropdown()">
           <div class="user-avatar">U</div>
-          <div class="user-name">
+          <div th:text="${user.hoTen}" class="user-name">
             Nguyễn Văn A <i class="fas fa-caret-down"></i>
           </div>
           <div class="dropdown-menu" id="userDropdown">
             <a th:href="@{/user-profile}"
               ><i class="fas fa-user-cog"></i> Quản lý tài khoản</a
             >
-            <a th:href="@{/index}" onclick="logout()"
+            <a th:href="@{/index}"
               ><i class="fas fa-sign-out-alt"></i> Đăng xuất</a
             >
           </div>
-           <div class="user-profile">
-                <div class="user-avatar">U</div>
-                <div class="user-name" onclick="window.location.href='user-profile.html'" style="cursor: pointer;">Nguyễn Văn A</div>
-            </div>
         </div>
       </div>
     </header>
