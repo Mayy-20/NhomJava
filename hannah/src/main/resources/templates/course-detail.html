@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${course.tenKhoaHoc} + ' - Hannah'">Hannah - Chi tiết khóa học</title>
+    <title th:text="${khoaHoc.tenKhoaHoc} + ' - Hannah'">Hannah - Chi tiết khóa học</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/hannah/src/main/resources/static/css/styles.css">
-    <link rel="stylesheet" href="/hannah/src/main/resources/static/css/documents.css">
-    <!-- <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/documents.css}"> -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/documents.css}">
 </head>
 <body>
     <div th:replace="fragments/header :: header"></div>
@@ -17,31 +15,25 @@
         <div class="container">
             <div class="course-hero-content">
                 <div class="course-info">
-                    <h1 th:text="${course.tenKhoaHoc}">Tên khóa học</h1>
-                    <p th:text="${course.moTa}">Mô tả khóa học</p>
+                    <h1 th:text="${khoaHoc.tenKhoaHoc}">Tên khóa học</h1>
+                    <p th:text="${khoaHoc.moTa}">Mô tả khóa học</p>
                     <div class="course-stats">
                         <div class="stat-item">
                             <h3>10 giờ</h3>
                             <p>Thời lượng</p>
                         </div>
                         <div class="stat-item">
-                            <h3 th:text="${course.trangThai == 'HoatDong' ? 'Cơ bản' : course.trangThai == 'ChoDuyet' ? 'Trung cấp' : 'Nâng cao'}">Cấp độ</h3>
+                            <h3 th:text="${khoaHoc.capDo}">Cấp độ</h3>
                             <p>Cấp độ</p>
                         </div>
                         <div class="stat-item">
-                            <h3 th:text="${course.danhGiaTB != null ? course.danhGiaTB : 'Chưa có đánh giá'}">Đánh giá</h3>
+                            <h3 th:text="${khoaHoc.danhGiaTB != null ? khoaHoc.danhGiaTB : 'Chưa có đánh giá'}">Đánh giá</h3>
                             <p>Đánh giá</p>
                         </div>
                     </div>
-                    <a th:href="@{/learning(id=${course.maKhoaHoc})}" class="btn btn-primary">Bắt đầu học</a>
+                    <a th:href="@{/learning(id=${khoaHoc.maKhoaHoc})}" class="btn btn-primary">Bắt đầu học</a>
                 </div>
-                <!-- <div class="course-video">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play play-button"></i>
-                    </div>
-                    <p>Video giới thiệu khóa học</p>
-                </div>
-            </div> -->
+            </div>
         </div>
     </section>
 
@@ -74,15 +66,14 @@
                     <div class="lesson-section">
                         <h2 class="section-title">Danh sách bài học</h2>
                         <ul class="lesson-list">
-                            <li th:each="lesson : ${lessons}" class="lesson-item">
+                            <li th:each="lesson : ${baiHocList}" class="lesson-item">
                                 <div class="lesson-header">
                                     <div class="lesson-info">
                                         <h3 th:text="${lesson.tenBaiHoc}">Bài học</h3>
                                         <p th:text="${lesson.moTa}">Mô tả bài học</p>
                                     </div>
                                     <div class="lesson-meta">
-                                        <span>Thời lượng</span>
-                                        <span class="lesson-status" th:classappend="${lesson.thuTu == 2} ? 'current' : ''"></span>
+                                        <span>Thứ tự: <span th:text="${lesson.thuTu}"></span></span>
                                     </div>
                                 </div>
                             </li>
@@ -91,78 +82,67 @@
 
                     <div class="comments-section">
                         <h2 class="section-title">Hỏi đáp và thảo luận</h2>
-                        <div class="comment-form">
-                            <textarea placeholder="Viết bình luận của bạn..."></textarea>
-                            <button class="btn btn-primary">Gửi bình luận</button>
-                        </div>
-                        <div class="comment-item">
+                        <div th:each="comment : ${binhLuanList}" class="comment-item">
                             <div class="comment-header">
-                                <div class="comment-avatar">A</div>
+                                <div class="comment-avatar" th:text="${#strings.substring(comment.nguoiDung.hoTen, 0, 1)}">A</div>
                                 <div class="comment-info">
-                                    <h4>Nguyễn Văn A</h4>
-                                    <span>2 giờ trước</span>
+                                    <h4 th:text="${comment.nguoiDung.hoTen}">Tên người dùng</h4>
+                                    <span th:text="${#temporals.format(comment.ngayTao, 'dd/MM/yyyy HH:mm')}">Thời gian</span>
                                 </div>
                             </div>
-                            <div class="comment-content">
-                                Khóa học rất hay và dễ hiểu! Tôi đã học được rất nhiều từ bài 1. Cảm ơn giáo viên đã giải thích rất chi tiết.
-                            </div>
-                        </div>
-                        <div class="comment-item">
-                            <div class="comment-header">
-                                <div class="comment-avatar">B</div>
-                                <div class="comment-info">
-                                    <h4>Trần Thị B</h4>
-                                    <span>5 giờ trước</span>
-                                </div>
-                            </div>
-                            <div class="comment-content">
-                                Mình có thắc mắc về phần biến trong bài 2. Có thể giải thích thêm về scope của biến không ạ?
+                            <div class="comment-content" th:text="${comment.noiDung}">
+                                Nội dung bình luận
                             </div>
                         </div>
                     </div>
                 </div>
-                  <div class="sidebar">
+
+                <div class="sidebar">
                     <!-- Progress -->
                     <div class="progress-section">
                         <h3>Tiến độ học tập</h3>
                         <div class="progress-bar">
-                            <div class="progress-fill"></div>
+                            <div class="progress-fill" style="width: 35%;"></div>
                         </div>
                         <div class="progress-text">
                             <span>2/5 bài học</span>
                             <span>35% hoàn thành</span>
                         </div>
                     </div>
-<!-- Course Info -->
+
+                    <!-- Course Info -->
                     <div style="margin-top: 2rem;">
                         <h3 style="margin-bottom: 1rem;">Thông tin khóa học</h3>
                         <div style="display: flex; flex-direction: column; gap: 1rem;">
                             <div style="display: flex; justify-content: space-between;">
                                 <span>Giảng viên:</span>
-                                <strong th:text="${course.maGiangVien}">Nguyễn Văn A</strong>
+                                <strong th:text="${khoaHoc.giangVien.hoTen}">Nguyễn Văn A</strong>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
                                 <span>Ngôn ngữ:</span>
                                 <strong>Tiếng Việt</strong>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
-                                <span>Cập nhật:</span><strong th:text="${course.ngayTao}">01/2025</strong>
+                                <span>Cập nhật:</span>
+                                <strong th:text="${#temporals.format(khoaHoc.ngayTao, 'dd/MM/yyyy')}">01/2025</strong>
                             </div>
                             <div style="display: flex; justify-content: space-between;">
                                 <span>Học viên:</span>
-                                <strong th:text="${course.soLuongHocVien}">1,234</strong>
+                                <strong th:text="${khoaHoc.soLuongHocVien}">1,234</strong>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Quick Actions -->
                     <div style="margin-top: 2rem;">
                         <h3 style="margin-bottom: 1rem;">Thao tác nhanh</h3>
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <a th:href="@{/learning(id=${course.maKhoaHoc})}" class="btn btn-primary">Tiếp tục học</a>
+                            <a th:href="@{/learning(id=${khoaHoc.maKhoaHoc})}" class="btn btn-primary">Tiếp tục học</a>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
     <div th:replace="fragments/footer :: footer"></div>

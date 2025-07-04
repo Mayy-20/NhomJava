@@ -1,23 +1,16 @@
 package ut.edu.hannah.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ut.edu.hannah.model.*;
-import ut.edu.hannah.services.BaiHocService;
-import ut.edu.hannah.services.BinhLuanService;
-import ut.edu.hannah.services.ChuDeService;
-import ut.edu.hannah.services.KhoaHocService;
-import ut.edu.hannah.services.TienDoService;
+import ut.edu.hannah.services.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
-/**
- * Controller để xử lý các yêu cầu liên quan đến khóa học.
- */
 @Controller
 public class KhoaHocController {
     private final KhoaHocService khoaHocService;
@@ -36,74 +29,91 @@ public class KhoaHocController {
         this.tienDoService = tienDoService;
     }
 
-    /**
-     * Hiển thị danh sách khóa học, lọc theo chủ đề nếu có.
-     * @param topic Tên chủ đề (tùy chọn).
-     * @param model Model để truyền dữ liệu tới view.
-     * @return Tên template Thymeleaf.
-     */
     @GetMapping("/courses")
-    public String listCourses(@RequestParam(required = false) String topic, Model model) {
-        List<KhoaHoc> khoaHocList = (topic != null && !topic.trim().isEmpty()) ?
-            khoaHocService.findByChuDe(topic) :
-            khoaHocService.getAllKhoaHoc();
+    public String listCourses(@RequestParam(required = false) Integer topic, Model model) {
+        List<KhoaHoc> khoaHocList = (topic != null) ? khoaHocService.findByChuDe(topic) : khoaHocService.getAllKhoaHoc();
         model.addAttribute("khoaHocList", khoaHocList);
         model.addAttribute("chuDeList", chuDeService.getAllChuDe());
-        model.addAttribute("selectedTopic", topic); // Truyền topic để đánh dấu tab active
+        model.addAttribute("selectedTopic", topic);
         return "courses";
     }
+@GetMapping("/courses/{id}")
+public String redirectToPreview(@PathVariable Integer id) {
+    return "redirect:/courses/preview/" + id;
+}
+    @GetMapping("/courses/learning/{id}")
+    public String viewLearningPage(@PathVariable Integer id,
+                                   @RequestParam(required = false) Integer lesson,
+                                   HttpSession session,
+                                   Model model,
+                                   RedirectAttributes redirectAttributes) {
+        NguoiDung user = (NguoiDung) session.getAttribute("user");
+        if (user == null) {
+            redirectAttributes.addFlashAttribute("loginMessage", "Bạn cần đăng nhập để học khóa học này.");
+            return "redirect:/login";
+        }
 
-    /**
-     * Hiển thị chi tiết khóa học.
-     * @param id Mã khóa học.
-     * @param model Model để truyền dữ liệu hoặc lỗi.
-     * @return Tên template Thymeleaf.
-     */
-    @GetMapping("/courses/{id}")
-    public String viewCourse(@PathVariable Integer id, Model model) {
-        if (id == null) {
-            model.addAttribute("error", "Mã khóa học không hợp lệ");
-            return "course-detail";
-        }
         Optional<KhoaHoc> khoaHocOpt = khoaHocService.findById(id);
-        if (khoaHocOpt.isPresent()) {
-            KhoaHoc khoaHoc = khoaHocOpt.get();
-            List<BaiHoc> baiHocList = baiHocService.findByKhoaHoc(id);
-            List<BinhLuan> binhLuanList = binhLuanService.findByKhoaHoc(id);
-            TienDo tienDo = tienDoService.findByKhoaHocAndNguoiDung(id, getCurrentUserId());
-            model.addAttribute("khoaHoc", khoaHoc);
-            model.addAttribute("baiHocList", baiHocList);
-            model.addAttribute("binhLuanList", binhLuanList);
-            model.addAttribute("tienDo", tienDo);
-            return "course-detail";
+        if (khoaHocOpt.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Khóa học không tồn tại.");
+            return "redirect:/courses";
         }
-        model.addAttribute("error", "Khóa học không tồn tại");
-        return "course-detail";
+
+        KhoaHoc khoaHoc = khoaHocOpt.get();
+        List<BaiHoc> baiHocList = baiHocService.findByKhoaHoc(id);
+        if (baiHocList.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Khóa học này chưa có bài học.");
+            return "redirect:/courses";
+        }
+
+        List<BinhLuan> binhLuanList = binhLuanService.findByKhoaHoc(id);
+        Integer userId = user.getMaNguoiDung();
+        Map<Integer, TienDo> tienDoMap = tienDoService.getAllByKhoaHocAndNguoiDungAsMap(id, userId);
+
+        int lessonIndex = (lesson != null && lesson > 0 && lesson <= baiHocList.size()) ? lesson - 1 : 0;
+        BaiHoc currentLesson = baiHocList.get(lessonIndex);
+        String videoEmbedUrl = convertToEmbedUrl(currentLesson.getVideoURL());
+
+        model.addAttribute("course", khoaHoc);
+        model.addAttribute("lessons", baiHocList);
+        model.addAttribute("binhLuanList", binhLuanList);
+        model.addAttribute("tienDoMap", tienDoMap);
+        model.addAttribute("user", user);
+        model.addAttribute("currentLesson", currentLesson);
+        model.addAttribute("baiHoc", currentLesson);
+        model.addAttribute("videoEmbedUrl", videoEmbedUrl);
+        model.addAttribute("lessonIndex", lessonIndex + 1);
+        model.addAttribute("previousLesson", lessonIndex > 0 ? baiHocList.get(lessonIndex - 1) : null);
+        model.addAttribute("nextLesson", lessonIndex < baiHocList.size() - 1 ? baiHocList.get(lessonIndex + 1) : null);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String ngayTaoFormatted = khoaHoc.getNgayTao().format(formatter);
+        model.addAttribute("ngayTaoFormatted", ngayTaoFormatted);
+        return "learning";
     }
 
-    /**
-     * Hiển thị trang xem trước khóa học.
-     * @param id Mã khóa học.
-     * @param model Model để truyền dữ liệu.
-     * @return Tên template Thymeleaf.
-     */
+    private String convertToEmbedUrl(String url) {
+        if (url == null || url.isEmpty()) return null;
+        try {
+            if (url.contains("watch?v=")) return url.replace("watch?v=", "embed/");
+            if (url.contains("youtu.be/")) return url.replace("youtu.be/", "www.youtube.com/embed/");
+        } catch (Exception e) {
+            System.out.println("Lỗi convert URL: " + e.getMessage());
+        }
+        return url;
+    }
+
     @GetMapping("/courses/preview/{id}")
     public String previewCourse(@PathVariable Integer id, Model model) {
         Optional<KhoaHoc> khoaHocOpt = khoaHocService.findById(id);
-        if (khoaHocOpt.isPresent()) {
-            KhoaHoc khoaHoc = khoaHocOpt.get();
-            List<BaiHoc> baiHocList = baiHocService.findByKhoaHoc(id);
-            model.addAttribute("khoaHoc", khoaHoc);
-            model.addAttribute("baiHocList", baiHocList);
-            return "course-preview";
+        if (khoaHocOpt.isEmpty()) {
+            model.addAttribute("error", "Khóa học không tồn tại");
+            return "redirect:/courses";
         }
-        model.addAttribute("error", "Khóa học không tồn tại");
-        return "redirect:/courses";
-    }
 
-    // Phương thức giả định để lấy ID người dùng hiện tại (cần triển khai thực tế)
-    private Integer getCurrentUserId() {
-        // Logic lấy ID từ session hoặc security context
-        return 1; // Giá trị mẫu
+        KhoaHoc khoaHoc = khoaHocOpt.get();
+        List<BaiHoc> baiHocList = baiHocService.findByKhoaHoc(id);
+        model.addAttribute("khoaHoc", khoaHoc);
+        model.addAttribute("baiHocList", baiHocList);
+        return "course-detail";
     }
 }

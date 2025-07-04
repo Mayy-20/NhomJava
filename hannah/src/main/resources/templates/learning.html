@@ -4,29 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="${course.tenKhoaHoc} + ' - Học tập - Hannah'">
-      Hannah - Học tập
+      Học tập
     </title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/hannah/src/main/resources/static/css/styles.css">
-    <link rel="stylesheet" href="/hannah/src/main/resources/static/css/documents.css">
-    <!-- <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link rel="stylesheet" th:href="@{/css/documents.css}" /> -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/documents.css}" />
   </head>
   <body>
     <header class="header">
       <div class="nav-container">
         <a href="/hannah" class="logo">Hannah</a>
         <a
-          th:href="@{/hannah/course-detail(id=${course.maKhoaHoc})}"
-          class="btn btn-secondary"
+          th:href="@{/courses/preview/{id}(id=${course.maKhoaHoc})}" class="btn btn-secondary"
           >Quay lại</a
         >
-        <h2 th:text="${course.tenKhoaHoc}">Python căn bản</h2>
+        <h2 th:text="${course.tenKhoaHoc}">Tên khóa học</h2>
         <div class="auth-buttons">
-          <div class="user-avatar">U</div>
+          <div
+            class="user-avatar"
+            th:text="${#strings.substring(user.hoTen, 0, 1)}"
+          >
+            U
+          </div>
         </div>
       </div>
     </header>
@@ -34,6 +36,7 @@
     <section class="course-content">
       <div class="container">
         <div class="content-grid">
+          <!-- Danh sách bài học -->
           <div class="main-content">
             <div class="lesson-section">
               <h2 class="section-title">Danh sách bài học</h2>
@@ -41,53 +44,89 @@
                 <li th:each="lesson : ${lessons}" class="lesson-item">
                   <div class="lesson-header">
                     <div class="lesson-info">
-                      <h3 th:text="${lesson.tenBaiHoc}">Bài học</h3>
+                      <a
+                        th:href="@{/courses/lesson/{maKhoaHoc}/{maBaiHoc}(maKhoaHoc=${course.maKhoaHoc}, maBaiHoc=${lesson.maBaiHoc})}"
+                      >
+                        <h3 th:text="${lesson.tenBaiHoc}">Tên bài học</h3>
+                      </a>
                     </div>
                     <div class="lesson-meta">
                       <span th:text="${lesson.thoiLuong}">Thời lượng</span>
                       <span
                         class="lesson-status"
-                        th:classappend="${lesson.thuTu == 2} ? 'current' : ''"
-                      ></span>
+                        th:classappend="${tienDoMap[lesson.maBaiHoc]?.hoanThanh} ? 'completed' : ''"
+                      >
+                        <i
+                          class="fa-solid fa-check"
+                          th:if="${tienDoMap[lesson.maBaiHoc]?.hoanThanh}"
+                        ></i>
+                      </span>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
 
-            <div class="video-section">
+            <!-- Phần video và thông tin -->
+            <div
+              class="video-section"
+              th:if="${baiHoc != null or currentLesson != null}"
+            >
               <div class="video-player">
-                <video controls>
-                  <source src="/video/sample.mp4" type="video/mp4" />
-                </video>
-                <div class="progress-bar-container">
-                  <div class="progress-bar" style="width: 60%"></div>
+                <div
+                  class="video-wrapper"
+                  th:if="${videoEmbedUrl != null and !#strings.isEmpty(videoEmbedUrl)}"
+                >
+                  <iframe
+                    th:src="${videoEmbedUrl}"
+                    width="100%"
+                    height="400"
+                    frameborder="0"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <div
+                  th:if="${videoEmbedUrl == null or #strings.isEmpty(videoEmbedUrl)}"
+                >
+                  <p>Không có video cho bài học này.</p>
                 </div>
                 <div class="video-controls">
                   <a
-                    th:href="@{/hannah/learning(id=${course.maKhoaHoc}, lesson=${lesson.thuTu - 1})}"
+                    th:if="${previousLesson != null}"
+                    th:href="@{/courses/lesson/{maKhoaHoc}/{maBaiHoc}(maKhoaHoc=${course.maKhoaHoc}, maBaiHoc=${previousLesson.maBaiHoc})}"
                     class="btn btn-secondary"
                     >Bài trước</a
                   >
                   <span>05:30 / 22:15</span>
                   <a
-                    th:href="@{/hannah/learning(id=${course.maKhoaHoc}, lesson=${lesson.thuTu + 1})}"
+                    th:if="${nextLesson != null}"
+                    th:href="@{/courses/lesson/{maKhoaHoc}/{maBaiHoc}(maKhoaHoc=${course.maKhoaHoc}, maBaiHoc=${nextLesson.maBaiHoc})}"
                     class="btn btn-primary"
                     >Bài tiếp theo</a
                   >
                 </div>
               </div>
 
+              <!-- Thông tin bài học -->
               <div class="lesson-info">
-                <h2 th:text="${lessons[0].tenBaiHoc}">Bài học</h2>
+                <h2 th:text="${baiHoc.tenBaiHoc} ?: ${currentLesson.tenBaiHoc}">
+                  Tên bài học
+                </h2>
                 <div class="meta">
-                  <span th:text="${lessons[0].thoiLuong}">Thời lượng</span>
-                  <span th:text="${course.maGiangVien}">Nguyễn Văn A</span>
-                  <span th:text="${course.ngayTao}">Cập nhật 01/2025</span>
+                  <span
+                    th:text="${baiHoc.thoiLuong} ?: ${currentLesson.thoiLuong}"
+                    >Thời lượng</span
+                  >
+                  <span th:text="${course.giangVien.hoTen}">Giảng viên</span>
+                  <span th:text="${ngayTaoFormatted}"
+                    >Ngày tạo</span
+                  >
                 </div>
                 <div class="lesson-description">
                   <h3>Mô tả bài học</h3>
-                  <p th:text="${lessons[0].moTa}">Mô tả bài học</p>
+                  <p th:text="${baiHoc.moTa} ?: ${currentLesson.moTa}">
+                    Mô tả bài học
+                  </p>
                 </div>
                 <div class="lesson-content">
                   <h3>Nội dung chính</h3>
@@ -104,50 +143,47 @@
             </div>
           </div>
 
+          <!-- Bình luận -->
           <div class="sidebar">
-            <div class="tab-content" style="display: none">
-              <div class="comment-form">
-                <textarea placeholder="Viết bình luận của bạn..."></textarea>
-                <button class="btn btn-primary">Gửi</button>
+            <div class="comment-form">
+              <form th:action="@{/comments}" method="post">
+                <input
+                  type="hidden"
+                  th:name="maBaiDang"
+                  th:value="${baiHoc.maBaiHoc} ?: ${currentLesson.maBaiHoc}"
+                />
+                <input
+                  type="hidden"
+                  th:name="maNguoiDung"
+                  th:value="${user.maNguoiDung}"
+                />
+                <textarea
+                  name="noiDung"
+                  placeholder="Viết bình luận của bạn..."
+                  required
+                ></textarea>
+                <button type="submit" class="btn btn-primary">Gửi</button>
+              </form>
+            </div>
+
+            <div th:each="bl : ${binhLuanList}" class="comment-item">
+              <div class="comment-header">
+                <div
+                  class="comment-avatar"
+                  th:text="${#strings.substring(bl.nguoiDung.hoTen, 0, 1)}"
+                >
+                  U
+                </div>
+                <div class="comment-info">
+                  <h4 th:text="${bl.nguoiDung.hoTen}">Người dùng</h4>
+                  <span
+                    th:text="${#temporals.format(bl.ngayTao, 'HH:mm dd/MM/yyyy')}"
+                    >Thời gian</span
+                  >
+                </div>
               </div>
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">A</div>
-                  <div class="comment-info">
-                    <h4>Nguyễn Văn A</h4>
-                    <span>10 phút trước</span>
-                  </div>
-                </div>
-                <div class="comment-content">
-                  Cho em hỏi về phần type casting ạ. Khi nào thì nên sử dụng
-                  int() và khi nào dùng float()?
-                </div>
-              </div>
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">GV</div>
-                  <div class="comment-info">
-                    <h4>Giáo viên</h4>
-                    <span>5 phút trước</span>
-                  </div>
-                </div>
-                <div class="comment-content">
-                  Câu hỏi hay! Bạn dùng int() khi muốn chuyển về số nguyên (bỏ
-                  phần thập phân), dùng float() khi cần giữ lại phần thập phân.
-                  Ví dụ: int(3.7) = 3, float("3.7") = 3.7
-                </div>
-              </div>
-              <div class="comment-item">
-                <div class="comment-header">
-                  <div class="comment-avatar">B</div>
-                  <div class="comment-info">
-                    <h4>Trần Thị B</h4>
-                    <span>1 giờ trước</span>
-                  </div>
-                </div>
-                <div class="comment-content">
-                  Video rất dễ hiểu! Em đã làm được bài tập rồi ạ. Cảm ơn thầy!
-                </div>
+              <div class="comment-content" th:text="${bl.noiDung}">
+                Nội dung bình luận
               </div>
             </div>
           </div>

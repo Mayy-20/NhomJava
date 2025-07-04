@@ -45,7 +45,7 @@ public class BaiHoc {
 
     public BaiHoc(String tenBaiHoc, Integer maKhoaHoc, Integer thuTu) {
         this.tenBaiHoc = tenBaiHoc;
-        this.khoaHoc = new KhoaHoc(maKhoaHoc);
+        this.khoaHoc = new KhoaHoc();
         this.thuTu = thuTu;
     }
   // Getters and Setters

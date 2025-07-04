@@ -10,10 +10,11 @@ import ut.edu.hannah.repository.NguoiDungRepository;
 import ut.edu.hannah.repository.KhoaHocRepository;
 import ut.edu.hannah.repository.BaiHocRepository;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service để quản lý tiến độ học tập của người dùng.
@@ -43,11 +44,11 @@ public class TienDoService {
      * @param b 
      * @return Tiến độ đã cập nhật.
      */
-    public TienDo updateProgress(Integer maNguoiDung, Integer maKhoaHoc, Integer maBaiHoc, BigDecimal  phanTram, Integer thoiGianHoc, boolean b) {
+    public TienDo updateProgress(Integer maNguoiDung, Integer maKhoaHoc, Integer maBaiHoc, Float phanTram, Integer thoiGianHoc, boolean b) {
         if (maNguoiDung == null || maKhoaHoc == null || maBaiHoc == null) {
             throw new IllegalArgumentException("Mã người dùng, khóa học hoặc bài học không được để trống");
         }
-        if (phanTram == null || phanTram.compareTo(BigDecimal.ZERO) < 0 || phanTram.compareTo(BigDecimal.valueOf(100)) > 0) {
+        if (phanTram == null || phanTram < 0 || phanTram > 100) {
             throw new IllegalArgumentException("Phần trăm hoàn thành phải từ 0 đến 100");
         }
 
@@ -109,26 +110,48 @@ public class TienDoService {
     }
 
     // Tìm hoặc tạo tiến độ
-    private TienDo findOrCreateTienDo(NguoiDung nguoiDung, KhoaHoc khoaHoc, BaiHoc baiHoc) {
-        return tienDoRepository.findByNguoiDungAndKhoaHocAndBaiHoc(nguoiDung, khoaHoc, baiHoc)
-                .orElse(new TienDo());
-    }
+   private TienDo findOrCreateTienDo(NguoiDung nguoiDung, KhoaHoc khoaHoc, BaiHoc baiHoc) {
+    return tienDoRepository.findByNguoiDungAndKhoaHocAndBaiHoc(nguoiDung, khoaHoc, baiHoc)
+            .orElseGet(() -> {
+                TienDo td = new TienDo();
+                td.setNguoiDung(nguoiDung);
+                td.setKhoaHoc(khoaHoc);
+                td.setBaiHoc(baiHoc); 
+                return td;
+            });
+}
+
 
     // Cập nhật chi tiết tiến độ
-    private void updateTienDoDetails(TienDo tienDo, BigDecimal phanTram, Integer thoiGianHoc) {
+    private void updateTienDoDetails(TienDo tienDo, Float phanTram, Integer thoiGianHoc) {
         tienDo.setPhanTram(phanTram);
         tienDo.setThoiGianHoc(thoiGianHoc);
-        tienDo.setHoanThanh(phanTram.compareTo(BigDecimal.valueOf(100)) >= 0);
+        tienDo.setHoanThanh(phanTram >= 100);
         tienDo.setLanCuoiHoc(LocalDateTime.now());
     }
 
-    public TienDo findByKhoaHocAndNguoiDung(Integer id, Integer currentUserId) {
-        if (id == null || currentUserId == null) {
-            throw new IllegalArgumentException("Mã khóa học hoặc người dùng không được để trống");
-        }
-        KhoaHoc khoaHoc = getKhoaHoc(id);
-        NguoiDung nguoiDung = getNguoiDung(currentUserId);
-        return tienDoRepository.findByNguoiDungAndKhoaHocAndBaiHoc(nguoiDung, khoaHoc, null)
-                .orElse(new TienDo(nguoiDung, khoaHoc, null));
+  public TienDo findByKhoaHocAndNguoiDung(Integer id, Integer currentUserId) {
+    if (id == null || currentUserId == null) {
+        throw new IllegalArgumentException("Mã khóa học hoặc người dùng không được để trống");
     }
+    NguoiDung nguoiDung = getNguoiDung(currentUserId);
+    KhoaHoc khoaHoc = getKhoaHoc(id);
+    List<BaiHoc> baiHocList = baiHocRepository.findByKhoaHoc_MaKhoaHoc(id);
+    if (baiHocList.isEmpty()) {
+        throw new IllegalArgumentException("Khóa học không có bài học");
+    }
+    BaiHoc baiHoc = baiHocList.get(0); // Lấy bài học đầu tiên
+    return tienDoRepository.findByNguoiDungAndKhoaHocAndBaiHoc(nguoiDung, khoaHoc, baiHoc)
+            .orElse(new TienDo(nguoiDung, khoaHoc, baiHoc));
+}
+public Map<Integer, TienDo> getAllByKhoaHocAndNguoiDungAsMap(Integer khoaHocId, Integer nguoiDungId) {
+    KhoaHoc khoaHoc = getKhoaHoc(khoaHocId);
+    NguoiDung nguoiDung = getNguoiDung(nguoiDungId);
+
+    List<TienDo> tienDoList = tienDoRepository.findByKhoaHocAndNguoiDung(khoaHoc, nguoiDung);
+
+    return tienDoList.stream()
+        .collect(Collectors.toMap(td -> td.getBaiHoc().getMaBaiHoc(), td -> td));
+}
+
 }

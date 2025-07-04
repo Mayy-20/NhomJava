@@ -15,33 +15,7 @@
   </head>
   <body>
     <!-- Header -->
-    <header class="header">
-      <div class="nav-container">
-        <a th:href="@{/}" class="logo">Hannah</a>
-        <nav class="nav-menu">
-          <a th:href="@{/courses}">Khóa học</a>
-          <a th:href="@{/documents}">Tài liệu</a>
-          <a th:href="@{/community}">Cộng đồng</a>
-          <a th:href="@{/support}">Trợ giúp</a>
-          <a th:href="@{/about}">Về chúng tôi</a>
-        </nav>
-        <div class="user-dropdown" onclick="toggleDropdown()">
-          <div class="user-avatar">U</div>
-          <div class="user-name">
-            Nguyễn Văn A <i class="fas fa-caret-down"></i>
-          </div>
-          <div class="dropdown-menu" id="userDropdown">
-            <a th:href="@{/user-profile}"
-              ><i class="fas fa-user-cog"></i> Quản lý tài khoản</a
-            >
-            <a th:href="@{/index}" onclick="logout()"
-              ><i class="fas fa-sign-out-alt"></i> Đăng xuất</a
-            >
-          </div>
-        </div>
-      </div>
-    </header>
-
+    <div th:replace="fragments/header :: header"></div>
     <!-- Main Content -->
     <div class="main-content">
       <!-- Profile Header -->

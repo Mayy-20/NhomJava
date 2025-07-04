@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface TienDoRepository extends JpaRepository<TienDo, Integer> {
     List<TienDo> findByNguoiDungMaNguoiDung(Integer maNguoiDung);
     Optional<TienDo> findByNguoiDungAndKhoaHocAndBaiHoc(NguoiDung nguoiDung, KhoaHoc khoaHoc, BaiHoc baiHoc);
+    List<TienDo> findByKhoaHocAndNguoiDung(KhoaHoc khoaHoc, NguoiDung nguoiDung);
 }

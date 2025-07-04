@@ -30,7 +30,11 @@ public class ChuDeService {
     }
 
     public String findById(Integer maChuDe) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        if (maChuDe == null) {
+            throw new IllegalArgumentException("Mã chủ đề không được để trống");
+        }
+        return chuDeRepository.findById(maChuDe)
+                .map(ChuDe::getTenChuDe)
+                .orElseThrow(() -> new IllegalArgumentException("Chủ đề không tồn tại"));
     }
 }

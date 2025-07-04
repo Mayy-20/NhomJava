@@ -88,8 +88,11 @@ public class BaiDangService {
         return baiDangRepository.findByTrangThai(trangThai);
     }
 
-    public Object findByKhoaHoc(Integer maKhoaHoc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByKhoaHoc'");
+ public List<BaiDang> findByKhoaHoc(Integer maKhoaHoc) {
+    if (maKhoaHoc == null) {
+        throw new IllegalArgumentException("Mã khóa học không được để trống");
     }
+    List<BaiHoc> baiHocList = baiHocRepository.findByKhoaHoc_MaKhoaHoc(maKhoaHoc);
+    return baiDangRepository.findByBaiHocIn(baiHocList);
+}
 }

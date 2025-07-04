@@ -1,8 +1,6 @@
 package ut.edu.hannah.model;
 
 import jakarta.persistence.*;
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,7 +24,7 @@ public class TienDo {
     private BaiHoc baiHoc;
 
     @Column(name = "PhanTram")
-    private BigDecimal phanTram = BigDecimal.ZERO;
+    private Float phanTram = 0f;
 
     @Column(name = "ThoiGianHoc")
     private Integer thoiGianHoc = 0;
@@ -44,6 +42,7 @@ public class TienDo {
         this.nguoiDung = nguoiDung;
         this.khoaHoc = khoaHoc;
         this.baiHoc = baiHoc;
+        this.lanCuoiHoc = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -78,12 +77,14 @@ public class TienDo {
         this.baiHoc = baiHoc;
     }
 
-    public BigDecimal getPhanTram() {
+    public Float getPhanTram() {
         return phanTram;
     }
-    public void setPhanTram(BigDecimal phanTram) {
+
+    public void setPhanTram(Float phanTram) {
         this.phanTram = phanTram;
     }
+
     public Integer getThoiGianHoc() {
         return thoiGianHoc;
     }

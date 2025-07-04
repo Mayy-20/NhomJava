@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 public class KhoaHocService {
     private final KhoaHocRepository khoaHocRepository;
-    private ChuDeRepository chuDeRepository;
+    private final ChuDeRepository chuDeRepository;
 
     public KhoaHocService(KhoaHocRepository khoaHocRepository, ChuDeRepository chuDeRepository) {
         this.khoaHocRepository = khoaHocRepository;
@@ -52,6 +52,7 @@ public class KhoaHocService {
         }
         return khoaHocRepository.findByTrangThai(trangThai);
     }
+
     /**
      * Tìm khóa học theo cấp độ.
      * @param capDo Cấp độ (NguoiMoi, TrungCap, NangCao).
@@ -75,13 +76,15 @@ public class KhoaHocService {
         }
         return khoaHocRepository.findByGiangVienMaNguoiDung(maGiangVien);
     }
-
     /**
      * Tìm khóa học theo chủ đề.
-     * @param tenChuDe Tên chủ đề.
+     * @param maChuDe Mã chủ đề.
      * @return Danh sách khóa học.
      */
-   public List<KhoaHoc> findByChuDe(String tenChuDe) {
-        return khoaHocRepository.findByChuDes_TenChuDe(tenChuDe);
+    public List<KhoaHoc> findByChuDe(Integer maChuDe) {
+        if (maChuDe == null) {
+            throw new IllegalArgumentException("Mã chủ đề không được để trống");
+        }
+        return khoaHocRepository.findByChuDes_MaChuDe(maChuDe);
     }
-    }
+}

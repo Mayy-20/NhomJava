@@ -76,18 +76,6 @@ body {
   gap: 1rem;
 }
 
-.user-avatar {
-  width: 35px;
-  height: 35px;
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 /* Main Layout */
 .main-container {
   display: grid;

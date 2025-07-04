@@ -2,9 +2,8 @@ package ut.edu.hannah.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
-// Lớp này đại diện cho một khóa học trong hệ thống
 @Entity
 @Table(name = "khoahoc")
 public class KhoaHoc {
@@ -13,13 +12,12 @@ public class KhoaHoc {
     @Column(name = "MaKhoaHoc")
     private Integer maKhoaHoc;
 
-    @Column(name = "TenKhoaHoc", nullable = false)
+    @Column(name = "TenKhoaHoc", nullable = false, unique = true)
     private String tenKhoaHoc;
 
     @Column(name = "MoTa")
-    private String moTa = "";
+    private String moTa;
 
-    // Giảng viên của khóa học
     @ManyToOne
     @JoinColumn(name = "MaGiangVien", nullable = false)
     private NguoiDung giangVien;
@@ -35,42 +33,45 @@ public class KhoaHoc {
     private TrangThai trangThai = TrangThai.HoatDong;
 
     @Column(name = "DanhGiaTB")
-    private Float danhGiaTB = 0.0f;
+    private Float danhGiaTB = 0f;
 
     @Column(name = "SoLuongHocVien")
     private Integer soLuongHocVien = 0;
 
-    @Column(name = "NgayTao", nullable = false)
+    @Column(name = "NgayTao")
     private LocalDateTime ngayTao = LocalDateTime.now();
 
-    // Danh sách chủ đề của khóa học
     @ManyToMany
     @JoinTable(
         name = "khoahoc_chude",
         joinColumns = @JoinColumn(name = "MaKhoaHoc"),
         inverseJoinColumns = @JoinColumn(name = "MaChuDe")
     )
-    private List<ChuDe> chuDeList;
+    private Set<ChuDe> chuDes;
 
-    // Danh sách bài học
-    @OneToMany(mappedBy = "khoaHoc")
-    private List<BaiHoc> baiHocList;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "CapDo", nullable = false)
+    private CapDo capDo = CapDo.NguoiMoi; 
+
+    public enum CapDo {
+        NguoiMoi,
+        TrungCap,
+        NangCao
+    }
 
     public enum TrangThai {
-        HoatDong, ChoDuyet, An
+        HoatDong,
+        ChoDuyet,
+        An
     }
 
-    // Constructor mặc định
-    public KhoaHoc() {
+    // Constructor
+    public KhoaHoc() {}
+
+    public KhoaHoc(Integer maKhoaHoc) {
+        this.maKhoaHoc = maKhoaHoc;
     }
 
-    // Constructor cơ bản
-    public KhoaHoc(String tenKhoaHoc, NguoiDung giangVien) {
-        this.tenKhoaHoc = tenKhoaHoc;
-        this.giangVien = giangVien;
-    }
-
-    // Getter và Setter
     public Integer getMaKhoaHoc() {
         return maKhoaHoc;
     }
@@ -92,7 +93,7 @@ public class KhoaHoc {
     }
 
     public void setMoTa(String moTa) {
-        this.moTa = moTa != null ? moTa : "";
+        this.moTa = moTa;
     }
 
     public NguoiDung getGiangVien() {
@@ -151,19 +152,19 @@ public class KhoaHoc {
         this.ngayTao = ngayTao;
     }
 
-    public List<ChuDe> getChuDeList() {
-        return chuDeList;
+    public Set<ChuDe> getChuDes() {
+        return chuDes;
     }
 
-    public void setChuDeList(List<ChuDe> chuDeList) {
-        this.chuDeList = chuDeList;
+    public void setChuDes(Set<ChuDe> chuDes) {
+        this.chuDes = chuDes;
     }
 
-    public List<BaiHoc> getBaiHocList() {
-        return baiHocList;
+    public CapDo getCapDo() {
+        return capDo;
     }
 
-    public void setBaiHocList(List<BaiHoc> baiHocList) {
-        this.baiHocList = baiHocList;
+    public void setCapDo(CapDo capDo) {
+        this.capDo = capDo;
     }
 }

@@ -22,12 +22,14 @@ public class BaiHocService {
     }
 
    
-    public List<BaiHoc> findByKhoaHoc(Integer maKhoaHoc) {
-        if (maKhoaHoc == null) {
-            throw new IllegalArgumentException("Mã khóa học không được để trống");
-        }
-        return baiHocRepository.findByKhoaHoc_MaKhoaHoc(maKhoaHoc);
+   public List<BaiHoc> findByKhoaHoc(Integer maKhoaHoc) {
+    if (maKhoaHoc == null) {
+        throw new IllegalArgumentException("Mã khóa học không được để trống");
     }
+    List<BaiHoc> lessons = baiHocRepository.findByKhoaHoc_MaKhoaHoc(maKhoaHoc);
+    System.out.println("==> Found " + lessons.size() + " bài học cho khóa học ID = " + maKhoaHoc);
+    return lessons;
+}
 
     public Optional<BaiHoc> findById(Integer id) {
         if (id == null) {
@@ -35,4 +37,9 @@ public class BaiHocService {
         }
         return baiHocRepository.findById(id);
     }
+    public Optional<BaiHoc> findFirstLessonByCourseId(Integer maKhoaHoc) {
+    return baiHocRepository.findFirstByKhoaHoc_MaKhoaHocOrderByThuTuAsc(maKhoaHoc);
+}
+
+
 }

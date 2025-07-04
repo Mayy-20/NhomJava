@@ -1,4 +1,4 @@
-<!-- src/main/resources/templates/fragments/header.html -->
+
 <div th:fragment="header">
   <header class="header">
     <div class="nav-container">
@@ -10,10 +10,37 @@
         <a th:href="@{/support}">Trợ giúp</a>
         <a th:href="@{/about}">Về chúng tôi</a>
       </nav>
-      <div class="auth-buttons">
+      <div th:unless="${session.user != null}" class="auth-buttons">
         <a th:href="@{/login}" class="btn btn-secondary">Đăng nhập</a>
-        <a th:href="@{/register}" class="btn btn-primary">Đăng ký</a>
+        <a th:href="@{/register}" class="btn btn-secondary">Đăng ký</a>
       </div>
+       <div  th:if="${session.user != null}" class="user-dropdown" onclick="toggleDropdown()">
+          <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+          <div th:text="${session.user.hoTen}" class="user-name">
+           Tên người dùng <i class="fas fa-caret-down"></i>
+          </div>
+          <div class="dropdown-menu" id="userDropdown">
+            <a th:href="@{/user-profile}"
+              ><i class="fas fa-user-cog"></i> Quản lý tài khoản</a
+            >
+            <a th:href="@{/user-dashboard}">Học tập</a>
+            <a th:href="@{/logout}"
+              ><i class="fas fa-sign-out-alt"></i> Đăng xuất</a
+            >
+          </div>
+        </div>
     </div>
   </header>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+        window.onclick = function(event) {
+            if (!event.target.closest('.user-dropdown')) {
+                const dropdown = document.getElementById('userDropdown');
+                dropdown.classList.remove('show');
+            }
+        }
+    </script>
 </div>

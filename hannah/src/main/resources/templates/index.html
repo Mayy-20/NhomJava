@@ -29,23 +29,33 @@
         <h2 class="section-title">Khóa học nổi bật</h2>
         <div class="course-grid">
           <div
-           class="course-card" th:each="khoaHoc : ${khoaHocList}" >
+            th:each="khoaHoc : ${khoaHocList}"
+            class="course-card"
+            th:onclick="'window.location.href=\'' + @{/courses/{id}(id=${khoaHoc.maKhoaHoc})} + '\''"
+          >
             <div class="course-image">
-              <img th:src="${khoaHoc.hinhAnh}" alt="Ảnh khóa học" class="course-image"/>
+              <img
+                th:src="${khoaHoc.hinhAnh != null ? khoaHoc.hinhAnh : '/images/default-course.jpg'}"
+                alt="Ảnh khóa học"
+                class="course-image"
+              />
               <div
                 class="course-level"
-               th:text="${khoaHoc.capDo != null ? khoaHoc.capDo : 'Chưa xác định'}">
-                Beginner </div>
+                th:text="${khoaHoc.capDo != null ? khoaHoc.capDo : 'Chưa xác định'}"
+              >
+                Cấp độ
+              </div>
             </div>
             <div class="course-content">
-              <span class="course-type">KHÓA HỌC</span>
-              <h3 class="course-title"th:text="${khoaHoc.tenKhoaHoc}">
+              <h3 class="course-title" th:text="${khoaHoc.tenKhoaHoc}">
                 Tên khóa học
               </h3>
-              <p class="course-desc"th:text="${khoaHoc.moTa}">Mô tả khóa học</p>
+              <p class="course-desc" th:text="${khoaHoc.moTa}">
+                Mô tả khóa học
+              </p>
               <div class="course-actions">
                 <a
-                 th:href="@{/courses/{id}(id=${khoaHoc.maKhoaHoc})}"
+                  th:href="@{/courses/{id}(id=${khoaHoc.maKhoaHoc})}"
                   class="btn-course btn-course-primary"
                   >Học ngay</a
                 >
@@ -125,4 +135,3 @@
     <script th:src="@{/js/pages.js}"></script>
   </body>
 </html>
-```
