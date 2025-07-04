@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi thông báo thành công - Hannah</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .success-container {
+            max-width: 600px;
+            margin: 80px auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #10B981;
+            margin-bottom: 2rem;
+        }
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 1rem;
+        }
+        .success-message {
+            font-size: 1.2rem;
+            color: #6B7280;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+        .success-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .notification-stats {
+            background-color: #F0FDF4;
+            border: 1px solid #10B981;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+        @media (max-width: 768px) {
+            .success-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">Hannah</div>
+            <ul class="nav-menu">
+                <li><a href="teacher-dashboard.html">Trang chủ</a></li>
+                <li><a href="teacher-courses.html">Khóa học</a></li>
+                <li><a href="teacher-students.html">Học viên</a></li>
+                <li><a href="teacher-analytics.html">Thống kê</a></li>
+                <li><a href="teacher-community.html">Cộng đồng</a></li>
+                <li><a href="teacher-profile.html">Hồ sơ</a></li>
+                <li><a href="teacher-settings.html">Cài đặt</a></li>
+                <li><a href="#" class="nav-logout">Đăng xuất</a></li>
+            </ul>
+            <div class="user-profile">
+                <div class="user-badge">Giáo viên</div>
+                <div class="user-avatar">GV</div>
+                <div class="user-name">Nguyễn Văn A</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="success-container">
+            <div class="success-icon">📢</div>
+            <h1 class="success-title">Gửi thông báo thành công!</h1>
+            <p class="success-message">
+                Thông báo của bạn đã được gửi thành công đến tất cả học viên được chọn.
+            </p>
+            
+            <div class="notification-stats">
+                <div class="stat-item">
+                    <span>Số người nhận:</span>
+                    <strong>120 học viên</strong>
+                </div>
+                <div class="stat-item">
+                    <span>Thời gian gửi:</span>
+                    <strong id="sendTime"></strong>
+                </div>
+                <div class="stat-item">
+                    <span>Trạng thái:</span>
+                    <strong style="color: #10B981;">Đã gửi</strong>
+                </div>
+            </div>
+
+            <div class="success-actions">
+                <a href="teacher-notifications.html" class="btn btn-primary">Quản lý thông báo</a>
+                <a href="teacher-dashboard.html" class="btn btn-secondary">Về trang chủ</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Hiển thị thời gian hiện tại
+        document.getElementById('sendTime').textContent = new Date().toLocaleString('vi-VN');
+        
+        // Tự động chuyển hướng sau 5 giây
+        setTimeout(function() {
+            window.location.href = "teacher-notifications.html";
+        }, 5000);
+    </script>
+</body>
+</html>
