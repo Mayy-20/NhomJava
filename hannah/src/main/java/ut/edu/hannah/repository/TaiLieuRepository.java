@@ -11,4 +11,5 @@ public interface TaiLieuRepository extends JpaRepository<TaiLieu, Integer> {
     List<TaiLieu> findByTrangThai(TaiLieu.TrangThai trangThai);
     List<TaiLieu> findByBaiHocMaBaiHoc(Integer maBaiHoc);
     List<TaiLieu> findByTacGiaMaNguoiDung(Integer maTacGia);
+     List<TaiLieu> findByLoaiTaiLieu_MaLoaiTaiLieu(Integer maLoaiTaiLieu);
 }

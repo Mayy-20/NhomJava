@@ -25,6 +25,8 @@ public class TaiLieu {
     @ManyToOne
     @JoinColumn(name = "MaTacGia", nullable = false)
     private NguoiDung tacGia;
+    @Column(name ="MoTa")
+    private String moTa;
 
     @Column(name = "DuongDan")
     private String duongDan;
@@ -52,7 +54,6 @@ public class TaiLieu {
     // Constructor
     public TaiLieu() {}
 
-    // Getters and Setters
     public Integer getMaTaiLieu() {
         return maTaiLieu;
     }
@@ -91,6 +92,14 @@ public class TaiLieu {
 
     public void setTacGia(NguoiDung tacGia) {
         this.tacGia = tacGia;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
     }
 
     public String getDuongDan() {
@@ -140,4 +149,8 @@ public class TaiLieu {
     public void setNgayTao(LocalDateTime ngayTao) {
         this.ngayTao = ngayTao;
     }
+
+    // Getters and Setters
+    
+   
 }
