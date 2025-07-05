@@ -20,54 +20,29 @@
     <div class="main-content">
       <!-- Profile Header -->
       <div class="profile-header">
-        <div class="profile-name">Nguyễn Văn A</div>
-        <div class="profile-email">nguyenvana@email.com</div>
-        <div class="profile-badge">Học viên tích cực</div>
-      </div>
-
-      <!-- Stats Grid -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-book-open"></i>
-          </div>
-          <div class="stat-number">3</div>
-          <div class="stat-label">Khóa học đang học</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-clock"></i>
-          </div>
-          <div class="stat-number">45</div>
-          <div class="stat-label">Giờ học tích lũy</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-trophy"></i>
-          </div>
-          <div class="stat-number">12</div>
-          <div class="stat-label">Bài học hoàn thành</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-medal"></i>
-          </div>
-          <div class="stat-number">5</div>
-          <div class="stat-label">Thành tích đạt được</div>
-        </div>
+        <div class="profile-name" th:text="${nguoiDung.hoTen}"></div>
+        <div class="profile-email" th:text="${nguoiDung.email}"></div>
+        <div
+          class="profile-badge"
+          th:text="${nguoiDung.vaiTro.tenVaiTro}"
+        ></div>
       </div>
 
       <!-- Personal Information -->
       <div class="form-section">
-        <h2 class="section-title">Thông tin cá nhân</h2>
-        <form onsubmit="return savePersonalInfo(event);">
+        <h1 class="section-title">Thông tin cá nhân</h1>
+        <form
+          th:action="@{/hannah/user-profile}"
+          method="post"
+          th:object="${nguoiDung}"
+        >
           <div class="form-grid">
             <div class="form-group">
               <label class="form-label">Họ và tên</label>
               <input
                 type="text"
                 class="form-input"
-                value="Nguyễn Văn A"
+                th:field="*{hoTen}"
                 required
               />
             </div>
@@ -76,30 +51,32 @@
               <input
                 type="email"
                 class="form-input"
-                value="nguyenvana@email.com"
+                th:field="*{email}"
                 required
               />
             </div>
             <div class="form-group">
               <label class="form-label">Số điện thoại</label>
-              <input type="tel" class="form-input" value="0123456789" />
+              <input type="tel" class="form-input" th:field="*{dienThoai}" />
             </div>
             <div class="form-group">
-              <label class="form-label">Ngày sinh</label>
-              <input type="date" class="form-input" value="1995-01-15" />
+              <label class="form-label">Ngày đăng ký </label>
+              <input
+                type="date"
+                class="form-input"
+                th:value="${#temporals.format(nguoiDung.ngayTao, 'yyyy-MM-dd')}"
+                readonly
+              />
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Giới thiệu bản thân</label>
-            <textarea
-              class="form-textarea"
-              placeholder="Viết vài dòng giới thiệu về bản thân..."
-            >
-Tôi là một sinh viên IT đam mê học hỏi và phát triển kỹ năng lập trình. Hiện tại đang theo học các khóa học về Python và JavaScript tại Hannah.</textarea
-            >
+            <textarea class="form-textarea" th:field="*{gioiThieu}"></textarea>
           </div>
           <div class="form-actions">
-            <button type="button" class="btn btn-secondary">Hủy</button>
+            <a th:href="@{/hannah/user-profile}" class="btn btn-secondary"
+              >Hủy</a
+            >
             <button type="submit" class="btn btn-primary">
               <i class="fas fa-save"></i>
               Lưu thay đổi
@@ -107,79 +84,17 @@ Tôi là một sinh viên IT đam mê học hỏi và phát triển kỹ năng l
           </div>
         </form>
       </div>
-
-      <!-- Learning Preferences -->
-      <div class="form-section">
-        <h2 class="section-title">Tùy chọn học tập</h2>
-        <form onsubmit="return saveLearningPreferences(event);">
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">Mục tiêu học tập</label>
-              <select class="form-select">
-                <option value="career">Phát triển sự nghiệp</option>
-                <option value="hobby" selected>Sở thích cá nhân</option>
-                <option value="academic">Học thuật</option>
-                <option value="business">Kinh doanh</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Thời gian học mỗi ngày</label>
-              <select class="form-select">
-                <option value="30min">30 phút</option>
-                <option value="1hour" selected>1 giờ</option>
-                <option value="2hours">2 giờ</option>
-                <option value="3hours">3+ giờ</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Lĩnh vực quan tâm</label>
-              <select class="form-select">
-                <option value="web" selected>Phát triển Web</option>
-                <option value="mobile">Ứng dụng Mobile</option>
-                <option value="data">Khoa học dữ liệu</option>
-                <option value="ai">AI & Machine Learning</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Cấp độ hiện tại</label>
-              <select class="form-select">
-                <option value="beginner" selected>Người mới bắt đầu</option>
-                <option value="intermediate">Trung cấp</option>
-                <option value="advanced">Nâng cao</option>
-                <option value="expert">Chuyên gia</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-actions">
-            <button type="button" class="btn btn-secondary">Hủy</button>
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-save"></i>
-              Lưu tùy chọn
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
-
-    <script>
-      function savePersonalInfo(event) {
-        event.preventDefault();
-        alert("Thông tin cá nhân đã được lưu thành công!");
-        return false;
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      let successMessage = /*[[${successMessage}]]*/ null;
+      if (successMessage) {
+        alert(successMessage);
       }
-
-      function saveLearningPreferences(event) {
-        event.preventDefault();
-        alert("Tùy chọn học tập đã được lưu thành công!");
-        return false;
-      }
+      /*]]>*/
     </script>
     <!-- Footer -->
     <div th:replace="fragments/footer :: footer"></div>
-
-    <!-- Chatbox -->
-    <div th:replace="fragments/chatbox :: chatbox"></div>
-    <script th:src="@{/js/chatbox.js}"></script>
     <script th:src="@{/js/pages.js}"></script>
   </body>
 </html>

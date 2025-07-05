@@ -1,5 +1,7 @@
 package ut.edu.hannah.controller;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,14 +54,14 @@ public class TienDoController {
     public String updateTienDo(@RequestParam Integer maNguoiDung,
                               @RequestParam Integer maKhoaHoc,
                               @RequestParam Integer maBaiHoc,
-                              @RequestParam Float phanTram,
+                              @RequestParam BigDecimal phanTram,
                               @RequestParam Integer thoiGianHoc,
                               Model model) {
         try {
             if (maNguoiDung == null || maKhoaHoc == null || maBaiHoc == null) {
                 throw new IllegalArgumentException("Mã người dùng, khóa học hoặc bài học không được để trống");
             }
-            if (phanTram == null || phanTram < 0 || phanTram > 100) {
+            if (phanTram == null || phanTram.compareTo(BigDecimal.ZERO) < 0 || phanTram.compareTo(BigDecimal.valueOf(100)) > 0) {
                 throw new IllegalArgumentException("Phần trăm hoàn thành phải từ 0 đến 100");
             }
             tienDoService.updateProgress(maNguoiDung, maKhoaHoc, maBaiHoc, phanTram, thoiGianHoc, false);

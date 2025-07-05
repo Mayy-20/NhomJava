@@ -9,7 +9,9 @@ import ut.edu.hannah.repository.TienDoRepository;
 import ut.edu.hannah.repository.NguoiDungRepository;
 import ut.edu.hannah.repository.KhoaHocRepository;
 import ut.edu.hannah.repository.BaiHocRepository;
+import ut.edu.hannah.dto.UserCourseProgressDTO; // Import DTO mới
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -44,11 +46,13 @@ public class TienDoService {
      * @param b 
      * @return Tiến độ đã cập nhật.
      */
-    public TienDo updateProgress(Integer maNguoiDung, Integer maKhoaHoc, Integer maBaiHoc, Float phanTram, Integer thoiGianHoc, boolean b) {
+    public TienDo updateProgress(Integer maNguoiDung, Integer maKhoaHoc, Integer maBaiHoc, BigDecimal phanTram, Integer thoiGianHoc, boolean b) {
         if (maNguoiDung == null || maKhoaHoc == null || maBaiHoc == null) {
             throw new IllegalArgumentException("Mã người dùng, khóa học hoặc bài học không được để trống");
         }
-        if (phanTram == null || phanTram < 0 || phanTram > 100) {
+        if (phanTram == null 
+            || phanTram.compareTo(BigDecimal.ZERO) < 0 
+            || phanTram.compareTo(BigDecimal.valueOf(100)) > 0) {
             throw new IllegalArgumentException("Phần trăm hoàn thành phải từ 0 đến 100");
         }
 
@@ -123,10 +127,10 @@ public class TienDoService {
 
 
     // Cập nhật chi tiết tiến độ
-    private void updateTienDoDetails(TienDo tienDo, Float phanTram, Integer thoiGianHoc) {
+    private void updateTienDoDetails(TienDo tienDo, BigDecimal phanTram, Integer thoiGianHoc) {
         tienDo.setPhanTram(phanTram);
         tienDo.setThoiGianHoc(thoiGianHoc);
-        tienDo.setHoanThanh(phanTram >= 100);
+        tienDo.setHoanThanh(phanTram.compareTo(BigDecimal.valueOf(100)) >= 0);
         tienDo.setLanCuoiHoc(LocalDateTime.now());
     }
 
@@ -154,4 +158,85 @@ public Map<Integer, TienDo> getAllByKhoaHocAndNguoiDungAsMap(Integer khoaHocId, 
         .collect(Collectors.toMap(td -> td.getBaiHoc().getMaBaiHoc(), td -> td));
 }
 
+    /**
+     * Lấy danh sách các khóa học mà người dùng đang học cùng với tiến độ.
+     * Đây là phương thức chính để lấy dữ liệu cho user-dashboard.
+     * @param maNguoiDung Mã người dùng.
+     * @return Danh sách UserCourseProgressDTO.
+     */
+    public List<UserCourseProgressDTO> getUserCourseProgress(Integer maNguoiDung) {
+        List<TienDo> tienDoList = tienDoRepository.findByNguoiDungMaNguoiDung(maNguoiDung);
+
+        // Gom nhóm tiến độ theo khóa học để tính toán tổng quan cho từng khóa học
+        Map<KhoaHoc, List<TienDo>> progressByCourse = tienDoList.stream()
+            .collect(Collectors.groupingBy(TienDo::getKhoaHoc));
+
+        return progressByCourse.entrySet().stream()
+            .map(entry -> {
+                KhoaHoc khoaHoc = entry.getKey();
+                List<TienDo> progressForCourse = entry.getValue();
+
+                // Tính tổng số bài học đã hoàn thành và tổng thời gian học cho khóa học
+                long soBaiHocDaHoanThanh = progressForCourse.stream()
+                    .filter(TienDo::getHoanThanh)
+                    .count();
+                
+                // Lấy tổng số bài học của khóa học đó
+                long tongSoBaiHoc = baiHocRepository.countByKhoaHoc_MaKhoaHoc(khoaHoc.getMaKhoaHoc());
+
+                // Tính phần trăm hoàn thành tổng thể của khóa học (có thể điều chỉnh logic này)
+                BigDecimal phanTramHoanThanhKhoaHoc = BigDecimal.ZERO;
+                if (tongSoBaiHoc > 0) {
+                     phanTramHoanThanhKhoaHoc = BigDecimal.valueOf(soBaiHocDaHoanThanh)
+                                                            .divide(BigDecimal.valueOf(tongSoBaiHoc), 2, BigDecimal.ROUND_HALF_UP)
+                                                            .multiply(BigDecimal.valueOf(100));
+                }
+
+
+                return new UserCourseProgressDTO(
+                    khoaHoc.getMaKhoaHoc(),
+                    khoaHoc.getTenKhoaHoc(),
+                    khoaHoc.getGiangVien() != null ? khoaHoc.getGiangVien().getHoTen() : "Không rõ", // Lấy tên giảng viên
+                    phanTramHoanThanhKhoaHoc,
+                    soBaiHocDaHoanThanh,
+                    tongSoBaiHoc,
+                    khoaHoc.getHinhAnh() != null ? khoaHoc.getHinhAnh() : "/images/default-course.jpg" 
+                );
+            })
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Tính tổng số khóa học đang học của người dùng.
+     * @param maNguoiDung Mã người dùng.
+     * @return Số lượng khóa học đang học.
+     */
+    public long countCoursesInProgress(Integer maNguoiDung) {
+        return tienDoRepository.findByNguoiDungMaNguoiDung(maNguoiDung).stream()
+                .map(TienDo::getKhoaHoc)
+                .distinct()
+                .count();
+    }
+
+    /**
+     * Tính tổng thời gian học tích lũy của người dùng (tính bằng giờ).
+     * @param maNguoiDung Mã người dùng.
+     * @return Tổng thời gian học tích lũy.
+     */
+    public long calculateTotalStudyHours(Integer maNguoiDung) {
+        return tienDoRepository.findByNguoiDungMaNguoiDung(maNguoiDung).stream()
+                .mapToLong(TienDo::getThoiGianHoc)
+                .sum() / 3600; // Chuyển từ giây sang giờ
+    }
+
+    /**
+     * Đếm số bài học đã hoàn thành của người dùng.
+     * @param maNguoiDung Mã người dùng.
+     * @return Số lượng bài học đã hoàn thành.
+     */
+    public long countCompletedLessons(Integer maNguoiDung) {
+        return tienDoRepository.findByNguoiDungMaNguoiDung(maNguoiDung).stream()
+                .filter(TienDo::getHoanThanh)
+                .count();
+    }
 }

@@ -11,7 +11,27 @@ body {
   overflow-x: hidden;
   background: #f8fafc;
 }
+/* Các lớp mới cho Header */
+.header-center-title {
+  flex-grow: 1;
+  text-align: center;
+  padding: 0 1rem;
+}
 
+.header-center-title h2 {
+  font-size: 1.8rem;
+  margin: 0;
+  background: linear-gradient(45deg, #ffffff, #4ecdc4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-right-items {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 /* Header */
 .header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -104,24 +124,30 @@ body {
   transform: scale(1.05);
   box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
 }
-
+.btn-secondary:hover {
+  transform: scale(1.05);
+}
 .btn-secondary {
   background: transparent;
-  color: white;
-  border: 2px solid white;
+  color: rgb(207, 189, 143);
+  border: 2px solid rgb(155, 149, 149);
 }
 
 .btn-secondary:hover {
   background: white;
   color: #667eea;
 }
+/* User Dropdown Styles */
 .user-dropdown {
   position: relative;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: white;
+  transition: color 0.3s ease;
 }
+
 .user-avatar {
   width: 35px;
   height: 35px;
@@ -135,12 +161,30 @@ body {
   font-size: 0.9rem;
 }
 
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 .user-dropdown .user-name i {
-  margin-left: 0.3rem;
   font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.user-dropdown:hover .user-name {
+  color: #4ecdc4;
+}
+
+.user-dropdown.show .user-name {
+  color: #4ecdc4;
+}
+.user-dropdown.show .user-name i {
+  transform: rotate(180deg);
 }
 
 .dropdown-menu {
+  display: none;
   position: absolute;
   top: 120%;
   right: 0;
@@ -149,9 +193,12 @@ body {
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   padding: 0.5rem 0;
-  display: none;
   z-index: 1000;
   min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
 .dropdown-menu a {
@@ -160,12 +207,22 @@ body {
   text-decoration: none;
   color: #2d3748;
   font-weight: 500;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
 }
 
 .dropdown-menu a:hover {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
 }
+
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 /* Hero Section, Hero-courses, course-detail*/
 .hero,
 .courses-hero,
@@ -223,7 +280,7 @@ body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 120px 0 80px;
   color: white;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 .course-hero-content {
   display: grid;
@@ -736,6 +793,15 @@ body {
   justify-content: center;
   align-items: center;
 }
+.course-image-hero {
+  width: 400px; 
+  height: 250px;
+  border-radius: 20px;
+  object-fit: cover; 
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); 
+  margin-left: auto; 
+  flex-shrink: 0; 
+}
 
 .course-image img {
   width: 100%;
@@ -743,15 +809,6 @@ body {
   object-fit: cover;
 }
 
-/* .course-image::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="white" fill-opacity="0.1"><rect x="20" y="20" width="20" height="20" rx="3"/><circle cx="45" cy="15" r="5"/><path d="M10 40 L20 50 L30 40" stroke="white" stroke-width="2" fill="none"/></g></svg>');
-} */
 .course-level {
   position: absolute;
   top: 10px;
