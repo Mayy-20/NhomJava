@@ -32,10 +32,10 @@ public String register(@RequestParam String tenDangNhap,
                        @RequestParam String matKhau,
                        @RequestParam String confirmPassword,
                        @RequestParam String hoTen,
-                       @RequestParam(defaultValue = "1") Integer maVaiTro,
+                       @RequestParam(defaultValue = "3") Integer maVaiTro,
                        Model model) {
     try {
-        nguoiDungService.register(tenDangNhap, email, matKhau, confirmPassword, hoTen, maVaiTro);
+        nguoiDungService.register(tenDangNhap, email, matKhau, confirmPassword, hoTen, maVaiTro, hoTen);
         return "redirect:/login"; 
     } catch (IllegalArgumentException e) {
         NguoiDung nguoiDung = new NguoiDung();

@@ -27,9 +27,17 @@ public class ChuDe {
     // Constructor
     public ChuDe() {}
 
-    public ChuDe(Integer maChuDe) {
+    
+
+    public ChuDe(Integer maChuDe, String tenChuDe, String moTa, String icon, List<KhoaHoc> khoaHocList) {
         this.maChuDe = maChuDe;
+        this.tenChuDe = tenChuDe;
+        this.moTa = moTa;
+        this.icon = icon;
+        this.khoaHocList = khoaHocList;
     }
+
+
 
     // Getters and Setters
     public Integer getMaChuDe() {

@@ -31,7 +31,7 @@ public class NguoiDungService {
      * @param hoTen Họ tên.
      * @param maVaiTro Mã vai trò.
      */
-    public void register(String tenDangNhap, String email, String matKhau, String confirmPassword, String hoTen, Integer maVaiTro) {
+    public void register(String tenDangNhap, String email, String matKhau, String confirmPassword, String hoTen, Integer maVaiTro,String gioiThieu) {
         if (tenDangNhap == null || tenDangNhap.trim().isEmpty()) {
             throw new IllegalArgumentException("Tên đăng nhập không được để trống");
         }
@@ -53,6 +53,7 @@ public class NguoiDungService {
         VaiTro vaiTro = vaiTroRepository.findById(maVaiTro)
                 .orElseThrow(() -> new IllegalArgumentException("Vai trò không tồn tại"));
 
+
         if (nguoiDungRepository.findByTenDangNhap(tenDangNhap).isPresent()) {
             throw new IllegalArgumentException("Tên đăng nhập đã tồn tại");
         }
@@ -66,6 +67,7 @@ public class NguoiDungService {
         nguoiDung.setMatKhau(matKhau);
         nguoiDung.setHoTen(hoTen);
         nguoiDung.setVaiTro(vaiTro);
+        nguoiDung.setGioiThieu(gioiThieu);
         nguoiDungRepository.save(nguoiDung);
     }
 
@@ -120,5 +122,9 @@ public class NguoiDungService {
             return Optional.empty();
         }
         return nguoiDungRepository.findByTenDangNhap(tenDangNhap);
+    }
+
+    public void save(NguoiDung nguoiDung) {
+        nguoiDungRepository.save(nguoiDung);
     }
 }

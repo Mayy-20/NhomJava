@@ -8,160 +8,233 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
     <link rel="stylesheet" th:href="@{/css/community.css}" />
   </head>
   <body>
-    <!-- Header Fragment -->
     <div th:replace="fragments/header :: header"></div>
-    <!-- Hero Section -->
+
     <section class="community-hero">
       <div class="container">
-        <h1>Cộng đồng Hannah</h1>
-        <p>
-          Kết nối, chia sẻ kiến thức và cùng nhau phát triển trong hành trình
-          học lập trình
-        </p>
-        <a
-          href="#create-post"
-          class="btn btn-primary"
-          style="font-size: 1.1rem; padding: 1rem 2rem"
-        >
-          <i class="fas fa-plus"></i>
-          Tạo bài đăng
-        </a>
+        <h1>Diễn đàn Cộng đồng</h1>
+        <p>Kết nối, chia sẻ kiến thức và học hỏi từ những người khác.</p>
       </div>
     </section>
 
-    <!-- Main Content -->
     <section class="main-content">
       <div class="container">
         <div class="content-grid">
-          <!-- Main Feed -->
-          <div class="main-feed">
-            <!-- Post Creation -->
-            <div class="post-creation" id="create-post">
-              <form class="post-form" onsubmit="return createPost(event);">
-                <textarea
-                  class="post-input"
-                  placeholder="Chia sẻ câu hỏi, kinh nghiệm hoặc dự án của bạn..."
-                ></textarea>
-                <div class="post-actions">
-                  <div class="post-options">
-                    <button
-                      type="button"
-                      class="post-option"
-                      title="Thêm hình ảnh"
-                    >
-                      <i class="fas fa-image"></i>
-                    </button>
-                     <input type="text" name="tieuDe" placeholder="Tiêu đề bài đăng" required>
-                        <textarea name="noiDung" placeholder="Bạn đang nghĩ gì?" required></textarea>
-                        <input type="hidden" name="maTacGia" th:value="${user.maNguoiDung}">
-                        <select name="maChuDe" th:if="${chuDeList != null}">
-                            <option value="">Chọn chủ đề</option>
-                            <option th:each="chuDe : ${chuDeList}" th:value="${chuDe.maChuDe}" th:text="${chuDe.tenChuDe}"></option>
-                        </select>
-                        <input type="number" name="maBaiHoc" placeholder="Mã bài học (tùy chọn)">
-                    <!-- <button type="button" class="post-option" title="Thêm code">
-                      <i class="fas fa-code"></i>
-                    </button>
-                    <button type="button" class="post-option" title="Thêm link">
-                      <i class="fas fa-link"></i>
-                    </button>
-                    <button type="button" class="post-option" title="Thêm tag">
-                      <i class="fas fa-hashtag"></i>
-                    </button> -->
+          <div class="main-column">
+            <div class="post-creation" th:if="${isLoggedIn}">
+              <h2 class="section-title">Tạo bài đăng mới</h2>
+              <form th:action="@{/community}" method="post" class="post-form">
+                <div class="user-info-post-create">
+                  <div
+                    class="user-avatar"
+                    th:text="${currentUser != null ? #strings.substring(currentUser.hoTen, 0, 1) : 'U'}"
+                  >
+                    U
                   </div>
-                  <button type="submit" class="btn-post">
-                    <i class="fas fa-paper-plane"></i>
-                    Đăng bài
-                  </button>
+                  <span th:text="${currentUser.hoTen}">Tên Người Dùng</span>
                 </div>
+                <input
+                  type="text"
+                  name="tieuDe"
+                  class="post-input"
+                  placeholder="Tiêu đề bài viết của bạn..."
+                  required
+                  th:value="${tieuDe}"
+                />
+                <textarea
+                  name="noiDung"
+                  class="post-input"
+                  rows="5"
+                  placeholder="Bạn muốn chia sẻ điều gì?"
+                  required
+                  th:text="${noiDung}"
+                ></textarea>
+
+                <div class="form-group">
+                  <label for="maChuDe">Chủ đề:</label>
+                  <select id="maChuDe" name="maChuDe" class="form-control">
+                    <option value="">-- Chọn chủ đề --</option>
+                    <option
+                      th:each="chuDe : ${chuDeList}"
+                      th:value="${chuDe.maChuDe}"
+                      th:text="${chuDe.tenChuDe}"
+                      th:selected="${maChuDe == chuDe.maChuDe}"
+                    ></option>
+                  </select>
+                </div>
+
+                <div class="post-actions">
+                  <button type="submit" class="primary-btn">Đăng bài</button>
+                </div>
+                <p
+                  th:if="${error}"
+                  class="error-message"
+                  th:text="${error}"
+                ></p>
               </form>
             </div>
+            <div class="post-creation" th:unless="${isLoggedIn}">
+              <p class="text-center">
+                Vui lòng
+                <a th:href="@{/login}" class="link-primary">đăng nhập</a> để
+                đăng bài và bình luận.
+              </p>
+            </div>
 
-            <!-- Posts Feed -->
-              <div th:each="post : ${baiDangList}" class="post-item">
-                <div class="post-header">
-                  <div
-                    th:src="${post.maTacGia.anhDaiDien} ?: '/images/default-avatar.png'"
-                    alt="Avatar"
-                    class="post-avatar"
+            <div class="post-card" th:each="baiDang : ${baiDangList}">
+              <div class="post-header">
+                <img
+                  th:src="@{/images/default-avatar.png}"
+                  alt="Avatar"
+                  class="avatar-small"
+                />
+                <div class="post-author-info">
+                  <span class="author-name" th:text="${baiDang.tacGia.hoTen}"
+                    >Tên Tác Giả</span
                   >
-                    A
-                  </div>
-                  <div class="post-user-info">
-                    <div th:text="${post.tacGia.hoTen}" class="post-username">
-                      Nguyễn Văn A
-                    </div>
-                    <div class="post-time" th:text="${post.thoiGianTao}">
-                      2 giờ trước
-                    </div>
-                  </div>
-                  <div
-                    class="post-time" th:text="${post.thoiGianTao}"
-                    class="post-badge"
+                  <span
+                    class="post-date"
+                    th:text="${#temporals.format(baiDang.ngayTao, 'dd/MM/yyyy HH:mm')}"
+                    >Ngày đăng</span
                   >
-                    Học viên
-                  </div>
                 </div>
-                <div class="post-content">
-                  <div th:text="${post.tieuDe}" class="post-title">
-                    Cần giúp đỡ về Python loops
-                  </div>
-                  <div th:text="${post.noiDung}" class="post-text">
-                    Mình đang học về vòng lặp trong Python và gặp khó khăn với
-                    nested loops. Có ai có thể giải thích cách hoạt động và chia
-                    sẻ một số ví dụ thực tế không ạ? Cảm ơn mọi người!
-                  </div>
-                  <div  class="post-tags">
-                    <span  class="post-tag" th:text="${post.chuDe != null ? post.chuDe.tenChuDe : 'Tag'}"
-                      >Tag</span
-                    >
-                  </div>
-                </div>
-                <div class="post-footer">
-                  <div class="post-stats">
-                    <div  class="post-stat">
-                      <i class="fas fa-heart"></i>
-                      <span>12</span>
-                    </div>
-                    <div  class="post-stat">
-                      <i class="fas fa-comment"></i>
-                      <span>8</span>
-                    </div>
-                    <div  class="post-stat">
-                      <i class="fas fa-share"></i>
-                      <span>3</span>
-                    </div>
-                  </div>
-                  <div class="post-actions-footer">
-                    <button class="post-action" onclick="toggleLike(this)">
-                      <i class="fas fa-heart"></i>
-                      Thích
-                    </button>
-                    <button
-                    
-                      class="post-action"
-                    >
-                      <i class="fas fa-comment"></i>
-                      Bình luận
-                    </button>
-                    <button class="post-action">
-                      <i class="fas fa-share"></i>
-                      Chia sẻ
-                    </button>
-                  </div>
+                <div class="post-options">
+                  <i class="fas fa-ellipsis-h"></i>
                 </div>
               </div>
-       
-    <!-- Footer -->
+              <div class="post-body">
+                <h3 class="post-title" th:text="${baiDang.tieuDe}">
+                  Tiêu đề bài viết
+                </h3>
+                <p class="post-content" th:text="${baiDang.noiDung}">
+                  Nội dung bài viết...
+                </p>
+              </div>
+              <div class="post-stats">
+                <span
+                  ><i class="fas fa-comment"></i>
+                  <span
+                    th:text="${baiDang.binhLuanList != null ? baiDang.binhLuanList.size() : 0}"
+                  ></span>
+                  Bình luận</span
+                >
+                <span
+                  ><i class="fas fa-eye"></i>
+                  <span th:text="${baiDang.luotXem}"></span> Lượt xem</span
+                >
+              </div>
+              <div class="comments-section">
+                <h4>Bình luận</h4>
+                <div class="comment-form-container" th:if="${isLoggedIn}">
+                  <form
+                    th:action="@{/comments}"
+                    method="post"
+                    class="comment-form"
+                  >
+                    <input
+                      type="hidden"
+                      name="maBaiDang"
+                      th:value="${baiDang.maBaiDang}"
+                    />
+                     <div class="avatar-small-initial" th:text="${currentUser != null ? #strings.substring(currentUser.hoTen, 0, 1) : 'U'}">U</div>
+                    <input
+                      type="text"
+                      name="noiDung"
+                      placeholder="Viết bình luận của bạn..."
+                      required
+                    />
+                    <button type="submit" class="primary-btn-small">
+                      Đăng
+                    </button>
+                  </form>
+                </div>
+                <div class="comment-form-container" th:unless="${isLoggedIn}">
+                  <p class="text-center-small">
+                    Vui lòng
+                    <a th:href="@{/login}" class="link-primary">đăng nhập</a> để
+                    bình luận.
+                  </p>
+                </div>
+
+                <div class="comment-list">
+                  <div
+                    class="comment-item"
+                    th:each="binhLuan : ${baiDang.binhLuanList}"
+                  >
+                    <img
+                      th:src="@{/images/default-avatar.png}"
+                      alt="Avatar"
+                      class="avatar-small"
+                    />
+                    <div class="comment-content">
+                      <div class="comment-author-info">
+                        <span
+                          class="comment-author-name"
+                          th:text="${binhLuan.nguoiDung.hoTen}"
+                          >Tên Người Dùng</span
+                        >
+                        <span
+                          class="comment-date"
+                          th:text="${#temporals.format(binhLuan.ngayTao, 'dd/MM/yyyy HH:mm')}"
+                          >Ngày bình luận</span
+                        >
+                      </div>
+                      <p th:text="${binhLuan.noiDung}">Nội dung bình luận...</p>
+                    </div>
+                  </div>
+                  <p th:if="${baiDang.binhLuanList.isEmpty()}">
+                    Chưa có bình luận nào.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p th:if="${baiDangList.isEmpty()}" class="no-posts-message">
+              Chưa có bài đăng nào. Hãy là người đầu tiên đăng bài nhé!
+            </p>
+          </div>
+
+          <div class="sidebar">
+            <h3 class="sidebar-title">Chủ đề phổ biến</h3>
+            <div class="filter-group">
+              <ul class="filter-list">
+                <li
+                  class="filter-item"
+                  th:classappend="${selectedChuDeId == null || selectedChuDeId == 0} ? 'active' : ''"
+                >
+                  <a th:href="@{/community(maChuDe=0)}">Tất cả bài đăng</a>
+                </li>
+                <li
+                  class="filter-item"
+                  th:each="chuDe : ${chuDeList}"
+                  th:classappend="${selectedChuDeId == chuDe.maChuDe} ? 'active' : ''"
+                >
+                  <a
+                    th:href="@{/community(maChuDe=${chuDe.maChuDe})}"
+                    th:text="${chuDe.tenChuDe}"
+                  ></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div th:replace="fragments/footer :: footer"></div>
-    <!-- Chatbox -->
+
     <div th:replace="fragments/chatbox :: chatbox"></div>
     <script th:src="@{/js/chatbox.js}"></script>
     <script th:src="@{/js/pages.js}"></script>
   </body>
+  <script th:inline="javascript">
+    let successMessage = /*[[${successMessage}]]*/ null;
+    if (successMessage) {
+      alert(successMessage);
+    }
+  </script>
+  
 </html>

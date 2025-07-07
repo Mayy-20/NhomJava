@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Hàm xử lý tabs
     function initTabs() {
         const tabButtons = document.querySelectorAll(".tab-btn");
         if (tabButtons.length === 0) return;
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Hàm xử lý hover cho các loại card
     function initHoverEffects(selector, hoverTransform, leaveTransform) {
         const elements = document.querySelectorAll(selector);
         if (elements.length === 0) return;
@@ -37,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Hàm xử lý animation cho stats section
     function initStatsAnimation() {
         const statsSection = document.querySelector(".stats-section");
         if (!statsSection) return;
@@ -47,19 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         const numbers = entry.target.querySelectorAll(".stat-number");
-                        if (numbers.length === 0) {
-                            console.warn("No .stat-number elements found in stats-section");
-                            return;
-                        }
+                        if (numbers.length === 0) return;
 
                         numbers.forEach((number) => {
                             try {
                                 const finalNumber = number.textContent;
                                 const numericValue = parseInt(finalNumber.replace(/[^\d]/g, ""));
-                                if (isNaN(numericValue)) {
-                                    console.warn(`Invalid number format in stat-number: ${finalNumber}`);
-                                    return;
-                                }
+                                if (isNaN(numericValue)) return;
 
                                 let currentNumber = 0;
                                 const increment = numericValue / 50;
@@ -80,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 console.error(`Error animating stat-number: ${error.message}`);
                             }
                         });
+
                         observer.unobserve(entry.target);
                     }
                 });
@@ -90,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
         observer.observe(statsSection);
     }
 
-    // Hàm xử lý smooth scroll
     function initSmoothScroll() {
         const anchors = document.querySelectorAll('a[href^="#"]');
         if (anchors.length === 0) return;
@@ -101,14 +92,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 const target = document.querySelector(this.getAttribute("href"));
                 if (target) {
                     target.scrollIntoView({ behavior: "smooth", block: "start" });
-                } else {
-                    console.warn(`Smooth scroll target not found: ${this.getAttribute("href")}`);
                 }
             });
         });
     }
 
-    // Hàm xử lý tìm kiếm
     function initSearch() {
         const searchBtn = document.querySelector(".search-btn");
         const searchInput = document.querySelector(".search-input");
@@ -118,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const query = searchInput.value.trim();
             if (query) {
                 console.log("Searching for:", query);
-                // Thêm logic tìm kiếm tại đây
+                // Add search logic here
             }
         });
 
@@ -129,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Hàm xử lý click trên trending items
     function initTrendingItems() {
         const trendingItems = document.querySelectorAll(".trending-item");
         if (trendingItems.length === 0) return;
@@ -139,14 +126,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 const title = this.querySelector(".trending-title")?.textContent;
                 if (title) {
                     alert(`Hiển thị tất cả bài đăng về ${title}`);
-                } else {
-                    console.warn("No trending-title found in trending-item");
                 }
             });
         });
     }
 
-    // Hàm xử lý scroll animation cho các phần tử
     function initScrollsAnimation() {
         const scrollElements = document.querySelectorAll(".value-card, .team-card, .timeline-item");
         if (scrollElements.length === 0) return;
@@ -171,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Hàm xử lý animation cho progress bars
     function initProgressBars() {
         const progressBars = document.querySelectorAll(".progress-fill");
         if (progressBars.length === 0) return;
@@ -187,7 +170,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Hàm xử lý click animation cho course items
     function initCourseItemClick() {
         const courseItems = document.querySelectorAll(".course-item");
         if (courseItems.length === 0) return;
@@ -204,7 +186,37 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Khởi chạy tất cả các hàm
+    function initFaqToggle() {
+        const questions = document.querySelectorAll(".faq-question");
+
+        if (questions.length === 0) return;
+
+        questions.forEach((question) => {
+            question.addEventListener("click", () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector(".faq-icon");
+
+                // Ẩn tất cả
+                document.querySelectorAll(".faq-answer").forEach((a) => {
+                    if (a !== answer) a.style.maxHeight = null;
+                });
+                document.querySelectorAll(".faq-icon").forEach((i) => {
+                    if (i !== icon) i.textContent = "+";
+                });
+
+                // Toggle nội dung
+                if (answer.style.maxHeight) {
+                    answer.style.maxHeight = null;
+                    icon.textContent = "+";
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                    icon.textContent = "−";
+                }
+            });
+        });
+    }
+
+    // Khởi chạy toàn bộ khi DOM sẵn sàng
     try {
         initTabs();
         initHoverEffects(".course-card", "translateY(-10px) scale(1.02)", "translateY(0) scale(1)");
@@ -218,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
         initScrollsAnimation();
         initProgressBars();
         initCourseItemClick();
+        initFaqToggle(); 
     } catch (error) {
         console.error("Error initializing page scripts:", error.message);
     }

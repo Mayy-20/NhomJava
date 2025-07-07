@@ -2,6 +2,7 @@ package ut.edu.hannah.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,14 @@ public class KhoaHoc {
     @ManyToOne
     @JoinColumn(name = "MaGiangVien", nullable = false)
     private NguoiDung giangVien;
+    @OneToMany(mappedBy = "khoaHoc")
+private List<BaiHoc> baiHocList;
+
+@OneToMany(mappedBy = "khoaHoc")
+private List<TienDo> tienDoList;
+
+// @OneToMany(mappedBy = "khoaHoc")
+// private List<DangKy> dangKyList;
 
     @Column(name = "HinhAnh")
     private String hinhAnh;
@@ -41,13 +50,13 @@ public class KhoaHoc {
     @Column(name = "NgayTao")
     private LocalDateTime ngayTao = LocalDateTime.now();
 
-    @ManyToMany
-    @JoinTable(
-        name = "khoahoc_chude",
-        joinColumns = @JoinColumn(name = "MaKhoaHoc"),
-        inverseJoinColumns = @JoinColumn(name = "MaChuDe")
-    )
-    private Set<ChuDe> chuDes;
+   @ManyToMany
+@JoinTable(
+    name = "khoahoc_chude",
+    joinColumns = @JoinColumn(name = "MaKhoaHoc"),
+    inverseJoinColumns = @JoinColumn(name = "MaChuDe")
+)
+private Set<ChuDe> chuDes;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "CapDo", nullable = false)
@@ -67,6 +76,27 @@ public class KhoaHoc {
 
     // Constructor
     public KhoaHoc() {}
+    
+
+    public KhoaHoc(Integer maKhoaHoc, String tenKhoaHoc, String moTa, NguoiDung giangVien, List<BaiHoc> baiHocList,
+            List<TienDo> tienDoList, String hinhAnh, Boolean mienPhi, TrangThai trangThai,
+            Float danhGiaTB, Integer soLuongHocVien, LocalDateTime ngayTao, Set<ChuDe> chuDes, CapDo capDo) {
+        this.maKhoaHoc = maKhoaHoc;
+        this.tenKhoaHoc = tenKhoaHoc;
+        this.moTa = moTa;
+        this.giangVien = giangVien;
+        this.baiHocList = baiHocList;
+        this.tienDoList = tienDoList;
+        this.hinhAnh = hinhAnh;
+        this.mienPhi = mienPhi;
+        this.trangThai = trangThai;
+        this.danhGiaTB = danhGiaTB;
+        this.soLuongHocVien = soLuongHocVien;
+        this.ngayTao = ngayTao;
+        this.chuDes = chuDes;
+        this.capDo = capDo;
+    }
+
 
     public KhoaHoc(Integer maKhoaHoc) {
         this.maKhoaHoc = maKhoaHoc;

@@ -27,7 +27,7 @@ public class BaiDang {
     private ChuDe chuDe;
 
     @OneToOne
-    @JoinColumn(name = "MaBaiHoc")
+    @JoinColumn(name = "MaBaiHoc", unique = true)
     private BaiHoc baiHoc;
 
     @Enumerated(EnumType.STRING)

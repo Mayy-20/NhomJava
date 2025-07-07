@@ -32,50 +32,57 @@ public class BaiDangService {
         this.baiHocRepository = baiHocRepository;
     }
 
-    public BaiDang createBaiDang(String tieuDe, String noiDung, Integer maTacGia, Integer maChuDe, Integer maBaiHoc) {
-        if (tieuDe == null || tieuDe.trim().isEmpty()) {
-            throw new IllegalArgumentException("Tiêu đề bài đăng không được để trống");
-        }
-        if (noiDung == null || noiDung.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nội dung bài đăng không được để trống");
-        }
-        if (maTacGia == null) {
-            throw new IllegalArgumentException("Mã tác giả không được để trống");
-        }
+    /**
+     * Lấy tất cả bài đăng.
+     * @return Danh sách tất cả bài đăng.
+     */
+    public List<BaiDang> getAllBaiDang() {
+        return baiDangRepository.findAll();
+    }
 
+    /**
+     * Tạo bài đăng mới.
+     * @param tieuDe Tiêu đề bài đăng.
+     * @param noiDung Nội dung bài đăng.
+     * @param maTacGia Mã tác giả.
+     * @param maChuDe Mã chủ đề (tùy chọn).
+     * @param maBaiHoc Mã bài học (tùy chọn).
+     * @return Bài đăng đã tạo.
+     */
+    public BaiDang createBaiDang(String tieuDe, String noiDung, Integer maTacGia, Integer maChuDe, Integer maBaiHoc) {
         NguoiDung tacGia = nguoiDungRepository.findById(maTacGia)
                 .orElseThrow(() -> new IllegalArgumentException("Tác giả không tồn tại"));
 
         BaiDang baiDang = new BaiDang();
         baiDang.setTieuDe(tieuDe);
         baiDang.setNoiDung(noiDung);
-        baiDang.setTacGia(tacGia); // ✅ set entity thay vì ID
+        baiDang.setTacGia(tacGia);
+        baiDang.setTrangThai(BaiDang.TrangThai.ChoDuyet); 
 
         if (maChuDe != null) {
             ChuDe chuDe = chuDeRepository.findById(maChuDe)
                     .orElseThrow(() -> new IllegalArgumentException("Chủ đề không tồn tại"));
-            baiDang.setChuDe(chuDe); // ✅
+            baiDang.setChuDe(chuDe);
         }
 
         if (maBaiHoc != null) {
             BaiHoc baiHoc = baiHocRepository.findById(maBaiHoc)
                     .orElseThrow(() -> new IllegalArgumentException("Bài học không tồn tại"));
-            baiDang.setBaiHoc(baiHoc); // ✅
+            baiDang.setBaiHoc(baiHoc);
         }
 
         return baiDangRepository.save(baiDang);
     }
-
-    public List<BaiDang> findByChuDe(Integer maChuDe) {
-        if (maChuDe == null) {
-            throw new IllegalArgumentException("Mã chủ đề không được để trống");
-        }
-
-        ChuDe chuDe = chuDeRepository.findById(maChuDe)
-                .orElseThrow(() -> new IllegalArgumentException("Chủ đề không tồn tại"));
-
-        return baiDangRepository.findByChuDe(chuDe); // ✅ truyền entity
+  public List<BaiDang> findByChuDe(Integer maChuDe) {
+    if (maChuDe == null) {
+        throw new IllegalArgumentException("Mã chủ đề không được để trống");
     }
+
+    ChuDe chuDe = chuDeRepository.findById(maChuDe)
+            .orElseThrow(() -> new IllegalArgumentException("Chủ đề không tồn tại"));
+
+    return baiDangRepository.findByChuDeAndTrangThai(chuDe, BaiDang.TrangThai.DaDuyet);
+}
 
     public Optional<BaiDang> findById(Integer id) {
         if (id == null) {
@@ -94,5 +101,8 @@ public class BaiDangService {
     }
     List<BaiHoc> baiHocList = baiHocRepository.findByKhoaHoc_MaKhoaHoc(maKhoaHoc);
     return baiDangRepository.findByBaiHocIn(baiHocList);
+}
+public List<BaiDang> getBaiDangDaDuyet() {
+    return baiDangRepository.findByTrangThai(BaiDang.TrangThai.DaDuyet);
 }
 }

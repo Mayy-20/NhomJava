@@ -18,4 +18,12 @@ public interface BinhLuanRepository extends JpaRepository<BinhLuan, Integer> {
      * @return Danh sách bình luận liên quan.
      */
     List<BinhLuan> findByBaiDangIn(List<BaiDang> baiDangList);
+
+    /**
+     * Tìm danh sách bình luận theo một bài đăng cụ thể.
+     * @param baiDang Đối tượng BaiDang.
+     * @return Danh sách bình luận của bài đăng đó.
+     */
+    List<BinhLuan> findByBaiDang(BaiDang baiDang); 
+    
 }

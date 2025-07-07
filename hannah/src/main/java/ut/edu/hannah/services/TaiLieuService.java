@@ -52,7 +52,7 @@ public class TaiLieuService {
      */
     public TaiLieu createTaiLieu(String tenTaiLieu, String moTa, Integer maLoaiTaiLieu, Integer maBaiHoc, Integer maTacGia, String duongDan, Long kichThuoc) {
         LoaiTaiLieu loaiTaiLieu = getLoaiTaiLieu(maLoaiTaiLieu);
-        BaiHoc baiHoc = getBaiHoc(maBaiHoc); // Giả định BaiHocRepository có findById
+        BaiHoc baiHoc = getBaiHoc(maBaiHoc);
         NguoiDung tacGia = getNguoiDung(maTacGia);
 
         TaiLieu taiLieu = new TaiLieu();
@@ -63,7 +63,6 @@ public class TaiLieuService {
         taiLieu.setTacGia(tacGia);
         taiLieu.setDuongDan(duongDan);
         taiLieu.setKichThuoc(kichThuoc);
-        // Các trường mặc định như luotTai, danhGia, trangThai sẽ được thiết lập bởi constructor/default values
         return taiLieuRepository.save(taiLieu);
     }
 
@@ -108,17 +107,10 @@ public class TaiLieuService {
         return loaiTaiLieuRepository.findById(maLoaiTaiLieu)
                 .orElseThrow(() -> new IllegalArgumentException("Loại tài liệu không tồn tại"));
     }
-
-    // Lấy bài học theo mã
-    // Đảm bảo rằng BaiHocRepository được tiêm và có phương thức findById
     private BaiHoc getBaiHoc(Integer maBaiHoc) {
-        // Cần BaiHocRepository được tiêm vào service này
         return baiHocRepository.findById(maBaiHoc)
                 .orElseThrow(() -> new IllegalArgumentException("Bài học không tồn tại"));
     }
-
-    // Lấy người dùng theo mã (cho tác giả)
-    // Đảm bảo rằng NguoiDungRepository được tiêm và có phương thức findById
     private NguoiDung getNguoiDung(Integer maNguoiDung) {
         return nguoiDungRepository.findById(maNguoiDung)
                 .orElseThrow(() -> new IllegalArgumentException("Tác giả không tồn tại"));

@@ -122,53 +122,8 @@
                   Tên bài học
                 </h2>
                 <div class="meta">
-                  <span th:text="${course.giangVien.hoTen}"></i>Giảng viên</span>
+                  <span th:text="${course.giangVien.hoTen}">Giảng viên</span>
                   <span th:text="${ngayTaoFormatted}">Ngày tạo</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Bình luận -->
-            <div class="comment-section-sidebar">
-              <div class="comment-form">
-                <form th:action="@{/comments}" method="post">
-                  <input
-                    type="hidden"
-                    th:name="maBaiDang"
-                    th:value="${baiHoc.maBaiHoc} ?: ${currentLesson.maBaiHoc}"
-                  />
-                  <input
-                    type="hidden"
-                    th:name="maNguoiDung"
-                    th:value="${user.maNguoiDung}"
-                  />
-                  <textarea
-                    name="noiDung"
-                    placeholder="Viết bình luận của bạn..."
-                    required
-                  ></textarea>
-                  <button type="submit" class="btn btn-primary">Gửi</button>
-                </form>
-              </div>
-
-              <div th:each="bl : ${binhLuanList}" class="comment-item">
-                <div class="comment-header">
-                  <div
-                    class="comment-avatar"
-                    th:text="${#strings.substring(bl.nguoiDung.hoTen, 0, 1)}"
-                  >
-                    U
-                  </div>
-                  <div class="comment-info">
-                    <h4 th:text="${bl.nguoiDung.hoTen}">Người dùng</h4>
-                    <span
-                      th:text="${#temporals.format(bl.ngayTao, 'HH:mm dd/MM/yyyy')}"
-                      >Thời gian</span
-                    >
-                  </div>
-                </div>
-                <div class="comment-content" th:text="${bl.noiDung}">
-                  Nội dung bình luận
                 </div>
               </div>
             </div>

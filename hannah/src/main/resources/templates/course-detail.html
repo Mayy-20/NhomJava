@@ -24,7 +24,7 @@
             <p th:text="${khoaHoc.moTa}">Mô tả khóa học</p>
             <div class="course-stats">
               <div class="stat-item">
-                <h3>10 giờ</h3>
+                <h3 th:text="${totalDuration}">Thời gian</h3>
                 <p>Thời lượng</p>
               </div>
               <div class="stat-item">
@@ -39,19 +39,18 @@
                 </h3>
                 <p>Đánh giá</p>
               </div>
-              
             </div>
             <a
-              th:href="@{/learning(id=${khoaHoc.maKhoaHoc})}"
+              th:href="@{'/courses/start/' + ${khoaHoc.maKhoaHoc}}"
               class="btn btn-primary"
               >Bắt đầu học</a
             >
           </div>
           <img
-                th:src="${khoaHoc.hinhAnh != null ? khoaHoc.hinhAnh : '/images/default-course.jpg'}"
-                alt="Ảnh khóa học"
-                class="course-image-hero"
-              />
+            th:src="${khoaHoc.hinhAnh != null ? khoaHoc.hinhAnh : '/images/default-course.jpg'}"
+            alt="Ảnh khóa học"
+            class="course-image-hero"
+          />
         </div>
       </div>
     </section>
@@ -100,62 +99,25 @@
                       <p th:text="${lesson.moTa}">Mô tả bài học</p>
                     </div>
                     <div class="lesson-meta">
-                      <span
-                        >Thứ tự: <span th:text="${lesson.thuTu}"></span
+                      <span>
+                        Thời gian:
+                        <span th:text="${lesson.thoiLuong + ' phút'}"></span
                       ></span>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
-
-            <div class="comments-section">
-              <h2 class="section-title">Hỏi đáp và thảo luận</h2>
-              <div th:each="comment : ${binhLuanList}" class="comment-item">
-                <div class="comment-header">
-                  <div
-                    class="comment-avatar"
-                    th:text="${#strings.substring(comment.nguoiDung.hoTen, 0, 1)}"
-                  >
-                    A
-                  </div>
-                  <div class="comment-info">
-                    <h4 th:text="${comment.nguoiDung.hoTen}">Tên người dùng</h4>
-                    <span
-                      th:text="${#temporals.format(comment.ngayTao, 'dd/MM/yyyy HH:mm')}"
-                      >Thời gian</span
-                    >
-                  </div>
-                </div>
-                <div class="comment-content" th:text="${comment.noiDung}">
-                  Nội dung bình luận
-                </div>
-              </div>
-            </div>
           </div>
 
           <div class="sidebar">
-            <!-- Progress -->
-            <div class="progress-section">
-              <h3>Tiến độ học tập</h3>
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: 35%"></div>
-              </div>
-              <div class="progress-text">
-                <span>2/5 bài học</span>
-                <span>35% hoàn thành</span>
-              </div>
-            </div>
-
             <!-- Course Info -->
             <div style="margin-top: 2rem">
               <h3 style="margin-bottom: 1rem">Thông tin khóa học</h3>
               <div style="display: flex; flex-direction: column; gap: 1rem">
                 <div style="display: flex; justify-content: space-between">
                   <span>Giảng viên:</span>
-                  <strong th:text="${khoaHoc.giangVien.hoTen}"
-                    >Nguyễn Văn A</strong
-                  >
+                  <strong th:text="${khoaHoc.giangVien.hoTen}"></strong>
                 </div>
                 <div style="display: flex; justify-content: space-between">
                   <span>Ngôn ngữ:</span>
@@ -180,7 +142,7 @@
               <h3 style="margin-bottom: 1rem">Thao tác nhanh</h3>
               <div style="display: flex; flex-direction: column; gap: 0.5rem">
                 <a
-                  th:href="@{/learning(id=${khoaHoc.maKhoaHoc})}"
+                  th:href="@{'/courses/start/' + ${khoaHoc.maKhoaHoc}}"
                   class="btn btn-primary"
                   >Tiếp tục học</a
                 >

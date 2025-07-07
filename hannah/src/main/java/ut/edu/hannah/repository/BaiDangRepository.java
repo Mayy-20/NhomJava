@@ -3,6 +3,7 @@ package ut.edu.hannah.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ut.edu.hannah.model.BaiDang;
+import ut.edu.hannah.model.BaiDang.TrangThai;
 import ut.edu.hannah.model.BaiHoc;
 import ut.edu.hannah.model.ChuDe;
 
@@ -21,4 +22,5 @@ public interface BaiDangRepository extends JpaRepository<BaiDang, Integer> {
     List<BaiDang> findByBaiHocKhoaHocMaKhoaHoc(Integer maKhoaHoc);
     List<BaiDang> findByTrangThai(BaiDang.TrangThai trangThai);
     List<BaiDang> findByBaiHocIn(List<BaiHoc> baiHocList);
+    List<BaiDang> findByChuDeAndTrangThai(ChuDe chuDe, TrangThai daduyet);
 }

@@ -20,7 +20,7 @@ public class BinhLuanService {
     private final BaiDangRepository baiDangRepository;
     private final NguoiDungRepository nguoiDungRepository;
 
-    public BinhLuanService(BinhLuanRepository binhLuanRepository, BaiDangRepository baiDangRepository, 
+    public BinhLuanService(BinhLuanRepository binhLuanRepository, BaiDangRepository baiDangRepository,
             NguoiDungRepository nguoiDungRepository) {
         this.binhLuanRepository = binhLuanRepository;
         this.baiDangRepository = baiDangRepository;
@@ -32,27 +32,30 @@ public class BinhLuanService {
      * @param noiDung Nội dung bình luận.
      * @param maBaiDang Mã bài đăng.
      * @param maNguoiDung Mã người dùng.
-     * @return Bình luận được tạo.
+     * @return Bình luận đã tạo.
      */
     public BinhLuan createBinhLuan(String noiDung, Integer maBaiDang, Integer maNguoiDung) {
-        if (noiDung == null || noiDung.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nội dung bình luận không được để trống");
-        }
-        if (maBaiDang == null) {
-            throw new IllegalArgumentException("Mã bài đăng không được để trống");
-        }
-        if (maNguoiDung == null) {
-            throw new IllegalArgumentException("Mã người dùng không được để trống");
-        }
-
-        BaiDang baiDang = getBaiDang(maBaiDang);
-        NguoiDung nguoiDung = getNguoiDung(maNguoiDung);
+        BaiDang baiDang = baiDangRepository.findById(maBaiDang)
+                .orElseThrow(() -> new IllegalArgumentException("Bài đăng không tồn tại"));
+        NguoiDung nguoiDung = nguoiDungRepository.findById(maNguoiDung)
+                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
 
         BinhLuan binhLuan = new BinhLuan();
         binhLuan.setNoiDung(noiDung);
         binhLuan.setBaiDang(baiDang);
         binhLuan.setNguoiDung(nguoiDung);
         return binhLuanRepository.save(binhLuan);
+    }
+
+    /**
+     * Tìm danh sách bình luận theo mã bài đăng.
+     * @param maBaiDang Mã bài đăng.
+     * @return Danh sách bình luận thuộc bài đăng đó.
+     */
+    public List<ut.edu.hannah.model.BinhLuan> findByBaiDang(Integer maBaiDang) {
+        BaiDang baiDang = baiDangRepository.findById(maBaiDang)
+            .orElseThrow(() -> new IllegalArgumentException("Bài đăng không tồn tại"));
+        return binhLuanRepository.findByBaiDang(baiDang); 
     }
 
     /**
@@ -78,17 +81,5 @@ public class BinhLuanService {
             throw new IllegalArgumentException("Mã bình luận không được để trống");
         }
         return binhLuanRepository.findById(id);
-    }
-
-    // Lấy bài đăng theo mã
-    private BaiDang getBaiDang(Integer maBaiDang) {
-        return baiDangRepository.findById(maBaiDang)
-                .orElseThrow(() -> new IllegalArgumentException("Bài đăng không tồn tại"));
-    }
-
-    // Lấy người dùng theo mã
-    private NguoiDung getNguoiDung(Integer maNguoiDung) {
-        return nguoiDungRepository.findById(maNguoiDung)
-                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
     }
 }

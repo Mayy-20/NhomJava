@@ -8,7 +8,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" th:href="@{/css/community.css}" />
     <link rel="stylesheet" th:href="@{/css/document.css}" />
     <link rel="stylesheet" th:href="@{/css/learning.css}" />
@@ -18,11 +17,10 @@
   </head>
   <body>
     <div th:replace="fragments/header :: header"></div>
+
     <div class="main-content">
       <div class="welcome-section">
-        <h1 th:text="'Chào mừng trở lại, ' + ${hoTenNguoiDung} + ' 👋'">
-          Chào mừng trở lại, Nguyễn Văn A! 👋
-        </h1>
+        <h1 th:text="'Chào mừng trở lại, ' + ${hoTenNguoiDung} + ' 👋'"></h1>
         <p>Hãy tiếp tục hành trình học tập của bạn. Bạn đang làm rất tốt!</p>
       </div>
 
@@ -31,31 +29,15 @@
           <div class="stat-icon">
             <i class="fas fa-book-open"></i>
           </div>
-          <div class="stat-number" th:text="${coursesInProgress}"></div>
+          <div class="stat-number" th:text="${coursesInProgress}">0</div>
           <div class="stat-label">Khóa học đang học</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-clock"></i>
-          </div>
-          <!-- <div class="stat-number" th:text="${totalStudyHours}">45</div> -->
-          <div class="stat-number">45</div>
-          <div class="stat-label">Giờ học tích lũy</div>
         </div>
         <div class="stat-card">
           <div class="stat-icon">
             <i class="fas fa-trophy"></i>
           </div>
-          <div class="stat-number" th:text="${completedLessons}">12</div>
+          <div class="stat-number" th:text="${completedLessons}">0</div>
           <div class="stat-label">Bài học hoàn thành</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">
-            <i class="fas fa-medal"></i>
-          </div>
-          <!-- <div class="stat-number" th:text="${achievements}">5</div> -->
-          <div class="stat-number">2</div>
-          <div class="stat-label">Thành tích đạt được</div>
         </div>
       </div>
 
@@ -67,7 +49,7 @@
               <div
                 class="course-item"
                 th:each="course : ${userCourses}"
-                onclick="window.location.href='learning.html'"
+                th:if="${course != null and course.maKhoaHoc != null}"
               >
                 <img
                   th:src="${course.hinhAnh != null ? course.hinhAnh : '/images/default-course.jpg'}"
@@ -77,46 +59,54 @@
 
                 <div class="course-info">
                   <div class="course-title" th:text="${course.tenKhoaHoc}">
-                    Python căn bản
+                  
                   </div>
+
                   <div class="course-progress">
                     <div class="progress-bar">
                       <div
                         class="progress-fill"
-                        th:style="'width: ' + ${course.phanTramHoanThanh} + '%'"
+                        th:style="'width: ' + (${course.phanTramHoanThanh} != null ? ${course.phanTramHoanThanh} : 0) + '%'"
                       ></div>
                     </div>
                     <span
                       class="progress-text"
-                      th:text="${course.phanTramHoanThanh} + '%'"
-                      >75%</span
+                      th:text="(${course.phanTramHoanThanh} != null ? ${course.phanTramHoanThanh} : 0) + '%'"
                     >
+                      0%
+                    </span>
                   </div>
+
                   <div
                     class="course-meta"
-                    th:text="'Giảng viên: ' + ${course.tenGiangVien} + ' • ' + ${course.soBaiHocDaHoanThanh} + '/' + ${course.tongSoBaiHoc} + ' bài học'"
+                    th:text="'Giảng viên: ' + (${course.tenGiangVien} != null ? ${course.tenGiangVien} : 'Không rõ') + ' • ' + ${course.soBaiHocDaHoanThanh} + '/' + ${course.tongSoBaiHoc} + ' bài học'"
                   >
-                    Giảng viên: Nguyễn Văn A • 4/5 bài học
+                    Giảng viên: Nguyễn Văn A • 0/0 bài học
                   </div>
                 </div>
+
                 <div class="course-actions">
                   <a
-                    th:href="@{/learning(maKhoaHoc=${course.maKhoaHoc})}"
+                    th:href="@{'/courses/start/' + ${course.maKhoaHoc}}"
                     class="btn btn-primary"
-                    >Tiếp tục học</a
+                    >Học ngay</a
                   >
                   <a
-                    th:href="@{/course-detail(maKhoaHoc=${course.maKhoaHoc})}"
+                    th:href="@{'/courses/preview/' + ${course.maKhoaHoc}}"
                     class="btn btn-secondary"
                     >Chi tiết</a
                   >
                 </div>
               </div>
+              <p th:if="${#lists.isEmpty(userCourses)}">
+                Bạn chưa đăng ký khóa học nào.
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div th:replace="fragments/footer :: footer"></div>
     <script th:src="@{/js/pages.js}"></script>
   </body>

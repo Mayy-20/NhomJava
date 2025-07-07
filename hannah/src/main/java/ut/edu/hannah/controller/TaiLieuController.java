@@ -51,7 +51,6 @@ public class TaiLieuController {
         return "documents";
     }
 
-    // Phương thức xử lý việc tạo tài liệu (giữ nguyên hoặc đã chỉnh sửa trước đó)
     @PostMapping("/documents/create")
     public String createDocument(@RequestParam String tenTaiLieu,
                                @RequestParam(required = false) String moTa,
@@ -62,7 +61,6 @@ public class TaiLieuController {
                                @RequestParam Long kichThuoc,
                                Model model) {
         try {
-            // Debug: In ra giá trị kích thước nhận được
             System.out.println("KichThuoc received: " + kichThuoc);
 
             if (tenTaiLieu == null || tenTaiLieu.trim().isEmpty()) {
@@ -94,7 +92,6 @@ public class TaiLieuController {
 
         // Kiểm tra xem người dùng đã đăng nhập chưa
         if (currentUser == null) {
-            // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
             return "redirect:/login"; 
         }
 

@@ -74,7 +74,4 @@ public class BinhLuan {
     public void setNgayTao(LocalDateTime ngayTao) {
         this.ngayTao = ngayTao;
     }
-
-    public void setKhoaHoc(KhoaHoc khoaHoc) {
-    }
 }

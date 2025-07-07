@@ -165,6 +165,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  font-weight: 600;
 }
 
 .user-dropdown .user-name i {

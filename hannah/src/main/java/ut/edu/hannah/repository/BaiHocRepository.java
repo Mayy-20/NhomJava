@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface BaiHocRepository extends JpaRepository<BaiHoc, Integer> {
     List<BaiHoc> findByKhoaHoc_MaKhoaHoc(Integer maKhoaHoc);
     Optional<BaiHoc> findFirstByKhoaHoc_MaKhoaHocOrderByThuTuAsc(Integer maKhoaHoc);
+    long countByKhoaHoc_MaKhoaHoc(Integer maKhoaHoc);
 
 }

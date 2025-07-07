@@ -53,6 +53,25 @@ public class TaiLieu {
 
     // Constructor
     public TaiLieu() {}
+    
+
+    public TaiLieu(Integer maTaiLieu, String tenTaiLieu, LoaiTaiLieu loaiTaiLieu, BaiHoc baiHoc, NguoiDung tacGia,
+            String moTa, String duongDan, Long kichThuoc, Integer luotTai, Float danhGia, TrangThai trangThai,
+            LocalDateTime ngayTao) {
+        this.maTaiLieu = maTaiLieu;
+        this.tenTaiLieu = tenTaiLieu;
+        this.loaiTaiLieu = loaiTaiLieu;
+        this.baiHoc = baiHoc;
+        this.tacGia = tacGia;
+        this.moTa = moTa;
+        this.duongDan = duongDan;
+        this.kichThuoc = kichThuoc;
+        this.luotTai = luotTai;
+        this.danhGia = danhGia;
+        this.trangThai = trangThai;
+        this.ngayTao = ngayTao;
+    }
+
 
     public Integer getMaTaiLieu() {
         return maTaiLieu;
