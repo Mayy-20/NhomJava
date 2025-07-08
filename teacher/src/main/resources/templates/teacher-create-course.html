@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Khóa học Mới - Hannah</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}" class="active">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <form th:action="@{/teacher-courses/save}" th:object="${khoaHoc}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{maKhoaHoc}" /> <div class="page-header">
+            <div>
+                <h1 class="page-title" th:text="${khoaHoc.maKhoaHoc == null ? 'Tạo khóa học mới' : 'Chỉnh sửa khóa học'}">Tạo khóa học mới</h1>
+                <p>Điền thông tin để tạo khóa học mới</p>
+            </div>
+            <div class="page-actions">
+                <a th:href="@{/teacher-courses}" class="btn btn-secondary">Hủy</a>
+                <button type="submit" class="btn btn-primary">Lưu khóa học</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Thông tin khóa học</h2>
+            <div class="form-group">
+                <label class="form-label">Tên khóa học</label>
+                <input type="text" th:field="*{tenKhoaHoc}" class="form-input" placeholder="Nhập tên khóa học..." required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mô tả</label>
+                <textarea th:field="*{moTa}" class="form-input" rows="5" placeholder="Nhập mô tả khóa học..."></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Cấp độ</label>
+                <select th:field="*{capDo}" class="form-select">
+                    <option th:each="level : ${capDoEnums}"
+                            th:value="${level}"
+                            th:text="${level.name()}"
+                            th:selected="${khoaHoc.capDo == level}">Cấp độ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Miễn phí</label>
+                <input type="checkbox" th:field="*{mienPhi}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Hình ảnh khóa học</label>
+                <input type="text" th:field="*{hinhAnh}" class="form-input" placeholder="URL hình ảnh hoặc tên file...">
+                </div>
+        </div>
+    </form>
+</main>
+</body>
+</html>

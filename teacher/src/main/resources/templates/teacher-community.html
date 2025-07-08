@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cộng đồng - Hannah</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}" class="active">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Cộng đồng Giáo viên</h1>
+            <p>Chia sẻ kiến thức và kinh nghiệm giảng dạy</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/teacher-community-post}" class="btn btn-primary">Tạo bài đăng mới</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-panel">
+            <div class="card">
+                <h2 class="card-title">Bài đăng gần đây</h2>
+                <div class="posts-list">
+                    <div th:if="${posts != null and !posts.isEmpty()}">
+                        <div th:each="post : ${posts}" class="post-item">
+                            <div class="post-header">
+                                <div class="post-avatar" th:text="${post.nguoiDung != null and post.nguoiDung.hoTen != null ? post.nguoiDung.hoTen.substring(0,1).toUpperCase() : '?'}"></div>
+                                <div>
+                                    <h3 class="post-title" th:text="${post.tieuDe}"></h3>
+                                    <div class="post-author" th:text="${post.nguoiDung != null ? post.nguoiDung.hoTen : 'Ẩn danh'}"></div>
+                                    <div class="post-time" th:text="${#temporals.format(post.ngayTao, 'dd/MM/yyyy HH:mm')}"></div>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <p th:text="${#strings.abbreviate(post.noiDung, 200)}">Nội dung tóm tắt...</p>
+                                </div>
+                            <div class="post-actions">
+                                <a th:href="@{'/community/post/' + ${post.maBaiDang}}" class="btn btn-primary btn-sm">Bình luận</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${posts == null or posts.isEmpty()}">
+                        <p>Chưa có bài đăng nào trong cộng đồng. Hãy là người đầu tiên tạo một bài đăng!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-panel">
+            <div class="card">
+                <h2 class="card-title">Tài nguyên</h2>
+                <div class="resources-list">
+                    <a href="#" class="resource-item">Hướng dẫn lập trình Python</a>
+                    <a href="#" class="resource-item">Mẫu bài kiểm tra Python</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Giáo viên hoạt động</h2>
+                <div class="active-teachers">
+                    <div class="teacher-item">
+                        <div class="teacher-avatar">TD</div>
+                        <div>
+                            <div class="teacher-name">Trần Văn D</div>
+                            <div class="teacher-status">Đang hoạt động</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

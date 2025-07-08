@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ sơ của tôi - Hannah</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}" class="active">Hồ sơ</a></li> <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a href="#" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Hồ sơ cá nhân</h1>
+        </div>
+        <div class="page-actions">
+            <a href="#" class="btn btn-primary">Cập nhật hồ sơ</a>
+        </div>
+    </div>
+
+    <div class="card profile-overview">
+        <div class="profile-avatar-large">GV</div>
+        <div class="profile-info">
+            <h2 class="card-title">Nguyễn Văn A</h2>
+            <p class="text-muted">Giáo viên Python & Khoa học dữ liệu</p>
+            <p>Email: email@example.com</p>
+            </div>
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">Thông tin cá nhân</h2>
+        <div class="form-group">
+            <label class="form-label">Tên đầy đủ</label>
+            <input type="text" class="form-input" value="Nguyễn Văn A" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Vai trò</label>
+            <input type="text" class="form-input" value="Giáo viên" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Email liên hệ</label>
+            <input type="email" class="form-input" value="email@example.com" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Giới thiệu bản thân (Bio)</label>
+            <textarea class="form-input" rows="4" placeholder="Viết vài dòng về bản thân, kinh nghiệm, sở thích giảng dạy..."></textarea>
+        </div>
+    </div>
+
+
+    </main>
+</body>
+</html>

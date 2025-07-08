@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học viên - Hannah</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}" class="active">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a href="#" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Học viên</h1>
+            <p>Quản lý danh sách học viên của bạn</p>
+        </div>
+        
+    </div>
+
+    <div class="filters-section">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label class="form-label">Tìm kiếm</label>
+                <input type="text" class="form-input" placeholder="Tìm kiếm học viên...">
+            </div>
+            <div class="filter-group">
+                <label class="form-label">Khóa học</label>
+                <select class="form-select">
+                    <option>Tất cả</option>
+                    <option>Python căn bản</option>
+                    <option>Python nâng cao</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="student-list">
+<div class="student-item" th:each="student : ${students}">
+    <div class="student-info">
+        <div class="student-name" th:text="${student.hoTen}">Trần Thị B</div>
+        </div>
+    <div class="student-actions">
+        <a th:href="@{'/students/' + ${student.maNguoiDung}}" class="btn btn-primary btn-sm">Xem</a>
+        <a href="#" class="btn btn-danger btn-sm"
+           th:onclick="'showDeleteModal(\'' + ${student.hoTen} + '\', ' + ${student.maNguoiDung} + ')'">Xóa</a>
+    </div>
+</div>
+    </div>
+
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Xác nhận xóa học viên</h2>
+            <p>Bạn có chắc muốn xóa học viên <span id="deleteStudentName"></span>?</p>
+            <div class="modal-actions">
+                <a href="#" class="btn btn-secondary" onclick="hideDeleteModal()">Hủy</a>
+                <a href="#" class="btn btn-danger" onclick="confirmDelete()">Xóa</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+   function showDeleteModal(studentName, studentId) {
+    document.getElementById('deleteStudentName').textContent = studentName;
+    document.getElementById('deleteModal').style.display = 'flex';
+    // Cập nhật URL xóa trong modal
+}
+
+// ... (Thêm nút xác nhận xóa trong modal của bạn nếu chưa có)
+// Ví dụ trong modal:
+// <a href="#" class="btn btn-danger" id="confirmDeleteBtn">Xóa</a>
+
+    function hideDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    function confirmDelete() {
+        alert('Học viên đã được xóa!');
+        hideDeleteModal();
+    }
+</script>
+</body>
+</html>

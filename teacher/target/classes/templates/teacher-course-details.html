@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${course.tenKhoaHoc} + ' - Hannah Course'"></title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}" class="active">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title" th:text="${course.tenKhoaHoc}">Tên Khóa học</h1>
+            <p th:text="${course.moTa}">Mô tả ngắn về khóa học.</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/teacher-courses}" class="btn btn-secondary">Quay lại</a>
+            <a th:href="@{'/teacher-courses/edit/' + ${course.maKhoaHoc}}" class="btn btn-primary">Sửa khóa học</a>
+            <a href="#" class="btn btn-danger" th:attr="onclick=|showDeleteModal('${course.tenKhoaHoc}', ${course.maKhoaHoc})|">Xóa khóa học</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-panel">
+            <div class="card">
+                <h2 class="card-title">Danh sách bài học</h2>
+                <div th:if="${course.baiHocList != null and !course.baiHocList.isEmpty()}">
+                    <div class="lesson-list">
+                        <div class="lesson-item" th:each="lesson : ${course.baiHocList}">
+                            <div class="lesson-info">
+                                <span class="lesson-order" th:text="${lesson.thuTu}">1</span>
+                                <div class="lesson-details">
+                                    <h3 class="lesson-title" th:text="${lesson.tieuDe}">Tiêu đề bài học</h3>
+                                    <p class="lesson-description" th:text="${lesson.noiDung}">Mô tả ngắn về bài học.</p>
+                                </div>
+                            </div>
+                            <div class="lesson-actions">
+                                <a href="#" class="btn btn-primary btn-sm">Xem</a>
+                                <a href="#" class="btn btn-secondary btn-sm">Sửa</a>
+                                <a href="#" class="btn btn-danger btn-sm"
+                                   th:attr="onclick=|showDeleteLessonModal('${lesson.tieuDe}', ${lesson.maBaiHoc})|">Xóa</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${course.baiHocList == null or course.baiHocList.isEmpty()}">
+                    <p>Chưa có bài học nào trong khóa học này. Hãy thêm bài học đầu tiên của bạn!</p>
+                </div>
+                <div class="text-right" style="margin-top: 1rem;">
+                    <a th:href="@{'/teacher-courses/' + ${course.maKhoaHoc} + '/add-lesson'}" class="btn btn-primary">Thêm bài học mới</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-panel">
+            <div class="card course-summary">
+                <h2 class="card-title">Tổng quan khóa học</h2>
+                <img th:src="${course.hinhAnh != null ? '/images/' + course.hinhAnh : '/images/default-course.png'}" alt="Hình ảnh khóa học" class="course-image">
+                <p><strong>Ngày tạo:</strong> <span th:text="${#temporals.format(course.ngayTao, 'dd-MM-yyyy')}">01-01-2023</span></p>
+                <p><strong>Ngày cập nhật:</strong> <span th:text="${course.ngayCapNhat != null ? #temporals.format(course.ngayCapNhat, 'dd-MM-yyyy') : 'Chưa cập nhật'}">01-01-2023</span></p>
+                <p><strong>Số lượng bài học:</strong> <span th:text="${course.baiHocList != null ? course.baiHocList.size() : 0}">0</span></p>
+                <p><strong>Trạng thái:</strong> <span th:text="${course.trangThai}">Bản nháp</span></p>
+                <p><strong>Thời lượng:</strong> <span th:text="${course.thoiLuongPhut + ' phút'}">0 phút</span></p>
+                <p><strong>Số học viên:</strong> <span th:text="${course.soLuongHocVien}">0</span></p>
+                <p><strong>Đánh giá trung bình:</strong> <span th:text="${course.danhGiaTB + '★'}">4.8★</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Xác nhận xóa khóa học</h2>
+            <p>Bạn có chắc muốn xóa khóa học <span id="deleteCourseName"></span>?</p>
+            <div class="modal-actions">
+                <a href="#" class="btn btn-secondary" onclick="hideDeleteModal()">Hủy</a>
+                <a href="#" class="btn btn-danger" id="confirmDeleteCourseBtn">Xóa</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deleteLessonModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Xác nhận xóa bài học</h2>
+            <p>Bạn có chắc muốn xóa bài học <span id="deleteLessonName"></span>?</p>
+            <div class="modal-actions">
+                <a href="#" class="btn btn-secondary" onclick="hideDeleteLessonModal()">Hủy</a>
+                <a href="#" class="btn btn-danger" id="confirmDeleteLessonBtn">Xóa</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var currentCourseId = /*[[${course.maKhoaHoc}]]*/ 'default';
+    /*]]>*/
+
+    function showDeleteModal(courseName, courseId) {
+        document.getElementById('deleteCourseName').textContent = courseName;
+        document.getElementById('confirmDeleteCourseBtn').href = '/teacher-courses/delete/' + courseId;
+        document.getElementById('deleteModal').style.display = 'flex';
+    }
+
+    function hideDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    function showDeleteLessonModal(lessonName, lessonId) {
+        document.getElementById('deleteLessonName').textContent = lessonName;
+        document.getElementById('deleteLessonModal').style.display = 'flex';
+        document.getElementById('confirmDeleteLessonBtn').href = '/teacher-courses/' + currentCourseId + '/lessons/delete/' + lessonId;
+    }
+
+    function hideDeleteLessonModal() {
+        document.getElementById('deleteLessonModal').style.display = 'none';
+    }
+</script>
+</body>
+</html>

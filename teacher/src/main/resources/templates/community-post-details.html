@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.tieuDe} + ' - Hannah Community'"></title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}" class="active">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Chi tiết Bài đăng</h1>
+            <p>Xem và thảo luận về bài đăng này</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/teacher-community}" class="btn btn-secondary">Quay lại Cộng đồng</a>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-panel">
+            <div class="card">
+                <div class="post-header">
+                    <div class="post-avatar" th:text="${post.nguoiDung != null and post.nguoiDung.hoTen != null ? post.nguoiDung.hoTen.substring(0,1).toUpperCase() : '?'}"></div>
+                    <div>
+                        <div class="post-author" th:text="${post.nguoiDung != null ? post.nguoiDung.hoTen : 'Ẩn danh'}"></div>
+                        <div class="post-role">Giáo viên</div>
+                        <div class="post-time" th:text="${post.ngayTao != null ? #temporals.format(post.ngayTao, 'dd/MM/yyyy HH:mm') : 'N/A'}"></div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <h3 th:text="${post.tieuDe}"></h3>
+                    <p th:text="${post.noiDung}"></p>
+                </div>
+            </div>
+
+            <div class="card comment-section">
+                <h2 class="card-title">Bình luận</h2>
+
+                <form th:action="@{'/community/post/' + ${post.maBaiDang} + '/addComment'}" th:object="${newComment}" method="post" class="comment-form">
+                    <textarea th:field="*{noiDung}" class="form-input" rows="3" placeholder="Viết bình luận của bạn..." required></textarea>
+                    <input type="hidden" name="parentCommentId" id="parentCommentId" value="" />
+                    <button type="submit" class="btn btn-primary btn-sm">Gửi bình luận</button>
+                </form>
+
+                <div class="comments-list">
+                    <div th:if="${comments != null and !comments.isEmpty()}">
+                        <div th:each="comment : ${comments}" class="comment-item">
+                            <div class="comment-header">
+                                <div class="comment-avatar" th:text="${comment.nguoiDung != null and comment.nguoiDung.hoTen != null and !comment.nguoiDung.hoTen.isEmpty() ? comment.nguoiDung.hoTen.substring(0,1).toUpperCase() : '?'}"></div>
+                                <div>
+                                    <div class="comment-author" th:text="${comment.nguoiDung != null and comment.nguoiDung.hoTen != null ? comment.nguoiDung.hoTen : 'Người dùng ẩn danh'}"></div>
+                                    <div class="comment-time" th:text="${comment.ngayTao != null ? #temporals.format(comment.ngayTao, 'dd/MM/yyyy HH:mm') : 'N/A'}"></div>
+                                </div>
+                            </div>
+                            <div class="comment-content">
+                                <p th:text="${comment.noiDung}"></p>
+                                <a href="#" class="btn btn-link btn-sm"
+                                   th:data-comment-id="${comment.maBinhLuan}"
+                                   th:data-comment-author="${comment.nguoiDung != null and comment.nguoiDung.hoTen != null ? comment.nguoiDung.hoTen : 'Người dùng ẩn danh'}"
+                                   onclick="alert('Chức năng trả lời hiện chưa được hỗ trợ hoàn chỉnh.'); return false;">Trả lời</a>
+                            </div>
+
+                            </div>
+                    </div>
+                    <div th:if="${comments == null or comments.isEmpty()}">
+                        <p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-panel">
+            <div class="card">
+                <h2 class="card-title">Tài nguyên liên quan</h2>
+                <div class="resources-list">
+                    <a href="#" class="resource-item">Hướng dẫn lập trình Python</a>
+                    <a href="#" class="resource-item">Mẫu bài kiểm tra Python</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Hàm replyToComment đã được comment/sửa đổi vì logic bình luận cha/con hiện không được hỗ trợ ở backend và entity
+    /*
+    function replyToComment(element) { // Nhận đối tượng element
+        const commentId = element.dataset.commentId; // Đọc maBinhLuan từ data-comment-id
+        const authorName = element.dataset.commentAuthor; // Đọc hoTen từ data-comment-author
+
+        document.getElementById('parentCommentId').value = commentId;
+        const textarea = document.querySelector('.comment-form textarea');
+        textarea.value = `@${authorName} `; // Thêm tên người được trả lời vào textarea
+        textarea.focus(); // Đặt con trỏ vào textarea
+    }
+    */
+</script>
+</body>
+</html>

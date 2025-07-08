@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ Giáo viên - Hannah</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}" class="active">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a href="#" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name" th:text="${teacher.fullName}">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Hồ sơ Giáo viên</h1>
+            <p>Quản lý thông tin cá nhân và thành tích</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/teacher-settings}" class="btn btn-primary">Chỉnh sửa hồ sơ</a>
+        </div>
+    </div>
+
+    <div class="card profile-card">
+        <div class="profile-avatar">GV</div>
+        <div class="profile-name" th:text="${teacher.fullName}">Nguyễn Văn A</div>
+        <div class="profile-title" th:text="${teacher.position}">Giáo viên Python</div>
+        <div class="profile-badge" th:text="'Tham gia: ' + ${teacher.joinDate}">Tham gia: 10/01/2024</div>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-panel">
+            <div class="card">
+                <h2 class="card-title">Thông tin cá nhân</h2>
+                <p><strong>Email:</strong> <span th:text="${teacher.email}">email@example.com</span></p>
+                <p><strong>Số điện thoại:</strong> <span th:text="${teacher.phone}">0123 456 789</span></p>
+                <p><strong>Giới thiệu:</strong> <span th:text="${teacher.bio}">Tôi là một giáo viên đam mê giảng dạy Python và Data Science.</span></p>
+            </div>
+            <div class="card">
+                <h2 class="card-title">Kỹ năng</h2>
+                <div class="skills-list">
+                    <span th:each="skill : ${teacher.skills}" th:text="${skill}" class="skill-tag">Python</span>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-panel">
+            <div class="card">
+                <h2 class="card-title">Thành tích</h2>
+                <div class="achievements-list">
+                    <div class="achievement-item" th:each="ach : ${teacher.achievements}">
+                        <div class="achievement-icon">🏆</div>
+                        <div>
+                            <div class="achievement-title" th:text="${ach.title}">Giáo viên xuất sắc</div>
+                            <div class="achievement-desc" th:text="${ach.year}">2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

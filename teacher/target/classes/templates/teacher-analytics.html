@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thống kê - Hannah</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}" class="active">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Thống kê</h1>
+            <p>Xem hiệu suất khóa học và học viên</p>
+        </div>
+        <div class="page-actions">
+            <a href="#" class="btn btn-primary">Tải báo cáo</a>
+        </div>
+    </div>
+
+    <div class="filters-section">
+        <div class="filters-grid">
+            <div class="filter-group">
+                <label class="form-label">Khóa học</label>
+                <select class="form-select">
+                    <option>Tất cả</option>
+                    <option>Python căn bản</option>
+                    <option>Python nâng cao</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="form-label">Thời gian</label>
+                <select class="form-select">
+                    <option>7 ngày qua</option>
+                    <option>30 ngày qua</option>
+                    <option>90 ngày qua</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-panel">
+            <div class="card">
+                <h2 class="card-title">Hiệu suất học viên</h2>
+                <div class="chart-placeholder">Biểu đồ hiệu suất học viên (Tích hợp thư viện biểu đồ như Chart.js)</div>
+            </div>
+        </div>
+        <div class="sidebar-panel">
+            <div class="card">
+                <h2 class="card-title">Thống kê khóa học</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👩‍🎓</div>
+                        <div class="stat-number">85%</div>
+                        <div class="stat-label">Tỷ lệ hoàn thành</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-number">4.7</div>
+                        <div class="stat-label">Đánh giá trung bình</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

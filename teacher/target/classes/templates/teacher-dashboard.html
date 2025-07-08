@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ Giáo viên - Hannah</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}" class="active">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="welcome-section">
+        <h1 class="welcome-title">Chào mừng, Nguyễn Văn A!</h1>
+        <p>Quản lý khóa học và học viên của bạn dễ dàng hơn bao giờ hết.</p>
+    </div>
+
+    <div class="quick-actions">
+        <a th:href="@{/teacher-courses/create}" class="action-card">
+            <div class="action-icon">📚</div>
+            <h3>Tạo khóa học mới</h3>
+            <p>Thêm khóa học mới để bắt đầu giảng dạy</p>
+        </a>
+
+
+    </div>
+
+    <div class="content-grid">
+        <div class="main-panel">
+            <div class="card">
+                <h2 class="card-title">Hoạt động gần đây</h2>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">📝</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Nộp bài tập</div>
+                            <div class="activity-desc">Trần Thị B đã nộp bài tập Vòng lặp - Python căn bản</div>
+                            <div class="activity-time">2 giờ trước</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">📚</div>
+                        <div class="activity-content">
+                            <div class="activity-title">Khóa học mới</div>
+                            <div class="activity-desc">Python nâng cao đã được xuất bản</div>
+                            <div class="activity-time">1 ngày trước</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-panel">
+            <div class="card">
+                <h2 class="card-title">Thống kê nhanh</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👩‍🎓</div>
+                        <div class="stat-number">120</div>
+                        <div class="stat-label">Học viên</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Khóa học</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Bài kiểm tra</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

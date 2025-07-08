@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo bài đăng mới - Hannah Community</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}" class="active">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Tạo bài đăng mới</h1>
+            <p>Viết và chia sẻ bài đăng của bạn với cộng đồng</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/teacher-community}" class="btn btn-secondary">Hủy</a>
+        </div>
+    </div>
+
+    <form th:action="@{/teacher-community-post/save}" th:object="${post}" method="post">
+        <div class="card">
+            <h2 class="card-title">Nội dung bài đăng</h2>
+            <div class="form-group">
+                <label class="form-label">Tiêu đề</label>
+                <input type="text" th:field="*{tieuDe}" class="form-input" placeholder="Nhập tiêu đề bài đăng..." required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nội dung</label>
+                <textarea th:field="*{noiDung}" class="form-input" rows="10" placeholder="Viết nội dung bài đăng của bạn..." required></textarea>
+            </div>
+            <div class="page-actions" style="justify-content: flex-end; margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary">Đăng bài</button>
+            </div>
+        </div>
+    </form>
+</main>
+</body>
+</html>

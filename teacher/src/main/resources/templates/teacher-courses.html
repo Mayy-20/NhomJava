@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khóa học - Hannah</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}" class="active">Khóa học</a></li>
+            <li><a th:href="@{/students/list}">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a th:href="@{/logout}" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Khóa học của tôi</h1>
+            <p>Quản lý các khóa học bạn đang giảng dạy</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/teacher-courses/create}" class="btn btn-primary">Tạo khóa học mới</a>
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label class="form-label">Tìm kiếm</label>
+            <input type="text" class="form-input" placeholder="Tìm kiếm khóa học...">
+        </div>
+        <div class="filter-group">
+            <label class="form-label">Trạng thái</label>
+            <select class="form-select">
+                <option>Tất cả</option>
+                <option>Đã xuất bản</option>
+                <option>Bản nháp</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="course-list">
+        <div th:if="${courses != null and !courses.isEmpty()}">
+            <div class="course-item" th:each="course : ${courses}">
+                <div class="course-info">
+                    <div class="course-title" th:text="${course.tenKhoaHoc}">Tên khóa học</div>
+                    <div class="course-stats">
+                        <span th:text="${(course.baiHocList != null ? course.baiHocList.size() : 0) + ' bài học'}">0 bài học</span>
+                        <span th:text="${course.danhGiaTB + '★'}">0★</span>
+                        <span th:text="${course.trangThai}">Trạng thái</span>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <a th:href="@{'/teacher-courses/' + ${course.maKhoaHoc}}" class="btn btn-primary btn-sm">Chi tiết</a>
+                    <a th:href="@{'/teacher-courses/delete/' + ${course.maKhoaHoc}}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Bạn có chắc muốn xóa khóa học này?')">Xóa</a>
+                </div>
+            </div>
+        </div>
+        <div th:if="${courses == null or courses.isEmpty()}">
+            <p>Chưa có khóa học nào. Hãy tạo khóa học đầu tiên của bạn!</p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

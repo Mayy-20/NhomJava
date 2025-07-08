@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ sơ Học viên - Hannah</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="header">
+    <div class="nav-container">
+        <div class="logo">Hannah</div>
+        <ul class="nav-menu">
+            <li><a th:href="@{/teacher-dashboard}">Trang chủ</a></li>
+            <li><a th:href="@{/teacher-courses}">Khóa học</a></li>
+            <li><a th:href="@{/students/list}" class="active">Học viên</a></li>
+            <li><a th:href="@{/analytics}">Thống kê</a></li>
+            <li><a th:href="@{/teacher-community}">Cộng đồng</a></li>
+            <li><a th:href="@{/profile}">Hồ sơ</a></li>
+            <li><a th:href="@{/teacher-settings}">Cài đặt</a></li>
+            <li><a href="#" class="nav-logout">Đăng xuất</a></li>
+        </ul>
+        <div class="user-profile">
+            <div class="user-badge">Giáo viên</div>
+            <div class="user-avatar">GV</div>
+            <div class="user-name">Nguyễn Văn A</div>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Hồ sơ Học viên</h1>
+            <p>Chi tiết và tiến độ học tập của học viên</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/notifications}" class="btn btn-primary">Gửi thông báo</a>
+            <a href="#" class="btn btn-danger" th:attr="data-name=${student.fullName}" onclick="showDeleteModal(this)">Xóa học viên</a>
+        </div>
+    </div>
+
+    <div class="card profile-card">
+        <div class="profile-avatar" th:text="${student.initials}">TB</div>
+        <div class="profile-name" th:text="${student.fullName}">Trần Thị B</div>
+        <div class="profile-title" th:text="${student.email}">email@example.com</div>
+        <div class="profile-badge" th:text="'Tham gia: ' + ${student.joinDate}">Tham gia: 15/01/2024</div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active">Tiến độ học tập</div>
+        <div class="tab">Hoạt động</div>
+        <div class="tab">Ghi chú</div>
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">Tiến độ học tập</h2>
+        <div class="student-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" th:style="'width:' + ${student.progress} + '%'"></div>
+            </div>
+            <div class="progress-text" th:text="${student.progress} + '% hoàn thành'">85% hoàn thành</div>
+        </div>
+        <div class="course-list">
+            <div class="course-item" th:each="course : ${student.courses}">
+                <div class="course-info">
+                    <div class="course-title" th:text="${course.name}">Python căn bản</div>
+                    <div class="course-stats">
+                        <span th:text="${course.lessons} + ' bài học'">25 bài học</span>
+                        <span th:text="${course.rating} + '★'">4.8★</span>
+                        <span th:text="${course.status}">Đã xuất bản</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">Hoạt động gần đây</h2>
+        <div class="activity-list">
+            <div class="activity-item" th:each="activity : ${student.activities}">
+                <div class="activity-icon" th:text="${activity.icon}">📝</div>
+                <div class="activity-content">
+                    <div class="activity-title" th:text="${activity.title}">Nộp bài tập</div>
+                    <div class="activity-desc" th:text="${activity.description}">Bài tập Vòng lặp - Python</div>
+                    <div class="activity-time" th:text="${activity.timeAgo}">2 giờ trước</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Xác nhận xóa học viên</h2>
+            <p>Bạn có chắc muốn xóa học viên <span id="deleteStudentName"></span>?</p>
+            <div class="modal-actions">
+                <a href="#" class="btn btn-secondary" onclick="hideDeleteModal()">Hủy</a>
+                <a href="#" class="btn btn-danger" onclick="confirmDelete()">Xóa</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function showDeleteModal(button) {
+        const studentName = button.getAttribute('data-name');
+        document.getElementById('deleteStudentName').textContent = studentName;
+        document.getElementById('deleteModal').style.display = 'flex';
+    }
+
+    function hideDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    function confirmDelete() {
+        alert('Học viên đã được xóa!');
+        hideDeleteModal();
+    }
+</script>
+</body>
+</html>
