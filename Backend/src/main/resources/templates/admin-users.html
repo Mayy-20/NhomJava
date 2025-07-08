@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Quản lý Người dùng</title>
+    <style>
+        /* CSS giữ nguyên như file gốc */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .breadcrumb {
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .filter-input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Loading and Error States */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button:hover {
+            background: #f5f5f5;
+        }
+
+        .pagination button.active {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-dashboard.html" class="logo">Hannah Admin</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item active">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <span>/</span>
+                <span>Người dùng</span>
+            </div>
+
+            <div class="header">
+                <h1 class="page-title">Quản lý Người dùng</h1>
+                <button class="btn btn-primary" onclick="addUser()">Thêm người dùng</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1,245</div>
+                    <div class="stat-label">Tổng người dùng</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1,023</div>
+                    <div class="stat-label">Hoạt động</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Chờ duyệt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">177</div>
+                    <div class="stat-label">Không hoạt động</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">356</div>
+                    <div class="stat-label">Giảng viên</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Tìm kiếm</label>
+                    <input type="text" class="filter-input" placeholder="Tên hoặc email..." id="searchInput">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Trạng thái</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="ACTIVE">Hoạt động</option>
+                        <option value="PENDING">Chờ duyệt</option>
+                        <option value="INACTIVE">Không hoạt động</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Vai trò</label>
+                    <select class="filter-input" id="roleFilter">
+                        <option value="">Tất cả</option>
+                        <option value="STUDENT">Học viên</option>
+                        <option value="TEACHER">Giảng viên</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">&nbsp;</label>
+                    <button class="btn btn-primary" onclick="applyFilters()">Lọc</button>
+                    <button class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="content-section">
+                <div id="tableContainer">
+                    <table class="table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>Vai trò</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày tạo</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be rendered here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8080/api';
+        
+        // Global variables
+        let currentPage = 0;
+        let pageSize = 10;
+        let totalPages = 0;
+        let currentFilters = {};
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+        }
+
+        // Load users from API
+        async function loadUsers(page = 0) {
+            try {
+                showLoading();
+                
+                const params = new URLSearchParams({
+                    page: page,
+                    size: pageSize,
+                    ...currentFilters
+                });
+
+                const response = await fetch(`${API_BASE_URL}/users?${params.toString()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                currentPage = data.number || 0;
+                totalPages = data.totalPages || 0;
+                
+                renderUsersTable(data.content || []);
+                renderPagination();
+                
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showError('Không thể tải dữ liệu người dùng. Vui lòng thử lại sau.');
+            }
+        }
+
+        // Render users table
+        function renderUsersTable(users) {
+            const tbody = document.getElementById('usersTableBody');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            Không có dữ liệu người dùng
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="user-avatar">${getInitials(user.name)}</div>
+                            <div>${escapeHtml(user.name || '')}</div>
+                        </div>
+                    </td>
+                    <td>${escapeHtml(user.email || '')}</td>
+                    <td>${getRoleText(user.role)}</td>
+                    <td><span class="status-badge status-${user.status.toLowerCase()}">${getStatusText(user.status)}</span></td>
+                    <td>${formatDate(user.createdAt)}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="viewUser(${user.id})">Xem</button>
+                        ${user.status === 'PENDING' ? 
+                            `<button class="btn btn-success" onclick="approveUser(${user.id})">Duyệt</button>
+                             <button class="btn btn-danger" onclick="rejectUser(${user.id})">Từ chối</button>` :
+                            `<button class="btn btn-secondary" onclick="editUser(${user.id})">Sửa</button>
+                             ${user.status === 'INACTIVE' ? 
+                                `<button class="btn btn-success" onclick="activateUser(${user.id})">Kích hoạt</button>` :
+                                `<button class="btn btn-danger" onclick="deleteUser(${user.id})">Xóa</button>`
+                             }`
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            paginationHTML += `
+                <button onclick="changePage(${currentPage - 1})" ${currentPage === 0 ? 'disabled' : ''}>
+                    « Trước
+                </button>
+            `;
+            
+            const startPage = Math.max(0, currentPage - 2);
+            const endPage = Math.min(totalPages - 1, currentPage + 2);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <button onclick="changePage(${i})" ${i === currentPage ? 'class="active"' : ''}>
+                        ${i + 1}
+                    </button>
+                `;
+            }
+            
+            paginationHTML += `
+                <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages - 1 ? 'disabled' : ''}>
+                    Sau »
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            if (page >= 0 && page < totalPages && page !== currentPage) {
+                loadUsers(page);
+            }
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            const status = document.getElementById('statusFilter').value;
+            const role = document.getElementById('roleFilter').value;
+            
+            currentFilters = {};
+            if (searchTerm) currentFilters.search = searchTerm;
+            if (status) currentFilters.status = status;
+            if (role) currentFilters.role = role;
+            
+            currentPage = 0;
+            loadUsers(0);
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('roleFilter').value = '';
+            
+            currentFilters = {};
+            currentPage = 0;
+            loadUsers(0);
+        }
+
+        // User actions
+        function addUser() {
+            window.location.href = 'user-add.html';
+        }
+
+        function viewUser(id) {
+            window.location.href = `user-detail.html?id=${id}`;
+        }
+
+        function editUser(id) {
+            window.location.href = `user-edit.html?id=${id}`;
+        }
+
+        async function approveUser(id) {
+            if (confirm('Bạn có chắc muốn duyệt người dùng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/approve`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showSuccess('Đã duyệt người dùng thành công');
+                        loadUsers(currentPage);
+                    } else {
+                        showError(data.message || 'Có lỗi xảy ra khi duyệt người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error approving user:', error);
+                    showError('Có lỗi xảy ra khi duyệt người dùng');
+                }
+            }
+        }
+
+        async function rejectUser(id) {
+            const reason = prompt('Lý do từ chối:');
+            if (reason && reason.trim()) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/reject`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason: reason.trim() })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showSuccess('Đã từ chối người dùng');
+                        loadUsers(currentPage);
+                    } else {
+                        showError(data.message || 'Có lỗi xảy ra khi từ chối người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error rejecting user:', error);
+                    showError('Có lỗi xảy ra khi từ chối người dùng');
+                }
+            }
+        }
+
+        async function activateUser(id) {
+            if (confirm('Bạn có chắc muốn kích hoạt người dùng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/activate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showSuccess('Đã kích hoạt người dùng');
+                        loadUsers(currentPage);
+                    } else {
+                        showError(data.message || 'Có lỗi xảy ra khi kích hoạt người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error activating user:', error);
+                    showError('Có lỗi xảy ra khi kích hoạt người dùng');
+                }
+            }
+        }
+
+        async function deleteUser(id) {
+            if (confirm('Bạn có chắc muốn xóa người dùng này? Hành động này không thể hoàn tác.')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showSuccess('Đã xóa người dùng');
+                        loadUsers(currentPage);
+                    } else {
+                        showError(data.message || 'Có lỗi xảy ra khi xóa người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error deleting user:', error);
+                    showError('Có lỗi xảy ra khi xóa người dùng');
+                }
+            }
+        }
+
+        // Utility functions
+        function showLoading() {
+            document.getElementById('tableContainer').innerHTML = `
+                <div class="loading">
+                    <div>⏳ Đang tải dữ liệu...</div>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('tableContainer').innerHTML = `
+                <div class="error">
+                    <div>❌ ${message}</div>
+                    <button class="btn btn-primary" onclick="loadUsers(currentPage)" style="margin-top: 1rem;">
+                        Thử lại
+                    </button>
+                </div>
+            `;
+        }
+
+        function showSuccess(message) {
+            alert(message); // You can replace with toast notification
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'ACTIVE': 'Hoạt động',
+                'PENDING': 'Chờ duyệt',
+                'INACTIVE': 'Không hoạt động'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getRoleText(role) {
+            const roleMap = {
+                'STUDENT': 'Học viên',
+                'TEACHER': 'Giảng viên',
+                'ADMIN': 'Admin'
+            };
+            return roleMap[role] || role;
+        }
+
+        function getInitials(name) {
+            if (!name) return '?';
+            const parts = name.split(' ');
+            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0).toUpperCase());
+        }
+    </script>
+</body>
+</html>

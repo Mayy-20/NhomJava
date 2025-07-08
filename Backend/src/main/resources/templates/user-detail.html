@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Chi tiết người dùng</title>
+    <style>
+        /* CSS giữ nguyên như file gốc */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .breadcrumb {
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 0.5rem;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .user-avatar-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .user-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-avatar-placeholder {
+            font-size: 3rem;
+            color: #666;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-email {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .user-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .user-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-meta-label {
+            color: #666;
+        }
+
+        .user-meta-value {
+            font-weight: 500;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .user-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .detail-card {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .detail-card-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .detail-item {
+            margin-bottom: 1rem;
+        }
+
+        .detail-label {
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #b91c1c;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #0d9b6c;
+        }
+
+        /* Loading and Error States */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-dashboard.html" class="logo">Hannah Admin</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <span>/</span>
+                <a href="admin-users.html">Người dùng</a>
+                <span>/</span>
+                <span>Chi tiết người dùng</span>
+            </div>
+
+            <div class="header">
+                <h1 class="page-title">Chi tiết người dùng</h1>
+                <div>
+                    <button class="btn btn-secondary" onclick="window.location.href='admin-users.html'">Quay lại</button>
+                    <button class="btn btn-primary" onclick="editUser()">Chỉnh sửa</button>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <div id="userDetailContainer">
+                    <!-- User detail will be loaded here -->
+                    <div class="loading">⏳ Đang tải thông tin người dùng...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8080/api';
+        
+        // Get user ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('id');
+
+        // Load user details
+        document.addEventListener('DOMContentLoaded', function() {
+            if (userId) {
+                loadUserDetails(userId);
+            } else {
+                showError('Không tìm thấy ID người dùng');
+            }
+        });
+
+        // Load user details from API
+        async function loadUserDetails(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const user = await response.json();
+                renderUserDetails(user);
+                
+            } catch (error) {
+                console.error('Error loading user details:', error);
+                showError('Không thể tải thông tin người dùng. Vui lòng thử lại sau.');
+            }
+        }
+
+        // Render user details
+        function renderUserDetails(user) {
+            const container = document.getElementById('userDetailContainer');
+            
+            if (!user) {
+                container.innerHTML = `
+                    <div class="error">
+                        Không tìm thấy thông tin người dùng
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="user-profile">
+                    <div class="user-avatar-large">
+                        ${user.avatarUrl ? 
+                            `<img src="${user.avatarUrl}" alt="${user.name}">` : 
+                            `<div class="user-avatar-placeholder">${getInitials(user.name)}</div>`
+                        }
+                    </div>
+                    <div class="user-info">
+                        <h2 class="user-name">${escapeHtml(user.name || '')}</h2>
+                        <div class="user-email">${escapeHtml(user.email || '')}</div>
+                        
+                        <div class="user-meta">
+                            <div class="user-meta-item">
+                                <span class="user-meta-label">Vai trò:</span>
+                                <span class="user-meta-value">${getRoleText(user.role)}</span>
+                            </div>
+                            <div class="user-meta-item">
+                                <span class="user-meta-label">Trạng thái:</span>
+                                <span class="status-badge status-${user.status.toLowerCase()}">${getStatusText(user.status)}</span>
+                            </div>
+                            <div class="user-meta-item">
+                                <span class="user-meta-label">Ngày tạo:</span>
+                                <span class="user-meta-value">${formatDate(user.createdAt)}</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            ${user.status === 'PENDING' ? 
+                                `<button class="btn btn-success" onclick="approveUser('${user.id}')">Duyệt</button>
+                                 <button class="btn btn-danger" onclick="rejectUser('${user.id}')">Từ chối</button>` :
+                                user.status === 'INACTIVE' ? 
+                                    `<button class="btn btn-success" onclick="activateUser('${user.id}')">Kích hoạt</button>` :
+                                    `<button class="btn btn-danger" onclick="deactivateUser('${user.id}')">Vô hiệu hóa</button>`
+                            }
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="user-details">
+                    <div class="detail-card">
+                        <h3 class="detail-card-title">Thông tin cá nhân</h3>
+                        <div class="detail-item">
+                            <div class="detail-label">Số điện thoại</div>
+                            <div class="detail-value">${user.phone || 'Chưa cập nhật'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Địa chỉ</div>
+                            <div class="detail-value">${user.address || 'Chưa cập nhật'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h3 class="detail-card-title">Thông tin tài khoản</h3>
+                        <div class="detail-item">
+                            <div class="detail-label">ID người dùng</div>
+                            <div class="detail-value">${user.id}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email xác thực</div>
+                            <div class="detail-value">${user.emailVerified ? '✅ Đã xác thực' : '❌ Chưa xác thực'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Lần đăng nhập cuối</div>
+                            <div class="detail-value">${user.lastLogin ? formatDateTime(user.lastLogin) : 'Chưa đăng nhập'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h3 class="detail-card-title">Ghi chú</h3>
+                        <div class="detail-item">
+                            <div class="detail-value">${user.notes || 'Không có ghi chú'}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // User actions
+        function editUser() {
+            window.location.href = `user-edit.html?id=${userId}`;
+        }
+
+        async function approveUser(id) {
+            if (confirm('Bạn có chắc muốn duyệt người dùng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/approve`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã duyệt người dùng thành công');
+                        loadUserDetails(id);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi duyệt người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error approving user:', error);
+                    alert('Có lỗi xảy ra khi duyệt người dùng');
+                }
+            }
+        }
+
+        async function rejectUser(id) {
+            const reason = prompt('Lý do từ chối:');
+            if (reason && reason.trim()) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/reject`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason: reason.trim() })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã từ chối người dùng');
+                        window.location.href = 'admin-users.html';
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi từ chối người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error rejecting user:', error);
+                    alert('Có lỗi xảy ra khi từ chối người dùng');
+                }
+            }
+        }
+
+        async function activateUser(id) {
+            if (confirm('Bạn có chắc muốn kích hoạt người dùng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/activate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã kích hoạt người dùng');
+                        loadUserDetails(id);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi kích hoạt người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error activating user:', error);
+                    alert('Có lỗi xảy ra khi kích hoạt người dùng');
+                }
+            }
+        }
+
+        async function deactivateUser(id) {
+            const reason = prompt('Lý do vô hiệu hóa:');
+            if (reason && reason.trim()) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/deactivate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason: reason.trim() })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã vô hiệu hóa người dùng');
+                        loadUserDetails(id);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi vô hiệu hóa người dùng');
+                    }
+                } catch (error) {
+                    console.error('Error deactivating user:', error);
+                    alert('Có lỗi xảy ra khi vô hiệu hóa người dùng');
+                }
+            }
+        }
+
+        // Utility functions
+        function showError(message) {
+            document.getElementById('userDetailContainer').innerHTML = `
+                <div class="error">
+                    <div>❌ ${message}</div>
+                    <button class="btn btn-primary" onclick="loadUserDetails('${userId}')" style="margin-top: 1rem;">
+                        Thử lại
+                    </button>
+                </div>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Chưa cập nhật';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        function formatDateTime(dateString) {
+            if (!dateString) return 'Chưa cập nhật';
+            const date = new Date(dateString);
+            return date.toLocaleString('vi-VN');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'ACTIVE': 'Hoạt động',
+                'PENDING': 'Chờ duyệt',
+                'INACTIVE': 'Không hoạt động'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getRoleText(role) {
+            const roleMap = {
+                'STUDENT': 'Học viên',
+                'TEACHER': 'Giảng viên',
+                'ADMIN': 'Quản trị viên'
+            };
+            return roleMap[role] || role;
+        }
+
+        function getInitials(name) {
+            if (!name) return '?';
+            const parts = name.split(' ');
+            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0).toUpperCase());
+        }
+    </script>
+</body>
+</html>
