@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Quản lý Tài liệu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .breadcrumb {
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .upload-area {
+            background: white;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-area:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .filter-input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .file-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #f3f4f6;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        /* Loading and Error States */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button:hover {
+            background: #f5f5f5;
+        }
+
+        .pagination button.active {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .file-icon {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-dashboard.html" class="logo">Hannah Admin</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item active">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <span>/</span>
+                <span>Tài liệu</span>
+            </div>
+
+            <div class="header">
+                <h1 class="page-title">Quản lý Tài liệu</h1>
+                <button class="btn btn-primary" onclick="uploadDocument()">Tải lên tài liệu</button>
+            </div>
+
+            <!-- Stats (kept static as requested) -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1,234</div>
+                    <div class="stat-label">Tổng tài liệu</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Chờ duyệt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15,678</div>
+                    <div class="stat-label">Lượt tải xuống</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2.5GB</div>
+                    <div class="stat-label">Dung lượng sử dụng</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4.6</div>
+                    <div class="stat-label">Đánh giá TB</div>
+                </div>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="upload-area" onclick="triggerFileUpload()">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Kéo thả tài liệu vào đây hoặc click để chọn file</div>
+                <div class="upload-hint">Hỗ trợ: PDF, DOC, PPT, ZIP, MP4 (Tối đa 100MB)</div>
+                <input type="file" id="fileInput" style="display: none;" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.mp4">
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Tìm kiếm</label>
+                    <input type="text" class="filter-input" placeholder="Tên tài liệu..." id="searchInput">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Loại file</label>
+                    <select class="filter-input" id="typeFilter">
+                        <option value="">Tất cả</option>
+                        <option value="pdf">PDF</option>
+                        <option value="doc">Word</option>
+                        <option value="ppt">PowerPoint</option>
+                        <option value="zip">Archive</option>
+                        <option value="video">Video</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Trạng thái</label>
+                    <select class="filter-input" id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="APPROVED">Đã duyệt</option>
+                        <option value="PENDING">Chờ duyệt</option>
+                        <option value="REJECTED">Bị từ chối</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">&nbsp;</label>
+                    <button class="btn btn-primary" onclick="applyFilters()">Lọc</button>
+                    <button class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                </div>
+            </div>
+
+            <!-- Documents Table -->
+            <div class="content-section">
+                <div id="tableContainer">
+                    <table class="table" id="documentsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên tài liệu</th>
+                                <th>Loại</th>
+                                <th>Tác giả</th>
+                                <th>Trạng thái</th>
+                                <th>Kích thước</th>
+                                <th>Lượt tải</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="documentsTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be rendered here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8080/api';
+        
+        // Global variables
+        let currentPage = 0;
+        let pageSize = 10;
+        let totalPages = 0;
+        let currentFilters = {};
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDocuments();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+
+            document.getElementById('fileInput').addEventListener('change', function(e) {
+                handleFileUpload(e.target.files);
+            });
+        }
+
+        // Load documents from API
+        async function loadDocuments(page = 0) {
+            try {
+                showLoading();
+                
+                const params = new URLSearchParams({
+                    page: page,
+                    size: pageSize,
+                    ...currentFilters
+                });
+
+                const response = await fetch(`${API_BASE_URL}/documents?${params.toString()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                currentPage = data.number || 0;
+                totalPages = data.totalPages || 0;
+                
+                renderDocumentsTable(data.content || []);
+                renderPagination();
+                
+            } catch (error) {
+                console.error('Error loading documents:', error);
+                showError('Không thể tải dữ liệu tài liệu. Vui lòng thử lại sau.');
+            }
+        }
+
+        // Render documents table
+        function renderDocumentsTable(documents) {
+            const tbody = document.getElementById('documentsTableBody');
+            
+            if (documents.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="loading">
+                            Không có tài liệu nào
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = documents.map(doc => `
+                <tr>
+                    <td>${doc.id}</td>
+                    <td>
+                        <span class="file-icon">${getFileIcon(doc.fileType)}</span>
+                        ${escapeHtml(doc.title || '')}
+                    </td>
+                    <td><span class="file-type">${getFileTypeText(doc.fileType)}</span></td>
+                    <td>${escapeHtml(doc.authorName || '')}</td>
+                    <td>
+                        <span class="status-badge status-${doc.status.toLowerCase()}">
+                            ${getStatusText(doc.status)}
+                        </span>
+                    </td>
+                    <td>${formatFileSize(doc.fileSize)}</td>
+                    <td>${doc.downloadCount || 0}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="viewDocument(${doc.id})">Xem</button>
+                        ${doc.status === 'PENDING' ? 
+                            `<button class="btn btn-success" onclick="approveDocument(${doc.id})">Duyệt</button>
+                             <button class="btn btn-danger" onclick="rejectDocument(${doc.id})">Từ chối</button>` :
+                            doc.status === 'REJECTED' ?
+                            `<button class="btn btn-secondary" onclick="viewRejectionReason(${doc.id})">Lý do</button>
+                             <button class="btn btn-danger" onclick="deleteDocument(${doc.id})">Xóa</button>` :
+                            `<button class="btn btn-secondary" onclick="downloadDocument(${doc.id})">Tải</button>
+                             <button class="btn btn-danger" onclick="deleteDocument(${doc.id})">Xóa</button>`
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render pagination
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+            
+            paginationHTML += `
+                <button onclick="changePage(${currentPage - 1})" ${currentPage === 0 ? 'disabled' : ''}>
+                    « Trước
+                </button>
+            `;
+            
+            const startPage = Math.max(0, currentPage - 2);
+            const endPage = Math.min(totalPages - 1, currentPage + 2);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHTML += `
+                    <button onclick="changePage(${i})" ${i === currentPage ? 'class="active"' : ''}>
+                        ${i + 1}
+                    </button>
+                `;
+            }
+            
+            paginationHTML += `
+                <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages - 1 ? 'disabled' : ''}>
+                    Sau »
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            if (page >= 0 && page < totalPages && page !== currentPage) {
+                loadDocuments(page);
+            }
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.trim();
+            const type = document.getElementById('typeFilter').value;
+            const status = document.getElementById('statusFilter').value;
+            
+            currentFilters = {};
+            if (searchTerm) currentFilters.search = searchTerm;
+            if (type) currentFilters.type = type;
+            if (status) currentFilters.status = status;
+            
+            currentPage = 0;
+            loadDocuments(0);
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            
+            currentFilters = {};
+            currentPage = 0;
+            loadDocuments(0);
+        }
+
+        // Document actions
+        function uploadDocument() {
+            document.getElementById('fileInput').click();
+        }
+
+        function triggerFileUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        async function handleFileUpload(files) {
+            if (files.length === 0) return;
+            
+            try {
+                const formData = new FormData();
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('files', files[i]);
+                }
+                
+                const response = await fetch(`${API_BASE_URL}/documents/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Tải lên tài liệu thành công');
+                    loadDocuments(currentPage);
+                } else {
+                    alert(result.message || 'Có lỗi xảy ra khi tải lên');
+                }
+            } catch (error) {
+                console.error('Error uploading files:', error);
+                alert('Có lỗi xảy ra khi tải lên tài liệu');
+            }
+        }
+
+        function viewDocument(id) {
+            window.location.href = `document-detail.html?id=${id}`;
+        }
+
+        function downloadDocument(id) {
+            window.open(`${API_BASE_URL}/documents/${id}/download`, '_blank');
+        }
+
+        async function approveDocument(id) {
+            if (confirm('Bạn có chắc muốn duyệt tài liệu này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/documents/${id}/approve`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã duyệt tài liệu thành công');
+                        loadDocuments(currentPage);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi duyệt tài liệu');
+                    }
+                } catch (error) {
+                    console.error('Error approving document:', error);
+                    alert('Có lỗi xảy ra khi duyệt tài liệu');
+                }
+            }
+        }
+
+        async function rejectDocument(id) {
+            const reason = prompt('Lý do từ chối:');
+            if (reason && reason.trim()) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/documents/${id}/reject`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason: reason.trim() })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã từ chối tài liệu');
+                        loadDocuments(currentPage);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi từ chối tài liệu');
+                    }
+                } catch (error) {
+                    console.error('Error rejecting document:', error);
+                    alert('Có lỗi xảy ra khi từ chối tài liệu');
+                }
+            }
+        }
+
+        async function deleteDocument(id) {
+            if (confirm('Bạn có chắc muốn xóa tài liệu này? Hành động này không thể hoàn tác.')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/documents/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã xóa tài liệu thành công');
+                        loadDocuments(currentPage);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi xóa tài liệu');
+                    }
+                } catch (error) {
+                    console.error('Error deleting document:', error);
+                    alert('Có lỗi xảy ra khi xóa tài liệu');
+                }
+            }
+        }
+
+        async function viewRejectionReason(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/documents/${id}/rejection-reason`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.reason) {
+                    alert(`Lý do từ chối: ${data.reason}`);
+                } else {
+                    alert('Không tìm thấy thông tin lý do từ chối');
+                }
+            } catch (error) {
+                console.error('Error fetching rejection reason:', error);
+                alert('Có lỗi xảy ra khi lấy thông tin lý do từ chối');
+            }
+        }
+
+        // Utility functions
+        function showLoading() {
+            document.getElementById('tableContainer').innerHTML = `
+                <div class="loading">
+                    <div>⏳ Đang tải dữ liệu...</div>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('tableContainer').innerHTML = `
+                <div class="error">
+                    <div>❌ ${message}</div>
+                    <button class="btn btn-primary" onclick="loadDocuments(currentPage)" style="margin-top: 1rem;">
+                        Thử lại
+                    </button>
+                </div>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return '0 KB';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+            return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' GB';
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'APPROVED': 'Đã duyệt',
+                'PENDING': 'Chờ duyệt',
+                'REJECTED': 'Bị từ chối'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getFileTypeText(fileType) {
+            const typeMap = {
+                'pdf': 'PDF',
+                'doc': 'Word',
+                'docx': 'Word',
+                'ppt': 'PowerPoint',
+                'pptx': 'PowerPoint',
+                'zip': 'Archive',
+                'mp4': 'Video'
+            };
+            return typeMap[fileType.toLowerCase()] || fileType.toUpperCase();
+        }
+
+        function getFileIcon(fileType) {
+            const iconMap = {
+                'pdf': '📄',
+                'doc': '📝',
+                'docx': '📝',
+                'ppt': '📊',
+                'pptx': '📊',
+                'zip': '🗄️',
+                'mp4': '🎬'
+            };
+            return iconMap[fileType.toLowerCase()] || '📁';
+        }
+    </script>
+</body>
+</html>
