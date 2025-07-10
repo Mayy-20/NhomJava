@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-inactive {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Hannah Admin</div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item active">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="user-info">
+                    <span>Admin Hannah</span>
+                    <button class="btn btn-secondary" onclick="logout()">Đăng xuất</button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card" onclick="window.location.href='admin-users.html'">
+                    <div class="stat-number">15,247</div>
+                    <div class="stat-label">Tổng người dùng</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='admin-courses.html'">
+                    <div class="stat-number">156</div>
+                    <div class="stat-label">Khóa học</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='admin-community.html'">
+                    <div class="stat-number">2,847</div>
+                    <div class="stat-label">Bài đăng</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='admin-documents.html'">
+                    <div class="stat-number">1,234</div>
+                    <div class="stat-label">Tài liệu</div>
+                </div>
+            </div>
+
+            <!-- Recent Users -->
+            <div class="content-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="section-title">Người dùng mới</h2>
+                    <a href="admin-users.html" class="btn btn-primary">Xem tất cả</a>
+                </div>
+                <div id="recentUsersContainer">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày tạo</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentUsersTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Courses -->
+            <div class="content-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 class="section-title">Khóa học chờ duyệt</h2>
+                    <a href="admin-courses.html" class="btn btn-primary">Xem tất cả</a>
+                </div>
+                <div id="pendingCoursesContainer">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên khóa học</th>
+                                <th>Giảng viên</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingCoursesTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8080/api';
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRecentUsers();
+            loadPendingCourses();
+        });
+
+        // Load recent users
+        async function loadRecentUsers() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/recent?limit=5`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const users = await response.json();
+                renderRecentUsers(users);
+                
+            } catch (error) {
+                console.error('Error loading recent users:', error);
+                document.getElementById('recentUsersTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="6" class="error">Không thể tải dữ liệu người dùng mới</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render recent users table
+        function renderRecentUsers(users) {
+            const tbody = document.getElementById('recentUsersTableBody');
+            
+            if (!users || users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="loading">Không có người dùng mới</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${escapeHtml(user.name || '')}</td>
+                    <td>${escapeHtml(user.email || '')}</td>
+                    <td><span class="status-badge status-${user.status.toLowerCase()}">${getStatusText(user.status)}</span></td>
+                    <td>${formatDate(user.createdAt)}</td>
+                    <td>
+                        <a href="user-detail.html?id=${user.id}" class="btn btn-primary">Xem</a>
+                        ${user.status === 'PENDING' ? 
+                            `<button class="btn btn-success" onclick="approveUser(${user.id})">Duyệt</button>` :
+                            `<button class="btn btn-danger" onclick="deleteUser(${user.id})">Xóa</button>`
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load pending courses
+        async function loadPendingCourses() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/courses/pending?limit=5`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const courses = await response.json();
+                renderPendingCourses(courses);
+                
+            } catch (error) {
+                console.error('Error loading pending courses:', error);
+                document.getElementById('pendingCoursesTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="5" class="error">Không thể tải dữ liệu khóa học chờ duyệt</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Render pending courses table
+        function renderPendingCourses(courses) {
+            const tbody = document.getElementById('pendingCoursesTableBody');
+            
+            if (!courses || courses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="loading">Không có khóa học chờ duyệt</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = courses.map(course => `
+                <tr>
+                    <td>${course.id}</td>
+                    <td>${escapeHtml(course.title || '')}</td>
+                    <td>${escapeHtml(course.instructorName || '')}</td>
+                    <td><span class="status-badge status-pending">Chờ duyệt</span></td>
+                    <td>
+                        <a href="course-detail.html?id=${course.id}" class="btn btn-primary">Xem</a>
+                        <button class="btn btn-success" onclick="approveCourse(${course.id})">Duyệt</button>
+                        <button class="btn btn-danger" onclick="rejectCourse(${course.id})">Từ chối</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // User actions
+        async function approveUser(id) {
+            if (confirm('Bạn có chắc muốn duyệt người dùng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}/approve`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã duyệt người dùng');
+                        loadRecentUsers();
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error approving user:', error);
+                    alert('Có lỗi xảy ra khi duyệt người dùng');
+                }
+            }
+        }
+
+        async function deleteUser(id) {
+            if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã xóa người dùng');
+                        loadRecentUsers();
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error deleting user:', error);
+                    alert('Có lỗi xảy ra khi xóa người dùng');
+                }
+            }
+        }
+
+        // Course actions
+        async function approveCourse(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/courses/${id}/approve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Đã duyệt khóa học');
+                    loadPendingCourses();
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra');
+                }
+            } catch (error) {
+                console.error('Error approving course:', error);
+                alert('Có lỗi xảy ra khi duyệt khóa học');
+            }
+        }
+
+        async function rejectCourse(id) {
+            const reason = prompt('Lý do từ chối:');
+            if (reason && reason.trim()) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/courses/${id}/reject`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason: reason.trim() })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã từ chối khóa học');
+                        loadPendingCourses();
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra');
+                    }
+                } catch (error) {
+                    console.error('Error rejecting course:', error);
+                    alert('Có lỗi xảy ra khi từ chối khóa học');
+                }
+            }
+        }
+
+        function logout() {
+            if (confirm('Bạn có chắc muốn đăng xuất?')) {
+                window.location.href = '/logout';
+            }
+        }
+
+        // Utility functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'ACTIVE': 'Hoạt động',
+                'PENDING': 'Chờ duyệt',
+                'INACTIVE': 'Không hoạt động'
+            };
+            return statusMap[status] || status;
+        }
+    </script>
+</body>
+</html>

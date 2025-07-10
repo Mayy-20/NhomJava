@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Chi tiết bài đăng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .breadcrumb {
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 0.5rem;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post-title {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .post-meta {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        .post-content {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .post-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-reported {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* Loading and Error States */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-dashboard.html" class="logo">Hannah Admin</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item active">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <span>/</span>
+                <a href="admin-community.html">Cộng đồng</a>
+                <span>/</span>
+                <span>Chi tiết bài đăng</span>
+            </div>
+
+            <div class="header">
+                <h1 class="page-title">Chi tiết bài đăng</h1>
+                <button class="btn btn-primary" onclick="window.location.href='admin-community.html'">Quay lại</button>
+            </div>
+
+            <div class="content-section" id="postDetailContainer">
+                <div class="loading">
+                    <div>⏳ Đang tải dữ liệu...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+            
+            if (postId) {
+                loadPostDetail(postId);
+            } else {
+                showError('Không tìm thấy bài đăng');
+            }
+        });
+
+        async function loadPostDetail(postId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/posts/${postId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const post = await response.json();
+                renderPostDetail(post);
+                
+            } catch (error) {
+                console.error('Error loading post detail:', error);
+                showError('Không thể tải chi tiết bài đăng');
+            }
+        }
+
+        function renderPostDetail(post) {
+            const container = document.getElementById('postDetailContainer');
+            
+            container.innerHTML = `
+                <div class="post-header">
+                    <div>
+                        <h2 class="post-title">${escapeHtml(post.title || '')}</h2>
+                        <div class="post-meta">
+                            Đăng bởi ${escapeHtml(post.authorName || '')} vào ${formatDate(post.createdAt)} | 
+                            Danh mục: ${getCategoryText(post.category)}
+                        </div>
+                    </div>
+                    <span class="post-status status-${post.status.toLowerCase()}">
+                        ${getStatusText(post.status)}
+                    </span>
+                </div>
+                
+                <div class="post-content">
+                    ${escapeHtml(post.content || '').replace(/\n/g, '<br>')}
+                </div>
+                
+                <div class="post-footer">
+                    <div>
+                        ${post.reportCount ? `<span>${post.reportCount} báo cáo</span>` : ''}
+                    </div>
+                    <div>
+                        ${post.status === 'PENDING' ? 
+                            `<button class="btn btn-success" onclick="approvePost(${post.id})">Duyệt</button>
+                             <button class="btn btn-danger" onclick="deletePost(${post.id})">Xóa</button>` :
+                            post.status === 'REPORTED' ?
+                            `<button class="btn btn-primary" onclick="viewReports(${post.id})">Xem báo cáo</button>
+                             <button class="btn btn-danger" onclick="deletePost(${post.id})">Xóa</button>` :
+                            `<button class="btn btn-secondary" onclick="editPost(${post.id})">Sửa</button>
+                             <button class="btn btn-danger" onclick="hidePost(${post.id})">Ẩn</button>`
+                        }
+                    </div>
+                </div>
+            `;
+        }
+
+        async function approvePost(id) {
+            if (confirm('Bạn có chắc muốn duyệt bài đăng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/posts/${id}/approve`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã duyệt bài đăng thành công');
+                        loadPostDetail(id);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi duyệt bài đăng');
+                    }
+                } catch (error) {
+                    console.error('Error approving post:', error);
+                    alert('Có lỗi xảy ra khi duyệt bài đăng');
+                }
+            }
+        }
+
+        async function hidePost(id) {
+            if (confirm('Bạn có chắc muốn ẩn bài đăng này?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/posts/${id}/hide`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã ẩn bài đăng thành công');
+                        loadPostDetail(id);
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi ẩn bài đăng');
+                    }
+                } catch (error) {
+                    console.error('Error hiding post:', error);
+                    alert('Có lỗi xảy ra khi ẩn bài đăng');
+                }
+            }
+        }
+
+        async function deletePost(id) {
+            if (confirm('Bạn có chắc muốn xóa bài đăng này? Hành động này không thể hoàn tác.')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Đã xóa bài đăng thành công');
+                        window.location.href = 'admin-community.html';
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi xóa bài đăng');
+                    }
+                } catch (error) {
+                    console.error('Error deleting post:', error);
+                    alert('Có lỗi xảy ra khi xóa bài đăng');
+                }
+            }
+        }
+
+        function editPost(id) {
+            window.location.href = `post-edit.html?id=${id}`;
+        }
+
+        function viewReports(id) {
+            window.location.href = `post-reports.html?id=${id}`;
+        }
+
+        function showError(message) {
+            document.getElementById('postDetailContainer').innerHTML = `
+                <div class="error">
+                    <div>❌ ${message}</div>
+                    <button class="btn btn-primary" onclick="window.location.href='admin-community.html'" style="margin-top: 1rem;">
+                        Quay lại
+                    </button>
+                </div>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'APPROVED': 'Đã duyệt',
+                'PENDING': 'Chờ duyệt',
+                'REPORTED': 'Có báo cáo'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getCategoryText(category) {
+            const categoryMap = {
+                'QUESTION': 'Câu hỏi',
+                'SHARE': 'Chia sẻ',
+                'DISCUSSION': 'Thảo luận'
+            };
+            return categoryMap[category] || category;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah - Chỉnh sửa Khóa học</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #dc2626;
+            color: white;
+        }
+
+        .nav-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .header {
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .breadcrumb {
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #dc2626;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: #666;
+            margin: 0 0.5rem;
+        }
+
+        .content-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #dc2626;
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #b91c1c;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: #dc2626;
+            background: #fee2e2;
+            border-radius: 4px;
+        }
+
+        .thumbnail-preview {
+            width: 150px;
+            height: 150px;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .thumbnail-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-published {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-draft {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="admin-dashboard.html" class="logo">Hannah Admin</a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i>📊</i> Dashboard
+                </a>
+                <a href="admin-users.html" class="nav-item">
+                    <i>👥</i> Người dùng
+                </a>
+                <a href="admin-courses.html" class="nav-item active">
+                    <i>📚</i> Khóa học
+                </a>
+                <a href="admin-community.html" class="nav-item">
+                    <i>💬</i> Cộng đồng
+                </a>
+                <a href="admin-documents.html" class="nav-item">
+                    <i>📄</i> Tài liệu
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <span>/</span>
+                <a href="admin-courses.html">Khóa học</a>
+                <span>/</span>
+                <span>Chỉnh sửa</span>
+            </div>
+
+            <div class="header">
+                <h1 class="page-title">Chỉnh sửa Khóa học</h1>
+            </div>
+
+            <!-- Course Edit Form -->
+            <div class="content-section">
+                <div id="loadingMessage" class="loading" style="display: none;">
+                    <div>⏳ Đang tải dữ liệu khóa học...</div>
+                </div>
+
+                <div id="errorMessage" class="error" style="display: none;">
+                    <div id="errorText"></div>
+                    <button class="btn btn-primary" onclick="loadCourseData()" style="margin-top: 1rem;">
+                        Thử lại
+                    </button>
+                </div>
+
+                <form id="courseForm" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">Trạng thái</label>
+                                <div>
+                                    <span id="courseStatus" class="status-badge status-published">Đã xuất bản</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">ID khóa học</label>
+                                <div id="courseId">Loading...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseTitle" class="form-label">Tên khóa học <span style="color: #dc2626;">*</span></label>
+                        <input type="text" id="courseTitle" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseDescription" class="form-label">Mô tả khóa học <span style="color: #dc2626;">*</span></label>
+                        <textarea id="courseDescription" class="form-control" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="courseCategory" class="form-label">Danh mục <span style="color: #dc2626;">*</span></label>
+                                <select id="courseCategory" class="form-control" required>
+                                    <option value="">Chọn danh mục</option>
+                                    <!-- Categories will be loaded dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="courseInstructor" class="form-label">Giảng viên <span style="color: #dc2626;">*</span></label>
+                                <select id="courseInstructor" class="form-control" required>
+                                    <option value="">Chọn giảng viên</option>
+                                    <!-- Instructors will be loaded dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="coursePrice" class="form-label">Giá (VND)</label>
+                                <input type="number" id="coursePrice" class="form-control" min="0" step="1000">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="courseDiscount" class="form-label">Giảm giá (%)</label>
+                                <input type="number" id="courseDiscount" class="form-control" min="0" max="100" step="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ảnh đại diện</label>
+                        <div class="thumbnail-preview" id="thumbnailPreview">
+                            <span>📚</span>
+                        </div>
+                        <input type="file" id="courseThumbnail" class="form-control" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseContent" class="form-label">Nội dung khóa học <span style="color: #dc2626;">*</span></label>
+                        <textarea id="courseContent" class="form-control" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseRequirements" class="form-label">Yêu cầu</label>
+                        <textarea id="courseRequirements" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="courseDuration" class="form-label">Thời lượng (giờ)</label>
+                        <input type="number" id="courseDuration" class="form-control" min="1" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='admin-courses.html'">Hủy bỏ</button>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete()" style="float: right;">Xóa khóa học</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8080/api';
+        
+        // Global variables
+        let courseId = null;
+        let categories = [];
+        let instructors = [];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get course ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            courseId = urlParams.get('id');
+            
+            if (!courseId) {
+                showError('Không tìm thấy ID khóa học');
+                return;
+            }
+            
+            loadCategories();
+            loadInstructors();
+            loadCourseData();
+            
+            // Setup form submit handler
+            document.getElementById('courseForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveCourse();
+            });
+            
+            // Setup thumbnail preview
+            document.getElementById('courseThumbnail').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const thumbnailPreview = document.getElementById('thumbnailPreview');
+                        thumbnailPreview.innerHTML = `<img src="${event.target.result}" alt="Thumbnail Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        // Load course data
+        async function loadCourseData() {
+            showLoading();
+            hideError();
+            hideForm();
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/courses/${courseId}`);
+                if (!response.ok) throw new Error('Failed to load course data');
+                
+                const course = await response.json();
+                renderCourseForm(course);
+                
+            } catch (error) {
+                console.error('Error loading course data:', error);
+                showError('Không thể tải dữ liệu khóa học. Vui lòng thử lại sau.');
+            }
+        }
+
+        // Load categories
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/categories`);
+                if (!response.ok) throw new Error('Failed to load categories');
+                
+                categories = await response.json();
+                
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        // Load instructors
+        async function loadInstructors() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/instructors`);
+                if (!response.ok) throw new Error('Failed to load instructors');
+                
+                instructors = await response.json();
+                
+            } catch (error) {
+                console.error('Error loading instructors:', error);
+            }
+        }
+
+        function renderCourseForm(course) {
+            // Update form fields with course data
+            document.getElementById('courseId').textContent = course.id;
+            document.getElementById('courseTitle').value = course.title || '';
+            document.getElementById('courseDescription').value = course.description || '';
+            document.getElementById('coursePrice').value = course.price || '';
+            document.getElementById('courseDiscount').value = course.discount || 0;
+            document.getElementById('courseContent').value = course.content || '';
+            document.getElementById('courseRequirements').value = course.requirements || '';
+            document.getElementById('courseDuration').value = course.duration || 1;
+            
+            // Update status badge
+            const statusBadge = document.getElementById('courseStatus');
+            statusBadge.textContent = getStatusText(course.status);
+            statusBadge.className = `status-badge status-${course.status.toLowerCase()}`;
+            
+            // Update category dropdown
+            const categorySelect = document.getElementById('courseCategory');
+            categorySelect.innerHTML = '<option value="">Chọn danh mục</option>' +
+                categories.map(cat => 
+                    `<option value="${cat.id}" ${cat.id === course.categoryId ? 'selected' : ''}>${escapeHtml(cat.name)}</option>`
+                ).join('');
+            
+            // Update instructor dropdown
+            const instructorSelect = document.getElementById('courseInstructor');
+            instructorSelect.innerHTML = '<option value="">Chọn giảng viên</option>' +
+                instructors.map(instructor => 
+                    `<option value="${instructor.id}" ${instructor.id === course.instructorId ? 'selected' : ''}>${escapeHtml(instructor.name)}</option>`
+                ).join('');
+            
+            // Update thumbnail preview
+            const thumbnailPreview = document.getElementById('thumbnailPreview');
+            if (course.thumbnailUrl) {
+                thumbnailPreview.innerHTML = `<img src="${course.thumbnailUrl}" alt="Course Thumbnail">`;
+            } else {
+                thumbnailPreview.innerHTML = `<span>${getCourseIcon(course.categoryName)}</span>`;
+            }
+            
+            hideLoading();
+            showForm();
+        }
+
+        // Save course changes
+        async function saveCourse() {
+            const form = document.getElementById('courseForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const courseData = {
+                title: document.getElementById('courseTitle').value,
+                description: document.getElementById('courseDescription').value,
+                categoryId: document.getElementById('courseCategory').value,
+                instructorId: document.getElementById('courseInstructor').value,
+                price: document.getElementById('coursePrice').value || 0,
+                discount: document.getElementById('courseDiscount').value || 0,
+                content: document.getElementById('courseContent').value,
+                requirements: document.getElementById('courseRequirements').value,
+                duration: document.getElementById('courseDuration').value || 1,
+                status: 'DRAFT' // Default to draft when editing
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/courses/${courseId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(courseData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Cập nhật khóa học thành công!');
+                    window.location.href = 'admin-courses.html';
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra khi cập nhật khóa học');
+                }
+                
+            } catch (error) {
+                console.error('Error saving course:', error);
+                alert('Có lỗi xảy ra khi cập nhật khóa học');
+            }
+        }
+
+        // Delete course
+        async function deleteCourse() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/courses/${courseId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Đã xóa khóa học thành công!');
+                    window.location.href = 'admin-courses.html';
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra khi xóa khóa học');
+                }
+                
+            } catch (error) {
+                console.error('Error deleting course:', error);
+                alert('Có lỗi xảy ra khi xóa khóa học');
+            }
+        }
+
+        function confirmDelete() {
+            if (confirm('Bạn có chắc muốn xóa khóa học này? Hành động này không thể hoàn tác.')) {
+                deleteCourse();
+            }
+        }
+
+        // Utility functions
+        function showLoading() {
+            document.getElementById('loadingMessage').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingMessage').style.display = 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function showForm() {
+            document.getElementById('courseForm').style.display = 'block';
+        }
+
+        function hideForm() {
+            document.getElementById('courseForm').style.display = 'none';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'PUBLISHED': 'Đã xuất bản',
+                'PENDING': 'Chờ duyệt',
+                'DRAFT': 'Nháp',
+                'REJECTED': 'Bị từ chối'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getCourseIcon(category) {
+            const iconMap = {
+                'programming': '💻',
+                'design': '🎨',
+                'marketing': '📈',
+                'business': '💼',
+                'language': '🗣️'
+            };
+            return iconMap[category] || '📚';
+        }
+    </script>
+</body>
+</html>
